@@ -1,0 +1,74 @@
+@use "variables";
+
+body {
+  color: var(--light);
+  background-color: var(--bg);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 16px;
+  font-family: Montserrat, Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol,
+li {
+  margin: 0;
+  padding: 0;
+}
+
+ul,
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+input,
+button {
+  border: none;
+  background: none;
+  outline: none;
+  color: var(--light);
+  font-size: 16px;
+  font-family: Montserrat, Roboto, sans-serif;
+}
+
+button {
+  font-size: 16px;
+  background: var(--violet-dark);
+  border-radius: 6px;
+  padding: 9px 20px;
+  font-weight: 600;
+  line-height: 20px;
+  cursor: pointer;
+
+  &:hover {
+    background: var(--violet);
+  }
+}
+
+.preloader {
+  flex-grow: 1;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
