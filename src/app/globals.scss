@@ -33,6 +33,12 @@ li {
 
 a {
   text-decoration: none;
+  transition: color 0.12s ease-in;
+
+  &:hover {
+    color: var(--violet-dark);
+    text-decoration: underline;
+  }
 }
 
 *,
@@ -46,8 +52,6 @@ button {
   border: none;
   background: none;
   outline: none;
-  color: var(--light);
-  font-size: 16px;
   font-family: Montserrat, Roboto, sans-serif;
 }
 
@@ -55,20 +59,28 @@ button {
   font-size: 16px;
   background: var(--violet-dark);
   border-radius: 6px;
+  color: var(--light);
   padding: 9px 20px;
   font-weight: 600;
   line-height: 20px;
   cursor: pointer;
+  transition: background-color 0.1s linear;
 
   &:hover {
-    background: var(--violet);
+    background-color: var(--violet);
   }
 }
 
-.preloader {
-  flex-grow: 1;
-  padding: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+input {
+  font-size: 13px;
+  background: var(--bg);
+  border-radius: 30px;
+  padding: 10px 23px;
+  line-height: 19.5px;
+  width: 100%;
+  color: var(--input-text);
+
+  &:focus {
+    outline: 1px solid var(--violet-dark);
+  }
 }

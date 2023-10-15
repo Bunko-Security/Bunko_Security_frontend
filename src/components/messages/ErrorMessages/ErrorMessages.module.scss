@@ -1,0 +1,20 @@
+$svg_wh: 16px;
+
+.message_error {
+  display: flex;
+  margin-top: 10px;
+  padding-left: 20px;
+
+  .icon_warning {
+    width: $svg_wh;
+    height: $svg_wh;
+    fill: var(--error);
+  }
+
+  .error {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--error);
+    padding-left: 5px;
+  }
+}
