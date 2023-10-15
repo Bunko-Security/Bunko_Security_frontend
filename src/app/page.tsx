@@ -1,7 +1,17 @@
-import { FC } from "react";
+"use client";
 
-const Home: FC = () => {
-	return <main> Hello, Bunko! </main>;
+import { ROUTES } from "@/utils/routes";
+import { NextPage } from "next";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+
+const App: NextPage = () => {
+	const router = useRouter();
+
+	useEffect(() => {
+		router.push(ROUTES.HOME);
+	}, []);
+	return <></>;
 };
 
-export default Home;
+export default App;

@@ -14,5 +14,4 @@ const RootLayout: FC<PropsWithChildren> = ({ children }) => {
 	);
 };
 
-
 export default RootLayout;
