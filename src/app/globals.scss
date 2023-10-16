@@ -32,12 +32,13 @@ li {
 }
 
 a {
+  color: var(--light-dark);
+  font-weight: 600;
   text-decoration: none;
   transition: color 0.12s ease-in;
 
   &:hover {
     color: var(--violet-dark);
-    text-decoration: underline;
   }
 }
 
@@ -64,7 +65,7 @@ button {
   font-weight: 600;
   line-height: 20px;
   cursor: pointer;
-  transition: background-color 0.1s linear;
+  transition: background-color 0.2s linear;
 
   &:hover {
     background-color: var(--violet);
