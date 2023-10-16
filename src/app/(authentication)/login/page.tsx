@@ -17,7 +17,7 @@ const Login: NextPage = () => {
 		formState: { errors },
 		handleSubmit,
 		reset,
-	} = useForm<FormValues>({ mode: "onBlur" });
+	} = useForm<FormValues>({ mode: "onChange" });
 
 	const onSubmit = (values: any) => {
 		console.log(values);
@@ -34,26 +34,36 @@ const Login: NextPage = () => {
 				<div className={styles.input_field}>
 					<input
 						{...register("login", {
-							required: true,
-							pattern: RegExp(/^[a-zA-Z\d]+$/),
+							required: "Поле является обязательным!",
+							pattern: {
+								value: new RegExp(/^[a-zA-Z\d]+$/),
+								message: "Только буквы латинского алфавита и цифры!",
+							},
 						})}
 						autoComplete="on"
 						placeholder="Логин"
 					/>
-					{errors?.login && <ErrorMessages />}
+					{errors?.login && <ErrorMessages text={errors.login.message} />}
 				</div>
 
 				<div className={styles.input_field}>
 					<input
 						{...register("password", {
-							required: true,
-							pattern: new RegExp(/^[a-zA-Z\&\%\$\d]+$/),
+							required: "Поле является обязательным!",
+							pattern: {
+								value: new RegExp(/^[a-zA-Z\&\%\$\d]+$/),
+								message: "Только буквы латинского алфавита, цифры и %, &, $!",
+							},
+              minLength: {
+                value: 8,
+								message: "Пароль должен содержать не менее 8 символов!",
+              }
 						})}
 						type="password"
 						autoComplete="on"
 						placeholder="Пароль"
 					/>
-					{errors?.password && <ErrorMessages />}
+					{errors?.password && <ErrorMessages text={errors.password.message} />}
 				</div>
 			</div>
 		</FormAuthentication>
