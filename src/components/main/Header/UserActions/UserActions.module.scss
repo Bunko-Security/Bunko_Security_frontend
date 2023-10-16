@@ -1,0 +1,29 @@
+.user_actions {
+  .avatar {
+    cursor: pointer;
+  }
+
+  .buttons {
+    display: flex;
+    column-gap: 10px;
+
+    .bnt_login,
+    .bnt_register {
+      font-size: 12px;
+      line-height: calc(12px * 1.5);
+      padding: 5px 25px;
+      border-radius: 15px;
+    }
+
+    .bnt_login {
+      background-color: var(--bg);
+      border: 1px solid var(--light);
+      transition: background-color 0.2s linear, color 0.2s linear;
+
+      &:hover {
+        background-color: var(--light-dark);
+        color: var(--black);
+      }
+    }
+  }
+}

@@ -9,7 +9,13 @@ export const metadata: Metadata = {
 const RootLayout: FC<PropsWithChildren> = ({ children }) => {
 	return (
 		<html lang="ru">
-			<body>{children}</body>
+			<body>
+				<div
+					id="modals"
+					style={{ position: "relative", zIndex: 1000 }}
+				/>
+				{children}
+			</body>
 		</html>
 	);
 };

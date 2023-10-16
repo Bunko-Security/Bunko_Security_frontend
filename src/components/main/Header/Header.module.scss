@@ -1,0 +1,30 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 25px;
+  background-color: var(--black);
+
+  .left {
+    display: flex;
+    align-items: center;
+    column-gap: 24px;
+
+    .left_links {
+      display: flex;
+      column-gap: 24px;
+
+      & > a {
+        background-image: linear-gradient(currentColor, currentColor);
+        background-position: 0% 1em;
+        background-repeat: no-repeat;
+        background-size: 0% 2px;
+        transition: background-size 0.3s ease-in, color 0.12s ease-in;;
+
+        &:hover {
+          background-size: 100% 2px;
+        }
+      }
+    }
+  }
+}
