@@ -1,6 +1,10 @@
 export const enum ROUTES {
-	HOME = "/home",
-	LOGIN = "/authentication/login",
-	REGISTER = "/authentication/register",
+	HOME = "/",
+	LOGIN = "/login",
+	REGISTER = "/register",
 	ACCESSIBLE_FILES = "/accessible_files",
+	HELP = "/help",
+	FRIENDS = "/profile/friends",
+	MY_FILES = "/profile/my_files",
+	PROFILE = "/profile",
 }
