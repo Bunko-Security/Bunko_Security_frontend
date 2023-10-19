@@ -6,6 +6,7 @@ body {
   font-size: 16px;
   font-weight: 500;
   line-height: 16px;
+  height: 100vh;
   font-family: Montserrat, Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -45,6 +46,8 @@ a {
 *,
 *:after,
 *:before {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 
@@ -80,8 +83,9 @@ input {
   line-height: 19.5px;
   width: 100%;
   color: var(--input-text);
+  border: solid 1px transparent;
 
   &:focus {
-    outline: 1px solid var(--violet-dark);
+    border: 1px solid var(--violet-dark);
   }
 }
