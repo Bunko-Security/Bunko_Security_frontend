@@ -1,6 +1,6 @@
-import { FC } from "react";
+import { NextPage } from "next";
 
-const Profile: FC = () => {
+const Profile: NextPage = () => {
 	return <div> Profile</div>;
 };
 

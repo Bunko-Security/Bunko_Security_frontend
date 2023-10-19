@@ -1,6 +1,6 @@
-import { FC } from "react";
+import { NextPage } from "next";
 
-const Friends: FC = () => {
+const Friends: NextPage = () => {
 	return <div>Friends</div>;
 };
 
