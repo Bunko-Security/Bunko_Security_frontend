@@ -1,0 +1,38 @@
+$svg_wh: 20px;
+$border_radius_tr_br: 20px;
+
+.form_search {
+  display: flex;
+  border-radius: 15px;
+
+  .input {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .button {
+    display: flex;
+    align-items: center;
+    border-radius: 0;
+    border-top-right-radius: $border_radius_tr_br;
+    border-bottom-right-radius: $border_radius_tr_br;
+    background-color: var(--light-gray);
+    padding: 10px 22px 10px 18px;
+    transition: background-color 0.2s linear;
+
+    &:hover {
+      background-color: var(--violet);
+
+      .icon_search {
+        fill: var(--bg);
+      }
+    }
+
+    .icon_search {
+      width: $svg_wh;
+      height: $svg_wh;
+      fill: var(--light-dark);
+      transition: fill 0.2s linear;
+    }
+  }
+}

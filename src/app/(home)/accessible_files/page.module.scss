@@ -1,0 +1,86 @@
+$svg_wh: 20px;
+
+.accessible_files {
+  text-align: center;
+  width: 718px;
+  padding: 15px 38px 30px 38px;
+  background-color: var(--black);
+  border-radius: 15px;
+
+  .title {
+    margin-bottom: 25px;
+    font-size: 20px;
+    line-height: 30px;
+  }
+
+  .files {
+    .file {
+      display: grid;
+      grid-template-columns: 1fr 118px 72px 46px;
+      grid-auto-rows: auto;
+      align-items: center;
+      column-gap: 60px;
+      font-size: 12px;
+      line-height: 18px;
+      padding: 10px 20px 10px 23px;
+      background-color: var(--bg);
+      border-radius: 30px;
+      margin-bottom: 15px;
+      color: var(--sea);
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      .file_name {
+        text-align: left;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      .file_add {
+        text-align: right;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      .file_date {
+        text-align: center;
+        font-size: 9px;
+        line-height: 13.5px;
+      }
+
+      .file_icons {
+        display: flex;
+        justify-content: space-between;
+
+        .icon_forward,
+        .icon_download {
+          width: $svg_wh;
+          height: $svg_wh;
+          cursor: pointer;
+        }
+
+        .icon_forward {
+          fill: var(--light-dark);
+          transition: fill 0.2s linear;
+
+          &:hover {
+            fill: var(--violet);
+          }
+        }
+
+        .icon_download {
+          stroke: var(--light-dark);
+          transition: stroke 0.2s linear;
+
+          &:hover {
+            stroke: var(--violet);
+          }
+        }
+      }
+    }
+  }
+}
