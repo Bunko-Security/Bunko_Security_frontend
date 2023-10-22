@@ -16,6 +16,7 @@ $svg_wh: 22px;
   height: 100%;
   background-color: var(--black);
   padding: 15px;
+  box-shadow: 0 0 10px 5px var(--light-gray);
 
   .header {
     display: flex;

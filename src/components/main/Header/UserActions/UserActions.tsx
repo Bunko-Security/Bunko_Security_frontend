@@ -4,9 +4,8 @@ import styles from "./UserActions.module.scss";
 import Image from "next/image";
 import { ROUTES } from "@/utils/routes";
 import { useRouter } from "next/navigation";
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import ModalProfile from "@/components/modals/ModalProfile/ModalProfile";
-import PortalModals from "@/components/PortalModals/PortalModals";
 
 const UserActions: FC = () => {
 	const router = useRouter();
