@@ -19,7 +19,7 @@ const Login: NextPage = () => {
 		reset,
 	} = useForm<FormValues>({ mode: "onChange" });
 
-	const onSubmit = (values: any) => {
+	const onSubmit = (values: FormValues) => {
 		console.log(values);
 		reset();
 	};
