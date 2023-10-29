@@ -1,19 +1,11 @@
 $svg_wh: 22px;
 
-.overlay {
-  position: fixed;
-  overflow: hidden;
-  width: 100%;
-  height: 100%;
-  background-color: var(--overlay);
-}
-
 .modal {
   position: fixed;
   top: 0;
   right: 0;
   width: 320px;
-  height: 100%;
+  height: 100vh;
   background-color: var(--black);
   padding: 15px;
   box-shadow: 0 0 10px 5px var(--light-gray);

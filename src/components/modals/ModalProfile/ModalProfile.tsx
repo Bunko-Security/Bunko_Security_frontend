@@ -6,23 +6,20 @@ import Image from "next/image";
 import IconClose from "/public/icon-close.svg";
 import PortalModals from "@/components/PortalModals/PortalModals";
 import { ROUTES } from "@/utils/routes";
+import { ModalProps } from "@/types/ModalProps.type";
+import { useDisableScroll } from "@/hooks/useDisableScroll";
 import { FC, MouseEventHandler } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-interface ModalProfileProps {
-	isOpen: boolean;
-	onClose: () => void;
-}
+const ModalProfile: FC<ModalProps> = ({ isOpen, onClose }) => {
+  useDisableScroll(isOpen);
 
-const ModalProfile: FC<ModalProfileProps> = ({ isOpen, onClose }) => {
 	const handleLogOut = () => {
 		onClose();
 	};
 
 	const handleCloseModal: MouseEventHandler<HTMLUListElement> = (event) => {
 		const element = event.target as HTMLUListElement;
-
-		console.log(element);
 
 		if (element.tagName === "A") {
 			onClose();
@@ -35,12 +32,11 @@ const ModalProfile: FC<ModalProfileProps> = ({ isOpen, onClose }) => {
 				{isOpen && (
 					<motion.div
 						initial={{ opacity: 0 }}
-						animate={{ opacity: 1 }}
-						exit={{ opacity: 0 }}
-            transition={{duration: 0.2, ease: "easeIn"}}
+						animate={{ opacity: 1, transition: { duration: 0.2, ease: "circIn" } }}
+						exit={{ opacity: 0, transition: { duration: 0, ease: "linear" } }}
 					>
 						<div
-							className={styles.overlay}
+							className="overlay"
 							onClick={onClose}
 						/>
 						<div className={styles.modal}>
