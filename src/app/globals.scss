@@ -10,6 +10,21 @@ body {
   font-family: Montserrat, Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow: initial;
+
+  &::-webkit-scrollbar {
+    width: 20px;
+    background-color: var(--black);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--violet-dark);
+    transition: background-color 0.1s linear;
+
+    &:hover {
+      background-color: var(--violet-hover);
+    }
+  }
 }
 
 body,
@@ -60,6 +75,7 @@ button {
 }
 
 button {
+  cursor: pointer;
   font-size: 16px;
   background: var(--violet-dark);
   border-radius: 6px;
@@ -67,12 +83,15 @@ button {
   padding: 9px 20px;
   font-weight: 600;
   line-height: 20px;
-  cursor: pointer;
   transition: background-color 0.2s linear;
 
   &:hover {
     background-color: var(--violet);
   }
+
+  &:focus {
+    outline: 1px solid var(--violet);
+  } 
 }
 
 input {
@@ -88,4 +107,12 @@ input {
   &:focus {
     border: 1px solid var(--violet-dark);
   }
+}
+
+.overlay {
+  position: fixed;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  background-color: var(--overlay);
 }
