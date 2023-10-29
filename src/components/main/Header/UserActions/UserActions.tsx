@@ -2,10 +2,10 @@
 
 import styles from "./UserActions.module.scss";
 import Image from "next/image";
+import ModalProfile from "@/components/modals/ModalProfile/ModalProfile";
 import { ROUTES } from "@/utils/routes";
 import { useRouter } from "next/navigation";
 import { FC, useState } from "react";
-import ModalProfile from "@/components/modals/ModalProfile/ModalProfile";
 
 const UserActions: FC = () => {
 	const router = useRouter();
