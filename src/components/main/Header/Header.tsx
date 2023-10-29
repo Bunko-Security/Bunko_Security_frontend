@@ -11,7 +11,7 @@ const Header: FC = () => {
 			<div className={styles.left}>
 				<Link href={`${ROUTES.HOME}`}>
 					<Image
-						src="/logo.png"
+						src="/logo/logo.svg"
 						alt="LOGO"
 						width="60"
 						height="60"

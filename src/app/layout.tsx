@@ -9,6 +9,12 @@ export const metadata: Metadata = {
 const RootLayout: FC<PropsWithChildren> = ({ children }) => {
 	return (
 		<html lang="ru">
+			<head>
+				<link
+					rel="icon"
+					href="favicon/favicon.ico"
+				/>
+			</head>
 			<body>
 				<div
 					id="modals"

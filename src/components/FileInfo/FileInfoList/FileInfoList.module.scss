@@ -1,6 +1,6 @@
 .files {
   max-height: 700px;
-  overflow-y: auto;
+  overflow-y: scroll;
 
   &::-webkit-scrollbar {
     width: 8px;

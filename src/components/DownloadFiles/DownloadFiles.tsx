@@ -7,7 +7,7 @@ import IconEmptyFiles from "/public/icon-empty.svg";
 import { FC, useState } from "react";
 
 const DownloadFiles: FC = () => {
-	const [count, setCount] = useState<number>(10);
+	const [count, setCount] = useState<number>(20);
 
 	return (
 		<>
