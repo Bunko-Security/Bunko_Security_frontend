@@ -1,6 +1,6 @@
-import { FC } from "react";
+import { NextPage } from "next";
 
-const MyFiles: FC = () => {
+const MyFiles: NextPage = () => {
 	return <div>MyFiles</div>;
 };
 
