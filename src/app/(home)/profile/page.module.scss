@@ -1,0 +1,17 @@
+@use "@/utils/scss/patterns";
+@use "@/utils/scss/values" as values;
+
+.profile {
+  text-align: center;
+  width: 718px;
+  background-color: var(--black);
+  padding: 15px 50px 20px;
+  border-radius: values.$main_border_radius;
+
+  .title {
+    font-size: 20px;
+    line-height: 30px;
+    font-weight: bold;
+    @extend %title_border;
+  }
+}
