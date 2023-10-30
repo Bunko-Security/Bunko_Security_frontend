@@ -23,7 +23,7 @@ const FileInfoList: FC<FileInfoListProps> = ({ count }) => {
 					fileName="Имя файла"
 					fileAdd="Петров И.В."
 					fileDate="12:03 10.09.2023"
-          style={{marginRight: 15}}
+					style={{ marginRight: 15 }}
 				/>
 			))}
 		</div>

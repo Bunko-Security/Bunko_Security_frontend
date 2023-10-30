@@ -2,6 +2,7 @@
 
 import styles from "./UserActions.module.scss";
 import Image from "next/image";
+import PortalModals from "@/components/PortalModals/PortalModals";
 import ModalProfile from "@/components/modals/ModalProfile/ModalProfile";
 import { ROUTES } from "@/utils/routes";
 import { useRouter } from "next/navigation";
@@ -56,10 +57,9 @@ const UserActions: FC = () => {
 				)}
 			</div>
 
-			<ModalProfile
-				isOpen={isOpenModal}
-				onClose={() => setIsOpenModal(false)}
-			/>
+			<PortalModals isOpen={isOpenModal}>
+				<ModalProfile onClose={() => setIsOpenModal(false)} />
+			</PortalModals>
 		</>
 	);
 };

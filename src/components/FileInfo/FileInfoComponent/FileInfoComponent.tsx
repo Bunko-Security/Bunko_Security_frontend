@@ -2,6 +2,7 @@
 
 import styles from "./FileInfoComponent.module.scss";
 import IconForward from "/public/icon-forward.svg";
+import PortalModals from "@/components/PortalModals/PortalModals";
 import IconDownload from "/public/icon-download.svg";
 import ModalForwardFile from "@/components/modals/ModalForwardFile/ModalForwardFile";
 import { CSSProperties, FC, useState } from "react";
@@ -19,6 +20,7 @@ const FileInfoComponent: FC<FileInfoComponentProps> = ({ fileAdd, fileName, file
 	const handleForward = () => {
 		setOpenForward(true);
 	};
+
 	const handleDownload = () => {};
 
 	return (
@@ -40,7 +42,9 @@ const FileInfoComponent: FC<FileInfoComponentProps> = ({ fileAdd, fileName, file
 				/>
 			</div>
 
-      <ModalForwardFile isOpen={openForward} onClose={() => setOpenForward(false)}/>
+			<PortalModals isOpen={openForward}>
+				<ModalForwardFile onClose={() => setOpenForward(false)} />
+			</PortalModals>
 		</div>
 	);
 };

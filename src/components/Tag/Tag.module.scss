@@ -1,0 +1,35 @@
+$svg_wh: 15px;
+
+.tag {
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+  padding: 6px 10px;
+  background-color: var(--bg);
+
+  .icon {
+    cursor: pointer;
+    width: $svg_wh;
+    height: $svg_wh;
+    fill: var(--black);
+    transition: fill 0.2s linear;
+
+    path {
+      transition: fill 0.1s linear;
+    }
+
+    &:hover {
+      fill: var(--violet);
+    }
+
+    &:hover path {
+      fill: var(--light);
+    }
+  }
+
+  .tag_text {
+    color: var(--sea);
+    font-size: 10px;
+    line-height: 15px;
+  }
+}
