@@ -1,3 +1,5 @@
+@use "@/utils/scss/values" as values;
+
 .form_authentication {
   display: grid;
   align-content: space-between;
@@ -5,7 +7,7 @@
   justify-items: center;
   padding: 28px 32px;
   background-color: var(--black);
-  border-radius: 15px;
+  border-radius: values.$main_border_radius;
 
   .wrapper {
     text-align: center;
