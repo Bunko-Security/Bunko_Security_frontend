@@ -1,0 +1,49 @@
+$svg_wh: 16px;
+
+.form_avatar {
+  position: relative;
+  cursor: pointer;
+
+  .input_file {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    z-index: -10;
+
+    &:focus + .avatar_wrapper {
+      border: 1px solid var(--violet-dark);
+    }
+  }
+
+  .avatar_wrapper {
+    border: 1px solid transparent;
+
+    .avatar_image {
+      border-radius: 50%;
+    }
+
+    .change_btn {
+      position: absolute;
+      left: 14px;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--black);
+      border: 1px solid #8e8e97;
+      border-radius: 4px;
+      padding: 4px;
+
+      svg {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: $svg_wh;
+        height: $svg_wh;
+      }
+    }
+  }
+}

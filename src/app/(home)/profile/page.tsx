@@ -1,6 +1,6 @@
 import styles from "./page.module.scss";
+import ImportAvatar from "@/components/profile/ImportAvatar/ImportAvatar";
 import FormChangeInfoUser from "@/components/forms/FormChangeInfoUser/FormChangeInfoUser";
-import ChangeAvatar from "@/components/profile/ChangeAvatar/ChangeAvatar";
 import { NextPage } from "next";
 
 const Profile: NextPage = () => {
@@ -12,7 +12,8 @@ const Profile: NextPage = () => {
 					<FormChangeInfoUser />
 				</div>
 				<div className={styles.preview}>
-					<ChangeAvatar />
+					<h3 className={styles.preview_title}>Аватар профиля</h3>
+					<ImportAvatar />
 				</div>
 			</div>
 		</div>
