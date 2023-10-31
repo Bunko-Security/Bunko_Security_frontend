@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 /*
-  Хук для слежки за изменением масштаба окна браузера 
+  Хук для слежки за изменением высоты окна браузера.
 */
 
 export const useResizeWindow = () => {
