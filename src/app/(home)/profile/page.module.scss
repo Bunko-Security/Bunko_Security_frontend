@@ -3,15 +3,29 @@
 
 .profile {
   text-align: center;
-  width: 718px;
+  width: 800px;
   background-color: var(--black);
-  padding: 15px 50px 20px;
+  padding: 15px 50px 25px;
   border-radius: values.$main_border_radius;
 
   .title {
     font-size: 20px;
     line-height: 30px;
     font-weight: bold;
+    margin-bottom: 20px;
     @extend %title_border;
+  }
+
+  .settings {
+    display: flex;
+    justify-content: space-between;
+
+    .form {
+      width: 50%;
+    }
+
+    .preview {
+      text-align: right;
+    }
   }
 }
