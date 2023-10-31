@@ -25,7 +25,7 @@ export const useDisableScroll = () => {
 			isResize !== resizeRef.current
 		) {
 			document.body.style.overflow = "hidden";
-			document.body.style.paddingRight = "20px";
+			document.body.style.paddingRight = "16px";
 		} else {
 			document.body.style.overflow = "initial";
 			document.body.style.paddingRight = "";
