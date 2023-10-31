@@ -2,7 +2,7 @@
 
 import styles from "./UserActions.module.scss";
 import Image from "next/image";
-import PortalModals from "@/components/PortalModals/PortalModals";
+import PortalModals from "@/components/modals/PortalModals/PortalModals";
 import ModalProfile from "@/components/modals/ModalProfile/ModalProfile";
 import { ROUTES } from "@/utils/routes";
 import { useRouter } from "next/navigation";

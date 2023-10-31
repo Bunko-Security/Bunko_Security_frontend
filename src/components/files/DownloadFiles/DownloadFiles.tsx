@@ -1,8 +1,8 @@
 "use client";
 
 import styles from "./DownloadFiles.module.scss";
-import InputSearch from "../forms/InputSearch/InputSearch";
-import FileInfoList from "../FileInfo/FileInfoList/FileInfoList";
+import InputSearch from "../../forms/InputSearch/InputSearch";
+import FileInfoList from "../FileInfoList/FileInfoList";
 import IconEmptyFiles from "/public/icon-empty.svg";
 import { FC, useState } from "react";
 

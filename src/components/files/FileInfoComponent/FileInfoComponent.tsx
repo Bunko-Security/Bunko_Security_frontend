@@ -2,8 +2,8 @@
 
 import styles from "./FileInfoComponent.module.scss";
 import IconForward from "/public/icon-forward.svg";
-import PortalModals from "@/components/PortalModals/PortalModals";
 import IconDownload from "/public/icon-download.svg";
+import PortalModals from "@/components/modals/PortalModals/PortalModals";
 import ModalForwardFile from "@/components/modals/ModalForwardFile/ModalForwardFile";
 import { CSSProperties, FC, useState } from "react";
 

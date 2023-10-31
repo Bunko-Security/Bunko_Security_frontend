@@ -1,5 +1,5 @@
 import styles from "./page.module.scss";
-import DownloadFiles from "@/components/DownloadFiles/DownloadFiles";
+import DownloadFiles from "@/components/files/DownloadFiles/DownloadFiles";
 import { NextPage } from "next";
 
 const AccessibleFiles: NextPage = () => {
