@@ -2,11 +2,12 @@
 
 import styles from "./page.module.scss";
 import Link from "next/link";
-import ErrorMessages from "@/components/messages/ErrorMessages/ErrorMessages";
-import FormAuthentication from "@/components/forms/FormAuthentication/FormAuthentication";
+import Input from "@/components/forms/Input/Input";
+import FormBase from "@/components/forms/FormBase/FormBase";
+import RULES_FORM from "@/utils/form/rules";
+import { ROUTES } from "@/utils/routes";
 import { useForm } from "react-hook-form";
 import { NextPage } from "next";
-import { ROUTES } from "@/utils/routes";
 
 type FormValues = {
 	login: string;
@@ -28,73 +29,46 @@ const Register: NextPage = () => {
 	};
 
 	return (
-		<FormAuthentication
-			textBtn="Создать аккаунт"
-			textTitle="Регистрация"
-			onSubmit={handleSubmit(onSubmit)}
-		>
-			<div>
-				<div className={styles.input_field}>
-					<input
-						{...register("login", {
-							required: "Поле является обязательным!",
-							pattern: {
-								value: new RegExp(/^[a-zA-Z\d]+$/),
-								message: "Только буквы латинского алфавита и цифры!",
-							},
-						})}
+		<div className={styles.register_form}>
+			<FormBase
+				textBtn="Создать аккаунт"
+				textTitle="Регистрация"
+				onSubmit={handleSubmit(onSubmit)}
+			>
+				<>
+					<Input
+						className={styles.input_field}
+						register={register("login", RULES_FORM.LOGIN)}
 						autoComplete="on"
 						placeholder="Логин"
+						error={errors.login?.message}
 					/>
-					{errors?.login && <ErrorMessages text={errors.login.message} />}
-				</div>
 
-				<div className={styles.input_field}>
-					<input
-						{...register("name_full", {
-							required: "Поле является обязательным!",
-							pattern: {
-								value: new RegExp(/^[a-zA-Zа-яА-Яё\-\s]+$/),
-								message: "Только буквы, тире и пробелы!",
-							},
-							minLength: {
-								value: 6,
-								message: "Полное имя должно содержать не менее 6 символов!",
-							},
-						})}
+					<Input
+						className={styles.input_field}
+						register={register("name_full", RULES_FORM.FULL_NAME)}
 						autoComplete="on"
 						placeholder="ФИО"
+						error={errors.name_full?.message}
 					/>
-					{errors?.name_full && <ErrorMessages text={errors.name_full.message} />}
-				</div>
 
-				<div className={styles.input_field}>
-					<input
-						{...register("password", {
-							required: "Поле является обязательным!",
-							pattern: {
-								value: new RegExp(/^[a-zA-Z\&\%\$\d]+$/),
-								message: "Только буквы латинского алфавита, цифры и %, &, $!",
-							},
-							minLength: {
-								value: 8,
-								message: "Пароль должен содержать не менее 8 символов!",
-							},
-						})}
+					<Input
+						className={styles.input_field}
+						register={register("password", RULES_FORM.PASSWORD)}
 						type="password"
 						autoComplete="on"
 						placeholder="Пароль"
+						error={errors.password?.message}
 					/>
-					{errors?.password && <ErrorMessages text={errors.password.message} />}
-				</div>
-			</div>
-			<Link
-				className={styles.question_link}
-				href={`${ROUTES.LOGIN}`}
-			>
-				Уже имеете аккаунт?
-			</Link>
-		</FormAuthentication>
+				</>
+				<Link
+					className={styles.question_link}
+					href={`${ROUTES.LOGIN}`}
+				>
+					Уже имеете аккаунт?
+				</Link>
+			</FormBase>
+		</div>
 	);
 };
 
