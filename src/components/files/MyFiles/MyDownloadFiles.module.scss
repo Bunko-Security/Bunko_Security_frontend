@@ -1,0 +1,17 @@
+$svg_wh: 200px;
+
+.empty {
+  & > p {
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--light-dark);
+  }
+
+  .icon_empty {
+    width: $svg_wh;
+    height: $svg_wh;
+    stroke: var(--violet-dark);
+    fill: var(--black);
+    margin: 60px 0 60px;
+  }
+}

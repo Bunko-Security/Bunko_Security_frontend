@@ -8,13 +8,15 @@ import ModalForwardFile from "@/components/modals/ModalForwardFile/ModalForwardF
 import { CSSProperties, FC, useState } from "react";
 
 interface FileInfoComponentProps {
-	fileName: string;
-	fileAdd: string;
-	fileDate: string;
+	file: {
+		name: string;
+		byUser: string;
+		date: string;
+	};
 	style?: CSSProperties;
 }
 
-const FileInfoComponent: FC<FileInfoComponentProps> = ({ fileAdd, fileName, fileDate, style }) => {
+const FileInfoComponent: FC<FileInfoComponentProps> = ({ file, style }) => {
 	const [openForward, setOpenForward] = useState<boolean>(false);
 
 	const handleForward = () => {
@@ -28,9 +30,9 @@ const FileInfoComponent: FC<FileInfoComponentProps> = ({ fileAdd, fileName, file
 			className={styles.file}
 			style={style}
 		>
-			<p className={styles.file_name}>{fileName}</p>
-			<p className={styles.file_add}>{fileAdd}</p>
-			<p className={styles.file_date}>{fileDate}</p>
+			<p className={styles.file_name}>{file.name}</p>
+			<p className={styles.file_add}>{file.byUser}</p>
+			<p className={styles.file_date}>{file.date}</p>
 			<div className={styles.file_icons}>
 				<IconForward
 					className={styles.icon_forward}

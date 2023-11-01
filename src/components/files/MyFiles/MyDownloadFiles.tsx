@@ -1,12 +1,12 @@
 "use client";
 
-import styles from "./DownloadFiles.module.scss";
+import styles from "./MyDownloadFiles.module.scss";
 import InputSearch from "../../forms/InputSearch/InputSearch";
-import FileInfoList from "./FileInfoList/FileInfoList";
 import IconEmptyFiles from "/public/icon-empty.svg";
+import MyFileInfoList from "./MyFileInfoList/MyFileInfoList";
 import { FC, useState } from "react";
 
-const DownloadFiles: FC = () => {
+const MyDownloadFiles: FC = () => {
 	const [count, setCount] = useState<number>(20);
 
 	return (
@@ -17,7 +17,7 @@ const DownloadFiles: FC = () => {
 						placeholder="Имя файла"
 						marginBottom={25}
 					/>
-					<FileInfoList count={count} />
+					<MyFileInfoList count={count} />
 				</>
 			) : (
 				<div className={styles.empty}>
@@ -29,4 +29,4 @@ const DownloadFiles: FC = () => {
 	);
 };
 
-export default DownloadFiles;
+export default MyDownloadFiles;

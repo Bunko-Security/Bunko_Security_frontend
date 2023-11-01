@@ -1,0 +1,39 @@
+$svg_wh: 74px;
+
+.import_files {
+  .import_files_title {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+
+  input {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    z-index: -10;
+  }
+
+  .import_btn {
+    width: fit-content;
+    margin: 0 auto;
+    padding: 50px;
+    background-color: var(--bg);
+    border-radius: 15px;
+    border: 1px solid transparent;
+
+    &:hover .icon_add_files {
+      fill: var(--violet-dark);
+    }
+
+    .icon_add_files {
+      width: $svg_wh;
+      height: $svg_wh;
+      fill: #323235;
+      transition: fill 0.15s ease;
+    }
+  }
+}

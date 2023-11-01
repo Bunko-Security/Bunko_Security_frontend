@@ -1,0 +1,55 @@
+$svg_wh: 20px;
+
+.file {
+  display: grid;
+  grid-template-columns: minmax(200px, 1fr) 72px $svg_wh;
+  grid-auto-rows: auto;
+  align-items: center;
+  column-gap: 40px;
+  font-size: 12px;
+  line-height: 18px;
+  padding: 10px 20px 10px 23px;
+  background-color: var(--bg);
+  border-radius: 30px;
+  margin-bottom: 15px;
+  color: var(--sea);
+  transition:
+    background-color 0.2s ease-in,
+    color 0.2s ease-in;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &:hover {
+    background-color: var(--violet-dark);
+    color: var(--light);
+  }
+
+  .file_name {
+    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .file_date {
+    text-align: center;
+    font-size: 9px;
+    line-height: 13.5px;
+  }
+
+  // .file_icons {
+  .icon_download {
+    width: $svg_wh;
+    height: $svg_wh;
+    cursor: pointer;
+    stroke: var(--light-dark);
+    transition: stroke 0.2s linear;
+
+    &:hover {
+      stroke: var(--violet);
+    }
+  }
+  // }
+}
