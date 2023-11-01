@@ -43,8 +43,8 @@ const FormChangeInfoUser: FC = () => {
 				<Input
 					className={styles.input_field}
 					register={register("full_name", RULES_FORM.FULL_NAME)}
-					textLabel="ФИО"
-					placeholder="ФИО"
+					textLabel="Имя пользователя"
+					placeholder="Имя пользователя"
 					autoComplete="on"
 					error={errors.full_name?.message}
 				/>

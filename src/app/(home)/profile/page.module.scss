@@ -25,13 +25,14 @@
     }
 
     .preview {
-      text-align: right;
+      width: 50%;
+      text-align: center;
 
       .preview_title {
         text-align: center;
-        font-size: 12px;
+        font-size: 14px;
         line-height: 18px;
-        font-weight: bold;
+        font-weight: 500;
         margin-bottom: 10px;
       }
     }

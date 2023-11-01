@@ -18,8 +18,6 @@ export const useDisableScroll = () => {
 	useEffect(() => {
 		resizeRef.current = isResize;
 
-    console.log(window.innerWidth - document.body.offsetWidth);
-
 		if (
 			document.body.scrollHeight !== document.body.offsetHeight ||
 			isResize !== resizeRef.current

@@ -16,14 +16,8 @@ const ImportAvatar: FC = () => {
 		console.log(e.target.files);
 	};
 
-	const onSubmit = () => {};
-
 	return (
-		<form
-			className={styles.form_avatar}
-			onClick={onClick}
-			onSubmit={onSubmit}
-		>
+		<form className={styles.form_avatar}>
 			<input
 				ref={inputRef}
 				className={styles.input_file}
@@ -32,7 +26,10 @@ const ImportAvatar: FC = () => {
 				onChange={onChange}
 			/>
 
-			<div className={styles.avatar_wrapper}>
+			<div
+				className={styles.avatar_wrapper}
+				onClick={onClick}
+			>
 				<Image
 					className={styles.avatar_image}
 					src="/avatar.png"

@@ -1,9 +1,6 @@
 $svg_wh: 16px;
 
 .form_avatar {
-  position: relative;
-  cursor: pointer;
-
   .input_file {
     position: absolute;
     width: 0;
@@ -19,6 +16,10 @@ $svg_wh: 16px;
   }
 
   .avatar_wrapper {
+    cursor: pointer;
+    width: fit-content;
+    margin: 0 auto;
+    position: relative;
     border: 1px solid transparent;
 
     .avatar_image {
