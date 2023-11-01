@@ -1,7 +1,11 @@
-import ImportFiles from "@/components/files/ImportFiles/ImportFiles";
 import styles from "./page.module.scss";
+import ImportFiles from "@/components/files/ImportFiles/ImportFiles";
 import MyDownloadFiles from "@/components/files/MyFiles/MyDownloadFiles";
-import { NextPage } from "next";
+import type { Metadata, NextPage } from "next";
+
+export const metadata: Metadata = {
+	title: "Мои файлы | Bunko Security",
+};
 
 const MyFiles: NextPage = () => {
 	return (
