@@ -1,56 +1,117 @@
-$svg_wh: 20px;
+@use "@/utils/scss/values" as values;
+
+$svg_search_wh: 20px;
+$svg_clear_wh: 22px;
 $border_radius_tr_br: 20px;
+
+%icon_clear {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--bg);
+}
 
 .form_search {
   position: relative;
-  display: flex;
-  z-index: 9;
   border-radius: 30px;
 
   .label {
+    display: block;
     width: 100%;
     text-align: left;
+    margin-bottom: 7px;
 
-    span {
+    & > span {
       display: inline-block;
       font-size: 14px;
       font-weight: bold;
-      margin-bottom: 7px;
-      padding-left: 23px;
+      padding-left: values.$input_padding_left;
     }
+  }
 
-    .search {
+  .input_search {
+    display: flex;
+    width: 100%;
+
+    .input_wrapper {
+      position: relative;
       display: flex;
+      width: 100%;
 
-      .input {
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
+      &:hover > input:not(:placeholder-shown) + .icon_clear {
+        @extend %icon_clear;
       }
 
-      .button {
-        display: flex;
-        align-items: center;
-        border-radius: 0;
-        border-top-right-radius: $border_radius_tr_br;
-        border-bottom-right-radius: $border_radius_tr_br;
-        background-color: var(--light-gray);
-        padding: 10px 22px 10px 18px;
-        transition: background-color 0.2s linear;
+      & > input {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        padding-right: calc($svg_clear_wh + 20px);
 
-        &:hover {
-          background-color: var(--violet);
+        &::-ms-clear {
+          display: none;
+          height: 0;
+          width: 0;
+        }
 
-          .icon_search {
-            fill: var(--bg);
+        &::-webkit-search-cancel-button {
+          appearance: none;
+          -webkit-appearance: none;
+          -moz-appearance: none;
+        }
+
+        &:focus:not(:placeholder-shown) + .icon_clear {
+          @extend %icon_clear;
+        }
+      }
+
+      .icon_clear {
+        cursor: pointer;
+        display: none;
+
+        & > svg {
+          height: $svg_clear_wh;
+          width: $svg_clear_wh;
+          fill: var(--light-dark);
+          transition: fill 0.15s ease;
+
+          &:hover {
+            fill: var(--violet);
           }
         }
+      }
+    }
+
+    .button {
+      display: flex;
+      align-items: center;
+      border-radius: 0;
+      border-top-right-radius: $border_radius_tr_br;
+      border-bottom-right-radius: $border_radius_tr_br;
+      background-color: var(--light-gray);
+      padding: 10px 22px 10px 18px;
+      transition: background-color 0.2s linear;
+
+      &:hover {
+        background-color: var(--violet);
 
         .icon_search {
-          width: $svg_wh;
-          height: $svg_wh;
-          fill: var(--light-dark);
-          transition: fill 0.2s linear;
+          fill: var(--bg);
         }
+      }
+
+      &:focus {
+        border: 1px solid var(--violet-dark);
+      }
+
+      .icon_search {
+        width: $svg_search_wh;
+        height: $svg_search_wh;
+        fill: var(--light-dark);
+        transition: fill 0.2s linear;
       }
     }
   }

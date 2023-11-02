@@ -69,10 +69,10 @@ a {
 
 input,
 button {
-  border: none;
   background: none;
   outline: none;
   font-family: Montserrat, Roboto, sans-serif;
+  border: solid 1px transparent;
 }
 
 button {
@@ -91,7 +91,7 @@ button {
   }
 
   &:focus {
-    outline: 1px solid var(--violet);
+    border: 1px solid var(--violet);
   } 
 }
 
@@ -103,7 +103,6 @@ input {
   line-height: 19.5px;
   width: 100%;
   color: var(--input-text);
-  border: solid 1px transparent;
 
   &:focus {
     border: 1px solid var(--violet-dark);

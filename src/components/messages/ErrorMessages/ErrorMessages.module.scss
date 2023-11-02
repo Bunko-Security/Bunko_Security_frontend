@@ -1,9 +1,11 @@
+@use "@/utils/scss/values" as values;
+
 $svg_wh: 16px;
 
 .message_error {
   display: flex;
   margin-top: 10px;
-  padding-left: 20px;
+  padding-left: calc(values.$input_padding_left - 3px);
 
   .icon_warning {
     width: $svg_wh;
