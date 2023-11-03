@@ -1,0 +1,77 @@
+@use "@/utils/scss/values" as values;
+
+$dot_wh: 10px;
+
+.not_found {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  .container {
+    text-align: center;
+    max-width: 674px;
+    padding: 75px 85px;
+    background-color: var(--black);
+    border-radius: values.$main_border_radius;
+
+    .title {
+      font-size: 120px;
+      line-height: 1;
+      font-weight: bold;
+      color: var(--violet-dark);
+      margin-bottom: 20px;
+      overflow: hidden;
+
+      & > span {
+        position: relative;
+        color: var(--violet);
+        display: inline-block;
+        animation: letter 4.5s 1;
+
+        &::after {
+          content: "";
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: $dot_wh;
+          height: $dot_wh;
+          background-color: var(--violet-dark);
+          border-radius: 50%;
+        }
+      }
+    }
+
+    .text {
+      font-size: 26px;
+      font-weight: 100;
+      text-wrap: balance;
+      margin-bottom: 20px;
+    }
+
+    .link {
+      text-decoration: underline;
+    }
+  }
+}
+
+@keyframes letter {
+  0% {
+    transform: translateY(-100%);
+    color: var(--black);
+  }
+  25% {
+    transform: translateY(100%);
+  }
+  50% {
+    transform: translateY(-50%);
+    color: var(--violet);
+  }
+  75% {
+    transform: translateY(50%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}

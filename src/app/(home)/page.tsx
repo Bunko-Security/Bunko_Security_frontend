@@ -6,7 +6,7 @@ const Home: NextPage = () => {
 	return (
 		<main className={styles.info}>
 			<h1 className={styles.title}>Bunko Security Filemanager</h1>
-      
+
 			<section className={styles.positive_features}>
 				<Image
 					src="/main/defense.png"
@@ -24,7 +24,7 @@ const Home: NextPage = () => {
 				</div>
 			</section>
 
-      <section className={styles.positive_features}>
+			<section className={styles.positive_features}>
 				<Image
 					src="/main/speed.png"
 					alt=""
@@ -41,7 +41,7 @@ const Home: NextPage = () => {
 				</div>
 			</section>
 
-      <section className={styles.positive_features}>
+			<section className={styles.positive_features}>
 				<Image
 					src="/main/free.png"
 					alt=""
@@ -58,7 +58,7 @@ const Home: NextPage = () => {
 				</div>
 			</section>
 
-      <section className={styles.positive_features}>
+			<section className={styles.positive_features}>
 				<Image
 					src="/main/accessible.png"
 					alt=""
@@ -75,7 +75,7 @@ const Home: NextPage = () => {
 				</div>
 			</section>
 
-      <section className={styles.positive_features}>
+			<section className={styles.positive_features}>
 				<Image
 					src="/main/certification.png"
 					alt=""
@@ -92,7 +92,7 @@ const Home: NextPage = () => {
 				</div>
 			</section>
 
-      <section className={styles.positive_features}>
+			<section className={styles.positive_features}>
 				<Image
 					src="/main/help.png"
 					alt=""
