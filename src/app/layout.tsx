@@ -1,13 +1,14 @@
 import "./globals.scss";
-import ResizeWindowWrapper from "@/components/ResizeWindowWrapper/ResizeWindowWrapper";
-import { FC, PropsWithChildren } from "react";
+import UserStoreInitial from "@/components/UserStoreInitial/UserStoreInitial";
+import ResizeWindowWrapper from "@/components/wrappers/ResizeWindowWrapper/ResizeWindowWrapper";
+import { FC, type PropsWithChildren } from "react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
 	title: "Bunko Security",
 };
 
-const RootLayout: FC<PropsWithChildren> = ({ children }) => {
+const RootLayout: FC<PropsWithChildren> = async ({ children }) => {
 	return (
 		<html lang="ru">
 			<head>
@@ -21,6 +22,9 @@ const RootLayout: FC<PropsWithChildren> = ({ children }) => {
 					id="modals"
 					style={{ position: "relative", zIndex: 1000 }}
 				/>
+				// * Инициализация пользователя при загрузке сайта
+				<UserStoreInitial />
+				// * Передача информации об изменении размера окна
 				<ResizeWindowWrapper>{children}</ResizeWindowWrapper>
 			</body>
 		</html>

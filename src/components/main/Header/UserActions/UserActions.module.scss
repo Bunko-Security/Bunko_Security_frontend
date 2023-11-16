@@ -1,6 +1,15 @@
+$avatar_wh: 60px;
+
 .user_actions {
   .avatar {
     cursor: pointer;
+
+    .img_loading {
+      width: $avatar_wh;
+      height: $avatar_wh;
+      border-radius: 50%;
+      background-color: var(--light-gray);
+    }
   }
 
   .buttons {
@@ -18,7 +27,9 @@
     .bnt_login {
       background-color: var(--bg);
       border: 1px solid var(--light);
-      transition: background-color 0.2s linear, color 0.2s linear;
+      transition:
+        background-color 0.2s linear,
+        color 0.2s linear;
 
       &:hover {
         background-color: var(--light-dark);

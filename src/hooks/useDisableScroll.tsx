@@ -2,13 +2,14 @@ import { ResizeContext } from "@/components/contexts";
 import { useContext, useEffect, useRef } from "react";
 
 /* 
-  Скрытие scroll при открытии модального окна
-  и его включение при закрытии окна.
-  А также при изменении размера объекта window 
-  при открытии/закрытии модального окна.
+  * Скрытие scroll при открытии модального окна
+  * и его включение при закрытии окна.
+  
+  * А также при изменении размера объекта window 
+  * при открытии/закрытии модального окна.
 
-  WARNING: Использовать только внутри компонента,
-  представляющего из себя модальной окно! 
+  ! WARNING: Использовать только внутри компонента,
+  ! представляющего из себя модальное окно! 
 */
 
 export const useDisableScroll = () => {
@@ -23,6 +24,7 @@ export const useDisableScroll = () => {
 			isResize !== resizeRef.current
 		) {
 			document.body.style.overflow = "hidden";
+      // ! Размер скролла надо вносить руками
 			document.body.style.paddingRight = "16px";
 		} else {
 			document.body.style.overflow = "initial";
@@ -33,6 +35,5 @@ export const useDisableScroll = () => {
 			document.body.style.overflow = "initial";
 			document.body.style.paddingRight = "";
 		};
-
 	}, [isResize]);
 };

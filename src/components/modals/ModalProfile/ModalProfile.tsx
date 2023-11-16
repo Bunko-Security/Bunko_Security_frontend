@@ -4,6 +4,7 @@ import styles from "./ModalProfile.module.scss";
 import Link from "next/link";
 import Image from "next/image";
 import IconClose from "/public/icon-close.svg";
+import useUserStore from "@/stores/useUserStore.store";
 import { ROUTES } from "@/utils/routes";
 import { ModalProps } from "@/types/ModalProps.type";
 import { useDisableScroll } from "@/hooks/useDisableScroll";
@@ -11,6 +12,8 @@ import { FC, MouseEventHandler } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const ModalProfile: FC<ModalProps> = ({ onClose }) => {
+	const { user } = useUserStore();
+
 	useDisableScroll();
 
 	const handleLogOut = () => {
@@ -45,8 +48,9 @@ const ModalProfile: FC<ModalProps> = ({ onClose }) => {
 								width="28"
 								height="28"
 							/>
-							<span>ShuZoFreNuk</span>
+							<span>{user!.username}</span>
 						</div>
+            
 						<IconClose
 							className={styles.icon_close}
 							onClick={onClose}

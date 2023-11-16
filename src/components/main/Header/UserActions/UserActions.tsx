@@ -2,6 +2,7 @@
 
 import styles from "./UserActions.module.scss";
 import Image from "next/image";
+import useUserStore from "@/stores/useUserStore.store";
 import PortalModals from "@/components/modals/PortalModals/PortalModals";
 import ModalProfile from "@/components/modals/ModalProfile/ModalProfile";
 import { ROUTES } from "@/utils/routes";
@@ -10,7 +11,7 @@ import { FC, useState } from "react";
 
 const UserActions: FC = () => {
 	const router = useRouter();
-	const [hasUser, setHasUser] = useState<boolean>(true);
+	const { user, isLoading } = useUserStore();
 	const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
 
 	const clickAvatar = () => {
@@ -27,17 +28,21 @@ const UserActions: FC = () => {
 	return (
 		<>
 			<div className={styles.user_actions}>
-				{hasUser ? (
+				{user || isLoading ? (
 					<div
 						className={styles.avatar}
 						onClick={clickAvatar}
 					>
-						<Image
-							src="/avatar.png"
-							alt=""
-							width="60"
-							height="60"
-						/>
+						{isLoading && <div className={styles.img_loading} />}
+
+						{user && (
+							<Image
+								src="/avatar.png"
+								alt=""
+								width="60"
+								height="60"
+							/>
+						)}
 					</div>
 				) : (
 					<div className={styles.buttons}>

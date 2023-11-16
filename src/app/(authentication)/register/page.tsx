@@ -5,28 +5,34 @@ import Link from "next/link";
 import Input from "@/components/forms/Input/Input";
 import FormBase from "@/components/forms/FormBase/FormBase";
 import RULES_FORM from "@/utils/form/rules";
+import useUserStore from "@/stores/useUserStore.store";
 import { ROUTES } from "@/utils/routes";
 import { useForm } from "react-hook-form";
 import { NextPage } from "next";
-
-type FormValues = {
-	login: string;
-	name_full: string;
-	password: string;
-};
+import { redirect } from "next/navigation";
+import { useEffect } from "react";
+import { ICreateUser } from "@/models/user.model";
 
 const Register: NextPage = () => {
+	const { registerUser, user } = useUserStore();
+
 	const {
 		register,
 		formState: { errors },
 		handleSubmit,
 		reset,
-	} = useForm<FormValues>({ mode: "onChange" });
+	} = useForm<ICreateUser>({ mode: "onChange" });
 
-	const onSubmit = (values: FormValues) => {
-		console.log(values);
+	const onSubmit = (values: ICreateUser) => {
+		registerUser({ ...values, public_key: "1111", private_key: "1111" });
 		reset();
 	};
+
+	useEffect(() => {
+		if (user) {
+			redirect(ROUTES.HOME);
+		}
+	}, [user]);
 
 	return (
 		<div className={styles.register_form}>
@@ -46,10 +52,10 @@ const Register: NextPage = () => {
 
 					<Input
 						className={styles.input_field}
-						register={register("name_full", RULES_FORM.FULL_NAME)}
+						register={register("username", RULES_FORM.FULL_NAME)}
 						autoComplete="on"
 						placeholder="ФИО"
-						error={errors.name_full?.message}
+						error={errors.username?.message}
 					/>
 
 					<Input
