@@ -1,4 +1,5 @@
 $svg_wh: 16px;
+$avatar_wh: 120px;
 
 .form_avatar {
   .input_file {
@@ -16,14 +17,22 @@ $svg_wh: 16px;
   }
 
   .avatar_wrapper {
-    cursor: pointer;
-    width: fit-content;
-    margin: 0 auto;
     position: relative;
+    cursor: pointer;
+    margin: 0 auto;
+    width: fit-content;
     border: 1px solid transparent;
 
-    .avatar_image {
+    > img {
       border-radius: 50%;
+    }
+
+    .img_loading {
+      border-radius: 50%;
+      width: $avatar_wh;
+      height: $avatar_wh;
+      background-color: var(--light-gray);
+      border-radius: 1px solid transparent;
     }
 
     .change_btn {

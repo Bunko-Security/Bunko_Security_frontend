@@ -4,24 +4,22 @@ import styles from "./FormChangeInfoUser.module.scss";
 import Input from "../Input/Input";
 import FormBase from "../FormBase/FormBase";
 import RULES_FORM from "@/utils/form/rules";
+import useUserStore from "@/stores/useUserStore.store";
 import { FC } from "react";
 import { useForm } from "react-hook-form";
-
-type FormValues = {
-	login: string;
-	full_name: string;
-};
+import type { IUpdateUser } from "@/models/user.model";
 
 const FormChangeInfoUser: FC = () => {
+	const { updateUser } = useUserStore();
 	const {
 		register,
 		formState: { errors },
 		handleSubmit,
 		reset,
-	} = useForm<FormValues>({ mode: "onChange" });
+	} = useForm<IUpdateUser>({ mode: "onChange" });
 
-	const onSubmit = (values: FormValues) => {
-		console.log(values);
+	const onSubmit = (values: IUpdateUser) => {
+		updateUser(values);
 		reset();
 	};
 
@@ -31,24 +29,14 @@ const FormChangeInfoUser: FC = () => {
 			textBtn="Изменить"
 			onSubmit={handleSubmit(onSubmit)}
 		>
-			<>
-				<Input
-					className={styles.input_field}
-					register={register("login", RULES_FORM.LOGIN)}
-					textLabel="Логин"
-					placeholder="Логин"
-					autoComplete="on"
-					error={errors.login?.message}
-				/>
-				<Input
-					className={styles.input_field}
-					register={register("full_name", RULES_FORM.FULL_NAME)}
-					textLabel="Имя пользователя"
-					placeholder="Имя пользователя"
-					autoComplete="on"
-					error={errors.full_name?.message}
-				/>
-			</>
+			<Input
+				className={styles.input_field}
+				register={register("new_username", RULES_FORM.FULL_NAME)}
+				textLabel="Имя пользователя"
+				placeholder="Имя пользователя"
+				autoComplete="on"
+				error={errors.new_username?.message}
+			/>
 		</FormBase>
 	);
 };

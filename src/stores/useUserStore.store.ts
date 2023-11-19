@@ -3,7 +3,12 @@ import { shallow } from "zustand/shallow";
 import { devtools } from "zustand/middleware";
 import { NAME_STORES } from "@/stores/nameStores";
 import { createWithEqualityFn } from "zustand/traditional";
-import { ICreateUser, ILoginUser, IUser } from "@/models/user.model";
+import type {
+	ICreateUser,
+	ILoginUser,
+	IUpdateUser,
+	IUser,
+} from "@/models/user.model";
 
 // * Конфигурация хранилища пользователя сайта
 
@@ -12,7 +17,8 @@ type UserStore = {
 	isLoading: boolean;
 	registerUser: (user: ICreateUser) => void;
 	loginUser: (user: ILoginUser) => void;
-	// updateUser: (user: IUpdateUser) => void;
+	updateUser: (user: IUpdateUser) => void;
+	updateAvatar: (avatar: Blob, nameAvatar?: string) => void;
 	logout: () => void;
 };
 
@@ -23,33 +29,24 @@ const useUserStore = createWithEqualityFn<UserStore>()(
 			isLoading: false,
 			registerUser: async (user) => {
 				const newUser = await UserService.register(user);
-				if (typeof newUser === "object") {
-					set({ user: newUser }, false, "register");
-				}
+				set({ user: newUser }, false, "register");
 			},
 			loginUser: async (user) => {
 				const loginUser = await UserService.login(user);
-				if (typeof loginUser === "object") {
-					set({ user: loginUser }, false, "login");
-				}
+				set({ user: loginUser }, false, "login");
 			},
-			// updateUser: async (updateUser) => {
-			// 	if (!get().user) {
-			// 		return;
-			// 	}
+			updateUser: async (updateUser) => {
+				const newUser = await UserService.updateUser(updateUser);
+				set({ user: newUser }, false, "updateUser");
+			},
+			updateAvatar: async (avatar, nameAvatar) => {
+				set({ isLoading: true });
+				const newUser = await UserService.updateAvatar(avatar, nameAvatar);
+				set({ user: newUser }, false, "update_avatar");
+				set({ isLoading: false });
+			},
 
-			// 	let key: keyof IUpdateUser;
-			// 	const copyUser = { ...updateUser };
-
-			// 	for (key in copyUser) {
-			// 		if (!copyUser[key]) {
-			// 			copyUser[key] = get().user![key];
-			// 		}
-			// 	}
-
-			// 	const newUser = await UserService.update(get().user!.id, copyUser);
-			// 	set({ user: newUser }, false, "updateUser");
-			// },
+			// !WARNING: Функция пока что не доработана
 			logout: () => {
 				set({ user: null }, false, "logout");
 			},

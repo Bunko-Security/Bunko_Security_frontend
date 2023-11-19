@@ -2,7 +2,6 @@
 
 import styles from "./ModalProfile.module.scss";
 import Link from "next/link";
-import Image from "next/image";
 import IconClose from "/public/icon-close.svg";
 import useUserStore from "@/stores/useUserStore.store";
 import { ROUTES } from "@/utils/routes";
@@ -42,15 +41,16 @@ const ModalProfile: FC<ModalProps> = ({ onClose }) => {
 				<div className={styles.modal}>
 					<div className={styles.header}>
 						<div className={styles.user_info}>
-							<Image
-								src="/avatar.png"
+							<img
+								src={user!.avatar ?? "/avatar.png"}
 								alt=""
 								width="28"
 								height="28"
+								style={{ borderRadius: "50%" }}
 							/>
 							<span>{user!.username}</span>
 						</div>
-            
+
 						<IconClose
 							className={styles.icon_close}
 							onClick={onClose}
