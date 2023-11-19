@@ -5,7 +5,7 @@ import Tag from "@/components/Tag/Tag";
 import Checkbox from "@/components/forms/formItems/Checkbox";
 import InputSearch from "@/components/forms/InputSearch/InputSearch";
 import { FC } from "react";
-import { ModalProps } from "@/types/ModalProps.type";
+import type { ModalProps } from "@/types/ModalProps.type";
 import { useDisableScroll } from "@/hooks/useDisableScroll";
 import { AnimatePresence, motion } from "framer-motion";
 

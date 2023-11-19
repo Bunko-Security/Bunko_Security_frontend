@@ -4,9 +4,9 @@ import { NextResponse, type NextRequest } from "next/server";
 
 // TODO: сделать защитные маршруты
 export function middleware(req: NextRequest) {
-	const accessToken = req.cookies.get(COOKIES.ACCESS_TOKEN)?.value;
+	const refreshToken = req.cookies.get(COOKIES.REFRESH_TOKEN)?.value;
 
-	if (!accessToken) {
+	if (!refreshToken) {
 		return NextResponse.redirect(new URL(ROUTES.LOGIN, req.url));
 	}
 

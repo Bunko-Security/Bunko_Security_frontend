@@ -1,9 +1,10 @@
 import Cookies from "js-cookie";
-import { COOKIES } from "@/utils/keysName";
 import { type IToken } from "@/models/user.model";
+import { COOKIES, LOCAL_STORAGE } from "@/utils/keysName";
 import axios, { type AxiosRequestConfig } from "axios";
 
 // * Конфигурация для запросов к защищённым маршрутам
+
 const axiosConfig: AxiosRequestConfig = {
 	withCredentials: true,
 	baseURL: process.env.SERVER_URL,
@@ -22,17 +23,19 @@ apiWithAuth.interceptors.response.use(
 		return config;
 	},
 	async (error) => {
-		const refreshToken = Cookies.get(COOKIES.REFRESH_TOKEN);
-
 		const originalRequest = error.config!;
 		originalRequest._isRetry = false;
 
-		if (error.response?.status === 401 && refreshToken && !originalRequest._isRetry) {
+		if (error.response?.status === 401 && !originalRequest._isRetry) {
 			originalRequest._isRetry = true;
 
-			await axios.get<IToken>(`${process.env.SERVER_URL}/auth/refresh`, {
-				withCredentials: true,
-			});
+			await axios
+				.get<IToken>(`${process.env.SERVER_URL}/auth/refresh`, {
+					withCredentials: true,
+				})
+				.catch(() => {
+					localStorage.removeItem(LOCAL_STORAGE.IS_LOGIN);
+				});
 			return await apiWithAuth(originalRequest);
 		}
 

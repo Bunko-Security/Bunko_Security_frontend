@@ -2,13 +2,18 @@ $avatar_wh: 60px;
 
 .user_actions {
   .avatar {
+    position: relative;
     cursor: pointer;
 
     .img_loading {
+      border-radius: 50%;
       width: $avatar_wh;
       height: $avatar_wh;
-      border-radius: 50%;
       background-color: var(--light-gray);
+    }
+
+    > img {
+      border-radius: 50%;
     }
   }
 

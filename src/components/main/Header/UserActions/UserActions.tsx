@@ -1,7 +1,6 @@
 "use client";
 
 import styles from "./UserActions.module.scss";
-import Image from "next/image";
 import useUserStore from "@/stores/useUserStore.store";
 import PortalModals from "@/components/modals/PortalModals/PortalModals";
 import ModalProfile from "@/components/modals/ModalProfile/ModalProfile";
@@ -21,11 +20,12 @@ const UserActions: FC = () => {
 	const handleLogin = () => {
 		router.push(ROUTES.LOGIN);
 	};
+
 	const handleRegister = () => {
 		router.push(ROUTES.REGISTER);
 	};
 
-	return (
+  return (
 		<>
 			<div className={styles.user_actions}>
 				{user || isLoading ? (
@@ -35,9 +35,9 @@ const UserActions: FC = () => {
 					>
 						{isLoading && <div className={styles.img_loading} />}
 
-						{user && (
-							<Image
-								src="/avatar.png"
+						{user && !isLoading && (
+							<img
+								src={user.avatar ?? "/avatar.png"}
 								alt=""
 								width="60"
 								height="60"
