@@ -1,10 +1,10 @@
 "use client";
 
-import styles from "./MyFileInfoComponent.module.scss";
+import styles from "./MyFilesInfo.module.scss";
 import IconDownload from "/public/icon-download.svg";
-import { CSSProperties, FC } from "react";
+import type { CSSProperties, FC } from "react";
 
-interface MyFileInfoComponent {
+interface MyFilesInfoProps {
 	file: {
 		name: string;
 		date: string;
@@ -12,7 +12,7 @@ interface MyFileInfoComponent {
 	style?: CSSProperties;
 }
 
-const FileInfoComponent: FC<MyFileInfoComponent> = ({ file, style }) => {
+const MyFilesInfo: FC<MyFilesInfoProps> = ({ file, style }) => {
 	const handleDownload = () => {};
 
 	return (
@@ -30,4 +30,4 @@ const FileInfoComponent: FC<MyFileInfoComponent> = ({ file, style }) => {
 	);
 };
 
-export default FileInfoComponent;
+export default MyFilesInfo;

@@ -1,12 +1,12 @@
 import styles from "./page.module.scss";
-import DownloadFiles from "@/components/files/DownloadFiles/DownloadFiles";
-import { NextPage } from "next";
+import AccessibleFilesList from "@/components/files/AccessibleFiles/AccessibleFilesList";
+import type { NextPage } from "next";
 
 const AccessibleFiles: NextPage = () => {
 	return (
 		<div className={styles.accessible_files}>
 			<h1 className={styles.title}>Доступные файлы для скачивания</h1>
-			<DownloadFiles />
+			<AccessibleFilesList />
 		</div>
 	);
 };

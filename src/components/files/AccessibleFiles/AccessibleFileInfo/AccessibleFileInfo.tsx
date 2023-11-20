@@ -1,13 +1,13 @@
 "use client";
 
-import styles from "./FileInfoComponent.module.scss";
+import styles from "./AccessibleFileInfo.module.scss";
 import IconForward from "/public/icon-forward.svg";
 import IconDownload from "/public/icon-download.svg";
 import PortalModals from "@/components/modals/PortalModals/PortalModals";
 import ModalForwardFile from "@/components/modals/ModalForwardFile/ModalForwardFile";
-import { CSSProperties, FC, useState } from "react";
+import { type CSSProperties, type FC, useState } from "react";
 
-interface FileInfoComponentProps {
+interface AccessibleFileInfoProps {
 	file: {
 		name: string;
 		byUser: string;
@@ -16,7 +16,7 @@ interface FileInfoComponentProps {
 	style?: CSSProperties;
 }
 
-const FileInfoComponent: FC<FileInfoComponentProps> = ({ file, style }) => {
+const AccessibleFileInfo: FC<AccessibleFileInfoProps> = ({ file, style }) => {
 	const [openForward, setOpenForward] = useState<boolean>(false);
 
 	const handleForward = () => {
@@ -51,4 +51,4 @@ const FileInfoComponent: FC<FileInfoComponentProps> = ({ file, style }) => {
 	);
 };
 
-export default FileInfoComponent;
+export default AccessibleFileInfo;

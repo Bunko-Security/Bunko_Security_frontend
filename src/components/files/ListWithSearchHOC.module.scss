@@ -1,6 +1,7 @@
 .files {
   max-height: 700px;
   overflow-y: scroll;
+  padding-right: 15px;
 
   &::-webkit-scrollbar {
     width: 8px;
@@ -18,3 +19,20 @@
     }
   }
 }
+
+// $svg_wh: 200px;
+
+// .empty {
+//   > p {
+//     font-size: 16px;
+//     color: var(--light-dark);
+//   }
+
+//   > svg {
+//     width: $svg_wh;
+//     height: $svg_wh;
+//     stroke: var(--violet-dark);
+//     fill: var(--black);
+//     margin: 60px 0 60px;
+//   }
+// }

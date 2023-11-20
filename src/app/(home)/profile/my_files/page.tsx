@@ -1,6 +1,6 @@
 import styles from "./page.module.scss";
 import ImportFiles from "@/components/files/ImportFiles/ImportFiles";
-import MyDownloadFiles from "@/components/files/MyFiles/MyDownloadFiles";
+import MyFilesList from "@/components/files/MyFiles/MyFilesList";
 import type { Metadata, NextPage } from "next";
 
 export const metadata: Metadata = {
@@ -13,7 +13,7 @@ const MyFiles: NextPage = () => {
 			<h1 className={styles.title}>Мои файлы</h1>
 			<div className={styles.my_files_wrapper}>
 				<div className={styles.list_my_files}>
-					<MyDownloadFiles />
+					<MyFilesList />
 				</div>
 
 				<div className={styles.import_my_files}>
