@@ -1,19 +1,17 @@
 $avatar_wh: 60px;
 
 .user_actions {
+  // Фикс размера div
+  font-size: 0;
+
   .avatar {
     position: relative;
     cursor: pointer;
 
     .img_loading {
-      border-radius: 50%;
       width: $avatar_wh;
       height: $avatar_wh;
       background-color: var(--light-gray);
-    }
-
-    > img {
-      border-radius: 50%;
     }
   }
 
@@ -24,7 +22,6 @@ $avatar_wh: 60px;
     .bnt_login,
     .bnt_register {
       font-size: 12px;
-      line-height: calc(12px * 1.5);
       padding: 5px 25px;
       border-radius: 15px;
     }

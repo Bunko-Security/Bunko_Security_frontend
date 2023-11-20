@@ -10,6 +10,11 @@
     align-items: center;
     column-gap: 24px;
 
+    // Фикс размера ссылки
+    > a {
+      font-size: 0;
+    }
+
     .left_links {
       display: flex;
       column-gap: 24px;
