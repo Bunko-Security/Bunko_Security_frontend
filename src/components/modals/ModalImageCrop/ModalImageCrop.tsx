@@ -2,10 +2,11 @@
 
 import "react-image-crop/src/ReactCrop.scss";
 import styles from "./ModalImageCrop.module.scss";
+import Loader from "@/components/Loader/Loader";
 import useUserStore from "@/stores/useUserStore.store";
-import ReactCrop, { makeAspectCrop, type Crop, PixelCrop } from "react-image-crop";
-import { type FC, type ReactEventHandler, useEffect, useState, useRef } from "react";
 import type { ModalProps } from "@/types/ModalProps.type";
+import ReactCrop, { makeAspectCrop, type Crop, type PixelCrop } from "react-image-crop";
+import { type FC, type ReactEventHandler, useEffect, useState, useRef } from "react";
 
 interface ModalImageCropProps extends ModalProps {
 	avatar: File;
@@ -14,8 +15,8 @@ interface ModalImageCropProps extends ModalProps {
 const ModalImageCrop: FC<ModalImageCropProps> = ({ avatar, onClose }) => {
 	const imgRef = useRef<HTMLImageElement>(null);
 	const { updateAvatar } = useUserStore();
-	const [picture, setPicture] = useState<string>("");
 	const [crop, setCrop] = useState<Crop>();
+	const [picture, setPicture] = useState<string>("");
 	const [cropAvatar, setCropAvatar] = useState<PixelCrop>();
 
 	// * Для автоматической настройки круга обрезки при загрузке фото
@@ -76,6 +77,8 @@ const ModalImageCrop: FC<ModalImageCropProps> = ({ avatar, onClose }) => {
 		);
 	};
 
+	// * Считывание файла
+
 	useEffect(() => {
 		const reader = new FileReader();
 		reader.readAsDataURL(avatar);
@@ -98,7 +101,7 @@ const ModalImageCrop: FC<ModalImageCropProps> = ({ avatar, onClose }) => {
 				</div>
 
 				<div className={styles.modal_content}>
-					{!!picture && (
+					{!!picture ? (
 						<ReactCrop
 							crop={crop}
 							onChange={(_, percentCrop) => setCrop(percentCrop)}
@@ -113,6 +116,8 @@ const ModalImageCrop: FC<ModalImageCropProps> = ({ avatar, onClose }) => {
 								onLoad={onImageLoad}
 							/>
 						</ReactCrop>
+					) : (
+						<Loader />
 					)}
 				</div>
 
