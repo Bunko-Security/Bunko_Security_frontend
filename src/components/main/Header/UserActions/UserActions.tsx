@@ -6,7 +6,7 @@ import PortalModals from "@/components/modals/PortalModals/PortalModals";
 import ModalProfile from "@/components/modals/ModalProfile/ModalProfile";
 import { ROUTES } from "@/utils/routes";
 import { useRouter } from "next/navigation";
-import { FC, useState } from "react";
+import { type FC, useState } from "react";
 
 const UserActions: FC = () => {
 	const router = useRouter();
@@ -25,7 +25,7 @@ const UserActions: FC = () => {
 		router.push(ROUTES.REGISTER);
 	};
 
-  return (
+	return (
 		<>
 			<div className={styles.user_actions}>
 				{user || isLoading ? (
@@ -33,11 +33,12 @@ const UserActions: FC = () => {
 						className={styles.avatar}
 						onClick={clickAvatar}
 					>
-						{isLoading && <div className={styles.img_loading} />}
+						{isLoading && <div className={`${styles.img_loading} avatar`} />}
 
 						{user && !isLoading && (
 							<img
-								src={user.avatar ?? "/avatar.png"}
+								className="avatar"
+								src={user.avatar || "/avatar.png"}
 								alt=""
 								width="60"
 								height="60"

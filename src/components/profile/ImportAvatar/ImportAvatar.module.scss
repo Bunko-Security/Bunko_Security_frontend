@@ -23,12 +23,7 @@ $avatar_wh: 120px;
     width: fit-content;
     border: 1px solid transparent;
 
-    > img {
-      border-radius: 50%;
-    }
-
     .img_loading {
-      border-radius: 50%;
       width: $avatar_wh;
       height: $avatar_wh;
       background-color: var(--light-gray);

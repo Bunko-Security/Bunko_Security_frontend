@@ -5,10 +5,10 @@ import Link from "next/link";
 import IconClose from "/public/icon-close.svg";
 import useUserStore from "@/stores/useUserStore.store";
 import { ROUTES } from "@/utils/routes";
-import { ModalProps } from "@/types/ModalProps.type";
+import type { ModalProps } from "@/types/ModalProps.type";
 import { useDisableScroll } from "@/hooks/useDisableScroll";
-import { FC, MouseEventHandler } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import type { FC, MouseEventHandler } from "react";
 
 const ModalProfile: FC<ModalProps> = ({ onClose }) => {
 	const { user } = useUserStore();
@@ -42,11 +42,11 @@ const ModalProfile: FC<ModalProps> = ({ onClose }) => {
 					<div className={styles.header}>
 						<div className={styles.user_info}>
 							<img
-								src={user!.avatar ?? "/avatar.png"}
+								className="avatar"
+								src={user!.avatar || "/avatar.png"}
 								alt=""
 								width="28"
 								height="28"
-								style={{ borderRadius: "50%" }}
 							/>
 							<span>{user!.username}</span>
 						</div>

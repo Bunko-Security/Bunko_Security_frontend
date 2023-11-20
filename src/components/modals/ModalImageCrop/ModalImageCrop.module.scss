@@ -10,7 +10,7 @@
   width: 500px;
   background-color: var(--black);
   border-radius: values.$main_border_radius;
-  box-shadow: 0 0 10px 5px var(--light-gray);
+  @extend %shadow_modal;
 
   .modal_header {
     padding: 15px 30px;
@@ -43,7 +43,7 @@
       }
     }
 
-    img {
+    > img {
       display: block;
       width: 100%;
     }

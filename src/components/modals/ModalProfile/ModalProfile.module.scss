@@ -1,3 +1,5 @@
+@use "@/utils/scss/patterns";
+
 $svg_wh: 22px;
 
 .modal {
@@ -8,7 +10,7 @@ $svg_wh: 22px;
   height: 100vh;
   background-color: var(--black);
   padding: 15px;
-  box-shadow: 0 0 10px 5px var(--light-gray);
+  @extend %shadow_modal;
 
   .header {
     display: flex;
@@ -23,7 +25,6 @@ $svg_wh: 22px;
 
       & > span {
         font-size: 12px;
-        line-height: 18px;
         font-weight: 700;
       }
     }
@@ -44,7 +45,6 @@ $svg_wh: 22px;
   .menu {
     .menu_list {
       font-size: 12px;
-      line-height: 18px;
       font-weight: 500;
 
       li {

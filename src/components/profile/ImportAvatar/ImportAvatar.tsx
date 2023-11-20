@@ -5,7 +5,7 @@ import IconEdit from "/public/icon-edit.svg";
 import useUserStore from "@/stores/useUserStore.store";
 import PortalModals from "@/components/modals/PortalModals/PortalModals";
 import ModalImageCrop from "@/components/modals/ModalImageCrop/ModalImageCrop";
-import { ChangeEventHandler, FC, useRef, useState } from "react";
+import { type ChangeEventHandler, type FC, useRef, useState } from "react";
 
 // TODO: Поправить загрузку аватара при клике на img_loader
 const ImportAvatar: FC = () => {
@@ -45,11 +45,12 @@ const ImportAvatar: FC = () => {
 					onClick={onClick}
 				>
 					{isLoading ? (
-						<div className={styles.img_loading} />
+						<div className={`${styles.img_loading} avatar`} />
 					) : (
 						<>
 							<img
-								src={user?.avatar ?? "/avatar.png"}
+								className="avatar"
+								src={user?.avatar || "/avatar.png"}
 								alt="Аватар профиля"
 								height={120}
 								width={120}
