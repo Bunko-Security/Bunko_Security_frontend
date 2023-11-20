@@ -1,6 +1,6 @@
 import styles from "./Tag.module.scss";
-import { FC } from "react";
-import IconTag from "/public/tag/icon-delete-tag.svg"
+import IconTag from "/public/tag/icon-delete-tag.svg";
+import type { FC } from "react";
 
 interface TagProps {
 	text: string;
@@ -9,7 +9,7 @@ interface TagProps {
 const Tag: FC<TagProps> = ({ text }) => {
 	return (
 		<div className={styles.tag}>
-      <IconTag className={styles.icon} />
+			<IconTag className={styles.icon} />
 			<span className={styles.tag_text}>{text}</span>
 		</div>
 	);

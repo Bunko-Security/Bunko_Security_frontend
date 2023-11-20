@@ -1,7 +1,7 @@
-import Link from "next/link";
 import styles from "./not-found.module.scss";
-import { FC } from "react";
+import Link from "next/link";
 import { ROUTES } from "@/utils/routes";
+import type { FC } from "react";
 
 const NotFound: FC = () => {
 	return (
@@ -11,7 +11,12 @@ const NotFound: FC = () => {
 					4<span>0</span>4
 				</h1>
 				<p className={styles.text}>Данная страница не была найдена</p>
-        <Link href={ROUTES.HOME} className={styles.link}>Вернуться</Link>
+				<Link
+					href={ROUTES.HOME}
+					className={styles.link}
+				>
+					Вернуться
+				</Link>
 			</div>
 		</div>
 	);

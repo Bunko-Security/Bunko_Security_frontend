@@ -2,8 +2,8 @@ import styles from "./Header.module.scss";
 import Link from "next/link";
 import Image from "next/image";
 import UserActions from "./UserActions/UserActions";
-import { FC } from "react";
 import { ROUTES } from "@/utils/routes";
+import type { FC } from "react";
 
 const Header: FC = () => {
 	return (

@@ -1,7 +1,7 @@
 "use client";
 
 import { createPortal } from "react-dom";
-import { FC, ReactNode, useEffect, useRef } from "react";
+import { type FC, type ReactNode, useEffect, useRef } from "react";
 
 interface PortalModalsProps {
 	isOpen: boolean;

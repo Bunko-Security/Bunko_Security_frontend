@@ -1,7 +1,7 @@
 import styles from "./page.module.scss";
 import ImportAvatar from "@/components/profile/ImportAvatar/ImportAvatar";
 import FormChangeInfoUser from "@/components/forms/FormChangeInfoUser/FormChangeInfoUser";
-import { NextPage } from "next";
+import type { NextPage } from "next";
 
 const Profile: NextPage = () => {
 	return (

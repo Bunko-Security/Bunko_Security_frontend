@@ -5,7 +5,7 @@ import Input from "../Input/Input";
 import FormBase from "../FormBase/FormBase";
 import RULES_FORM from "@/utils/form/rules";
 import useUserStore from "@/stores/useUserStore.store";
-import { FC } from "react";
+import type { FC } from "react";
 import { useForm } from "react-hook-form";
 import type { IUpdateUser } from "@/models/user.model";
 

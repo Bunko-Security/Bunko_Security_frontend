@@ -1,5 +1,5 @@
 import styles from "./FormBase.module.scss";
-import { CSSProperties, FC, FormEventHandler, ReactNode } from "react";
+import type { CSSProperties, FC, FormEventHandler, ReactNode } from "react";
 
 interface FormBaseProps {
 	children?: ReactNode;

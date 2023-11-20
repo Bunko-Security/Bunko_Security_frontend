@@ -1,6 +1,6 @@
 import styles from "./layout.module.scss";
-import { FC, PropsWithChildren } from "react";
 import type { Metadata } from "next";
+import type { FC, PropsWithChildren } from "react";
 
 export const metadata: Metadata = {
 	title: "Мой профиль | Bunko Security",

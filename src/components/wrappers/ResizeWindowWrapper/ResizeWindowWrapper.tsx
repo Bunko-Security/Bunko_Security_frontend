@@ -2,7 +2,7 @@
 
 import { ResizeContext } from "../../contexts";
 import { useResizeWindow } from "@/hooks/useResizeWindow";
-import { FC, PropsWithChildren } from "react";
+import type { FC, PropsWithChildren } from "react";
 
 /* 
   * Контейнер для обволакивания приложения ради 

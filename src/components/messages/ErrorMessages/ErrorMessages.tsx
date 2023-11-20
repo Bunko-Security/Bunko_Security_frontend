@@ -1,6 +1,6 @@
 import styles from "./ErrorMessages.module.scss";
 import IconWarning from "/public/icon-warning.svg";
-import { FC } from "react";
+import type { FC } from "react";
 
 interface ErrorMessagesProps {
 	text?: string;

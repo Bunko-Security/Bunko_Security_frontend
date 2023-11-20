@@ -2,7 +2,7 @@ import "./globals.scss";
 import UserStoreInitial from "@/components/UserStoreInitial/UserStoreInitial";
 import ResizeWindowWrapper from "@/components/wrappers/ResizeWindowWrapper/ResizeWindowWrapper";
 import type { Metadata } from "next";
-import { FC, type PropsWithChildren } from "react";
+import type { FC, PropsWithChildren } from "react";
 
 export const metadata: Metadata = {
 	title: "Bunko Security",

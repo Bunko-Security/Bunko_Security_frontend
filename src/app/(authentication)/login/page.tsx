@@ -8,10 +8,10 @@ import RULES_FORM from "@/utils/form/rules";
 import useUserStore from "@/stores/useUserStore.store";
 import { ROUTES } from "@/utils/routes";
 import { useForm } from "react-hook-form";
-import { NextPage } from "next";
 import { redirect } from "next/navigation";
 import { useEffect } from "react";
-import { ILoginUser } from "@/models/user.model";
+import type { NextPage } from "next";
+import type { ILoginUser } from "@/models/user.model";
 
 const Login: NextPage = () => {
 	const { loginUser, user } = useUserStore();

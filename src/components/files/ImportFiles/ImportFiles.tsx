@@ -2,7 +2,7 @@
 
 import styles from "./ImportFiles.module.scss";
 import IconAddFile from "/public/icon-add-file.svg";
-import { ChangeEventHandler, FC, useRef } from "react";
+import { type ChangeEventHandler, type FC, useRef } from "react";
 
 const ImportFiles: FC = () => {
 	const inputRef = useRef<HTMLInputElement | null>(null);

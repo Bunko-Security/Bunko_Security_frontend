@@ -1,5 +1,5 @@
 import styles from "./Checkbox.module.scss";
-import { FC, InputHTMLAttributes } from "react";
+import type { FC, InputHTMLAttributes } from "react";
 
 const Checkbox: FC<InputHTMLAttributes<HTMLInputElement>> = ({ style, className, ...props }) => {
 	return (

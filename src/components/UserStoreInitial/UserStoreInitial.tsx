@@ -3,7 +3,7 @@
 import UserService from "@/services/user.service";
 import useUserStore from "@/stores/useUserStore.store";
 import { LOCAL_STORAGE } from "@/utils/keysName";
-import { FC, useEffect, useRef } from "react";
+import { type FC, useEffect, useRef } from "react";
 
 // * Инициализация пользователя в Zustand
 
