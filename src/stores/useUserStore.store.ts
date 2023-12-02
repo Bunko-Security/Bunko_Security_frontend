@@ -4,7 +4,7 @@ import { devtools } from "zustand/middleware";
 import { NAME_STORES } from "@/stores/nameStores";
 import { createWithEqualityFn } from "zustand/traditional";
 import type { ICreateUser, ILoginUser, IUpdateUser, IUser } from "@/models/user.model";
-import { IUploadFileData } from "@/models/file.model";
+import { IUploadFile } from "@/models/file.model";
 
 // * Конфигурация хранилища пользователя сайта
 
@@ -17,7 +17,7 @@ type UserStore = {
 	updateAvatar: (avatar: Blob, nameAvatar?: string) => void;
 
 	// * Будет возвращать файлы в будущем
-	uploadFiles: (files: IUploadFileData) => void;
+	uploadFiles: (files: IUploadFile) => void;
 	logout: () => void;
 };
 
