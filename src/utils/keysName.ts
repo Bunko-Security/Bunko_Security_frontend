@@ -1,4 +1,4 @@
-// * Список куков, присутствующих в приложении
+// * Список куков и ключей localStorage, присутствующих в приложении
 
 export const enum COOKIES {
 	REFRESH_TOKEN = "refresh_token",
@@ -7,4 +7,5 @@ export const enum COOKIES {
 
 export const enum LOCAL_STORAGE {
 	IS_LOGIN = "is_login",
+	HASH_ENCRYPT = "hash_encrypt",
 }

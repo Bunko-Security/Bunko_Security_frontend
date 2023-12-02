@@ -20,7 +20,7 @@ const Header: FC = () => {
 				</Link>
 				<div className={styles.left_links}>
 					<Link href={`${ROUTES.HOME}`}>Главная</Link>
-					<Link href={`${ROUTES.ACCESSIBLE_FILES}`}>Доступные файлы</Link>
+					<Link href={`${ROUTES.PUBLIC_FILES}`}>Публичные файлы</Link>
 					<Link href={`${ROUTES.HELP}`}>Помощь</Link>
 				</div>
 			</div>

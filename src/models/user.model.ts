@@ -4,9 +4,10 @@ export interface IBaseUser {
 }
 
 export interface ICreateUser extends IBaseUser {
-	password: string;
 	private_key: string;
 	public_key: string;
+	key_hash: string;
+	hash_auth: string;
 }
 
 export interface ILoginUser extends Omit<IBaseUser, "username"> {

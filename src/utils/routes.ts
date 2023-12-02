@@ -2,9 +2,13 @@ export const enum ROUTES {
 	HOME = "/",
 	LOGIN = "/login",
 	REGISTER = "/register",
-	ACCESSIBLE_FILES = "/accessible_files",
+	PUBLIC_FILES = "/public_files",
 	HELP = "/help",
+}
+
+export const enum PRIVATE_ROUTES {
+	PROFILE = "/profile",
 	FRIENDS = "/profile/friends",
 	MY_FILES = "/profile/my_files",
-	PROFILE = "/profile",
+	ACCESSIBLE_FILES = "/profile/accessible_files",
 }

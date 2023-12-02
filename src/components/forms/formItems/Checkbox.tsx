@@ -1,11 +1,16 @@
 import styles from "./Checkbox.module.scss";
 import type { FC, InputHTMLAttributes } from "react";
 
-const Checkbox: FC<InputHTMLAttributes<HTMLInputElement>> = ({ style, className, ...props }) => {
+const Checkbox: FC<InputHTMLAttributes<HTMLInputElement>> = ({
+	style,
+	className,
+	value,
+	...props
+}) => {
 	return (
 		<label
 			className={`${styles.label} ${className}`}
-			style={{ ...style, ...(props.disabled && { cursor: "not-allowed" }) }}
+			style={{ ...style, ...(props.disabled && { pointerEvents: "none" }) }}
 		>
 			<input
 				className={styles.checkbox}
@@ -13,7 +18,7 @@ const Checkbox: FC<InputHTMLAttributes<HTMLInputElement>> = ({ style, className,
 				{...props}
 			/>
 			<span className={styles.custom_checkbox} />
-			<span className={styles.checkbox_text}>Петров И.В.</span>
+			<span className={styles.checkbox_text}>{value}</span>
 		</label>
 	);
 };

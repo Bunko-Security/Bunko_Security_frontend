@@ -9,6 +9,8 @@ import type {
 	IUser,
 } from "@/models/user.model";
 import { LOCAL_STORAGE } from "@/utils/keysName";
+import type { IUploadFile } from "@/models/file.model";
+import { Encrypt } from "@/utils/functions/encrypt_module/encrypt";
 
 // TODO: Подумать об обработке ошибок
 
@@ -20,11 +22,6 @@ class UserService {
 	static async getUser(): Promise<IUser | null> {
 		try {
 			const user = await apiWithAuth.get<IUser>(this.pathProfile);
-
-			// !WARNING: На время починки ссылки на бэкэнде
-			if (user.data.avatar) {
-				user.data.avatar = `${process.env.SERVER_URL}/profile/${user.data.avatar}`;
-			}
 
 			return user.data;
 		} catch (e) {
@@ -46,8 +43,27 @@ class UserService {
 
 	static async login(user: ILoginUser): Promise<IUser | null> {
 		try {
-			await apiWithAuth.post<IToken>(`${this.pathAuth}/login`, user);
+			// const keyHash = await apiWithAuth.post<{ key_hash: string }>(`${this.pathAuth}/login`, {
+			// 	login: user.login,
+			// });
+			await apiWithAuth.post(`${this.pathAuth}/login`, {
+				login: user.login,
+				hash_auth: user.password,
+			});
+
+			// const { hashEncrypt, hashAuth } = Encrypt.recreateHash(
+			// 	keyHash.data.key_hash,
+			// 	user.login,
+			// 	user.password,
+			// );
+
+			// localStorage.setItem(LOCAL_STORAGE.HASH_ENCRYPT, hashEncrypt);
+			// await apiWithAuth.post("")
+
+			// !WARNING Дальше ключ хеширования куда-то надо отправить
 			const gottenUser = await this.getUser();
+			//
+
 			localStorage.setItem(LOCAL_STORAGE.IS_LOGIN, "true");
 
 			return gottenUser;
@@ -71,7 +87,7 @@ class UserService {
 	}
 
 	// TODO: Подумать над обработкой ошибок
-	static async updateUser(updateUser: IUpdateUser) {
+	static async updateUser(updateUser: IUpdateUser): Promise<IUser | null> {
 		await apiWithAuth.put(`${this.pathProfile}/username`, updateUser);
 		const user = await this.getUser();
 
@@ -102,6 +118,24 @@ class UserService {
 
 			return newUser;
 		} catch (e) {
+			return null;
+		}
+	}
+
+	static async uploadFile(uploadFile: IUploadFile): Promise<undefined | null> {
+		try {
+			const formData = new FormData();
+			formData.append("file", uploadFile.fileData.file);
+			formData.append("end_date", uploadFile.fileData.end_date);
+
+			const fileId = await apiWithAuth.post<{ file_id: number }>(
+				"/exchanger/file/upload",
+				formData,
+			);
+
+			await apiWithAuth.post(`/exchanger/file/${fileId.data.file_id}/data`, uploadFile.fileInfo);
+		} catch (e) {
+			console.log(e);
 			return null;
 		}
 	}

@@ -3,12 +3,8 @@ import { shallow } from "zustand/shallow";
 import { devtools } from "zustand/middleware";
 import { NAME_STORES } from "@/stores/nameStores";
 import { createWithEqualityFn } from "zustand/traditional";
-import type {
-	ICreateUser,
-	ILoginUser,
-	IUpdateUser,
-	IUser,
-} from "@/models/user.model";
+import type { ICreateUser, ILoginUser, IUpdateUser, IUser } from "@/models/user.model";
+import { IUploadFileData } from "@/models/file.model";
 
 // * Конфигурация хранилища пользователя сайта
 
@@ -19,6 +15,9 @@ type UserStore = {
 	loginUser: (user: ILoginUser) => void;
 	updateUser: (user: IUpdateUser) => void;
 	updateAvatar: (avatar: Blob, nameAvatar?: string) => void;
+
+	// * Будет возвращать файлы в будущем
+	uploadFiles: (files: IUploadFileData) => void;
 	logout: () => void;
 };
 
@@ -44,6 +43,9 @@ const useUserStore = createWithEqualityFn<UserStore>()(
 				const newUser = await UserService.updateAvatar(avatar, nameAvatar);
 				set({ user: newUser }, false, "update_avatar");
 				set({ isLoading: false });
+			},
+			uploadFiles: async (files) => {
+				await UserService.uploadFile(files);
 			},
 
 			// !WARNING: Функция пока что не доработана

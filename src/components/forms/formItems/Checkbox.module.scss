@@ -43,6 +43,11 @@ $svg_wh: 20px;
       cursor: not-allowed;
       background-image: url("/checkbox/icon-disable-checkbox.svg");
     }
+
+    &:checked:disabled + .custom_checkbox {
+      cursor: not-allowed;
+      background-image: url("/checkbox/icon-disable-active-checkbox.svg");
+    }
   }
 
   .custom_checkbox {

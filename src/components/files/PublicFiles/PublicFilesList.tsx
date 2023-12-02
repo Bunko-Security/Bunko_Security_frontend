@@ -1,8 +1,8 @@
 "use client";
 
-import styles from "./AccessibleFilesList.module.scss";
+import styles from "./PublicFilesList.module.scss";
 import IconEmptyFiles from "/public/icon-empty.svg";
-import PublicFileInfo from "../PublicFiles/PublicFilesInfo/PublicFileInfo";
+import PublicFileInfo from "./PublicFilesInfo/PublicFileInfo";
 import ListWithSearchHOC from "../ListWithSearchHOC";
 import { type FC, useState } from "react";
 
@@ -12,10 +12,20 @@ const file = {
 	date: "12:03 10.09.2023",
 };
 
+// const fetcher = async (params?: ParamsProducts) => {
+// 	const products = await ProductsService.getAll(params);
+
+// 	return products;
+// };
+
 // !WARNING: Может быть удалён, если файлы будут передаваться на уровень выше
 
-const AccessibleFilesList: FC = () => {
-	const [count, setCount] = useState<number>(20);
+const PublicFilesList: FC = () => {
+	const [count, setCount] = useState<number>(1);
+//   const { data, error, mutate, isValidating } = useSWR(`/products/${categoryId}`, () =>
+//   fetcher(params.current),
+// );
+
 
 	const FilesList = ListWithSearchHOC(count, PublicFileInfo);
 
@@ -33,4 +43,5 @@ const AccessibleFilesList: FC = () => {
 	);
 };
 
-export default AccessibleFilesList;
+export default PublicFilesList;
+

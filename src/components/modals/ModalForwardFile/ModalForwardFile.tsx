@@ -24,6 +24,7 @@ const ModalForwardFile: FC<ModalProps> = ({ onClose }) => {
 					className="overlay"
 					onClick={onClose}
 				/>
+
 				<div className={styles.forward}>
 					<h1 className={styles.title}>Переслать файл</h1>
 					<InputSearch
@@ -39,12 +40,14 @@ const ModalForwardFile: FC<ModalProps> = ({ onClose }) => {
 									<Checkbox
 										key={i}
 										className={styles.checkbox_friend}
+                    value={"Петров И.В."}
 									/>
 								))}
 								{Array.from({ length: 5 }).map((_, i) => (
 									<Checkbox
 										key={i}
 										className={styles.checkbox_friend}
+                    value={"Петров И.В."}
 										disabled
 									/>
 								))}
@@ -69,6 +72,7 @@ const ModalForwardFile: FC<ModalProps> = ({ onClose }) => {
 							</div>
 						</div>
 					</div>
+
 					<div className={styles.buttons}>
 						<button
 							className={styles.close_btn}

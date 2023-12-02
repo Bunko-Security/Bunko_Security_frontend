@@ -8,23 +8,49 @@ import RULES_FORM from "@/utils/form/rules";
 import useUserStore from "@/stores/useUserStore.store";
 import { ROUTES } from "@/utils/routes";
 import { useForm } from "react-hook-form";
+import { Encrypt } from "@/utils/functions/encrypt_module/encrypt";
 import { redirect } from "next/navigation";
 import { useEffect } from "react";
 import type { NextPage } from "next";
-import type { ICreateUser } from "@/models/user.model";
+import type { IBaseUser, ICreateUser } from "@/models/user.model";
+import { LOCAL_STORAGE } from "@/utils/keysName";
+
+// TODO: Подумать над этим
+type FormValues = IBaseUser & { password: string };
 
 const Register: NextPage = () => {
 	const { registerUser, user } = useUserStore();
-
 	const {
 		register,
 		formState: { errors },
 		handleSubmit,
 		reset,
-	} = useForm<ICreateUser>({ mode: "onChange" });
+	} = useForm<FormValues>({ mode: "onChange" });
 
-	const onSubmit = (values: ICreateUser) => {
-		registerUser({ ...values, public_key: "1111", private_key: "1111" });
+	const onSubmit = (values: FormValues) => {
+		// const hashData = Encrypt.generateHash(values.login, values.password);
+		// const RSAKeys = Encrypt.keyGen(hashData.hashEncrypt);
+
+		// localStorage.setItem(LOCAL_STORAGE.HASH_ENCRYPT, hashData.hashEncrypt);
+
+		// registerUser({
+		// 	public_key: RSAKeys.publicKey,
+		// 	private_key: RSAKeys.privateKey,
+		// 	key_hash: hashData.keyHash,
+		// 	hash_auth: hashData.hashAuth,
+		// 	login: values.login,
+		// 	username: values.username,
+		// });
+
+    
+		registerUser({
+			public_key: "",
+			private_key: "",
+			key_hash: "",
+			hash_auth: values.password,
+			login: values.login,
+			username: values.username,
+		});
 		reset();
 	};
 

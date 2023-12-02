@@ -1,5 +1,5 @@
 import styles from "./page.module.scss";
-import ImportFiles from "@/components/files/ImportFiles/ImportFiles";
+import UploadFile from "@/components/files/UploadFile/UploadFile";
 import MyFilesList from "@/components/files/MyFiles/MyFilesList";
 import type { Metadata, NextPage } from "next";
 
@@ -17,7 +17,7 @@ const MyFiles: NextPage = () => {
 				</div>
 
 				<div className={styles.import_my_files}>
-					<ImportFiles />
+					<UploadFile />
 				</div>
 			</div>
 		</div>

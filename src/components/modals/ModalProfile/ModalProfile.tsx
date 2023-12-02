@@ -4,7 +4,7 @@ import styles from "./ModalProfile.module.scss";
 import Link from "next/link";
 import IconClose from "/public/icon-close.svg";
 import useUserStore from "@/stores/useUserStore.store";
-import { ROUTES } from "@/utils/routes";
+import { PRIVATE_ROUTES, ROUTES } from "@/utils/routes";
 import type { ModalProps } from "@/types/ModalProps.type";
 import { useDisableScroll } from "@/hooks/useDisableScroll";
 import { motion, AnimatePresence } from "framer-motion";
@@ -63,13 +63,16 @@ const ModalProfile: FC<ModalProps> = ({ onClose }) => {
 							className={styles.menu_list}
 						>
 							<li>
-								<Link href={`${ROUTES.PROFILE}`}>Мой профиль</Link>
+								<Link href={`${PRIVATE_ROUTES.PROFILE}`}>Мой профиль</Link>
 							</li>
 							<li>
-								<Link href={`${ROUTES.FRIENDS}`}>Мои друзья</Link>
+								<Link href={`${PRIVATE_ROUTES.FRIENDS}`}>Мои друзья</Link>
 							</li>
 							<li>
-								<Link href={`${ROUTES.MY_FILES}`}>Мои файлы</Link>
+								<Link href={`${PRIVATE_ROUTES.MY_FILES}`}>Мои файлы</Link>
+							</li>
+							<li>
+								<Link href={`${PRIVATE_ROUTES.ACCESSIBLE_FILES}`}>Доступные файлы</Link>
 							</li>
 							<li onClick={handleLogOut}>Выйти</li>
 						</ul>

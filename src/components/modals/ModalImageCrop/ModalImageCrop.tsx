@@ -5,6 +5,7 @@ import styles from "./ModalImageCrop.module.scss";
 import Loader from "@/components/Loader/Loader";
 import useUserStore from "@/stores/useUserStore.store";
 import type { ModalProps } from "@/types/ModalProps.type";
+import { AnimatePresence, motion } from "framer-motion";
 import ReactCrop, { makeAspectCrop, type Crop, type PixelCrop } from "react-image-crop";
 import { type FC, type ReactEventHandler, useEffect, useState, useRef } from "react";
 
@@ -84,48 +85,56 @@ const ModalImageCrop: FC<ModalImageCropProps> = ({ avatar, onClose }) => {
 		reader.readAsDataURL(avatar);
 		reader.onload = () => {
 			if (reader.result) {
+				console.log(typeof reader.result);
 				setPicture(reader.result.toString() || "");
 			}
 		};
 	}, [avatar]);
 
 	return (
-		<>
-			<div
-				className="overlay"
-				onClick={onClose}
-			/>
-			<div className={styles.modal}>
-				<div className={styles.modal_header}>
-					<h2 className={styles.title}>Обрезка фото для аватарки</h2>
-				</div>
+		<AnimatePresence>
+			<motion.div
+				initial={{ opacity: 0 }}
+				animate={{ opacity: 1 }}
+				exit={{ opacity: 0 }}
+				transition={{ duration: 0.2, ease: "circIn" }}
+			>
+				<div
+					className="overlay"
+					onClick={onClose}
+				/>
+				<div className={styles.modal}>
+					<div className={styles.modal_header}>
+						<h2 className={styles.title}>Обрезка фото для аватарки</h2>
+					</div>
 
-				<div className={styles.modal_content}>
-					{!!picture ? (
-						<ReactCrop
-							crop={crop}
-							onChange={(_, percentCrop) => setCrop(percentCrop)}
-							aspect={1}
-							circularCrop
-							keepSelection
-							onComplete={(c) => setCropAvatar(c)}
-						>
-							<img
-								ref={imgRef}
-								src={picture}
-								onLoad={onImageLoad}
-							/>
-						</ReactCrop>
-					) : (
-						<Loader />
-					)}
-				</div>
+					<div className={styles.modal_content}>
+						{!!picture ? (
+							<ReactCrop
+								crop={crop}
+								onChange={(_, percentCrop) => setCrop(percentCrop)}
+								aspect={1}
+								circularCrop
+								keepSelection
+								onComplete={(c) => setCropAvatar(c)}
+							>
+								<img
+									ref={imgRef}
+									src={picture}
+									onLoad={onImageLoad}
+								/>
+							</ReactCrop>
+						) : (
+							<Loader />
+						)}
+					</div>
 
-				<div className={styles.modal_footer}>
-					<button onClick={onUpdateCropAvatar}>Загрузить</button>
+					<div className={styles.modal_footer}>
+						<button onClick={onUpdateCropAvatar}>Загрузить</button>
+					</div>
 				</div>
-			</div>
-		</>
+			</motion.div>
+		</AnimatePresence>
 	);
 };
 
