@@ -4,19 +4,23 @@ import styles from "./ModalProfile.module.scss";
 import Link from "next/link";
 import IconClose from "/public/icon-close.svg";
 import useUserStore from "@/stores/useUserStore.store";
-import { PRIVATE_ROUTES, ROUTES } from "@/utils/routes";
+import { useRouter } from "next/navigation";
 import type { ModalProps } from "@/types/ModalProps.type";
 import { useDisableScroll } from "@/hooks/useDisableScroll";
+import { PRIVATE_ROUTES, ROUTES } from "@/utils/routes";
 import { motion, AnimatePresence } from "framer-motion";
-import type { FC, MouseEventHandler } from "react";
+import { type FC, type MouseEventHandler } from "react";
 
 const ModalProfile: FC<ModalProps> = ({ onClose }) => {
-	const { user } = useUserStore();
+	const router = useRouter();
+	const { user, logout } = useUserStore();
 
 	useDisableScroll();
 
-	const handleLogOut = () => {
+	const handleLogout = () => {
+		logout();
 		onClose();
+		router.replace(ROUTES.HOME);
 	};
 
 	const handleCloseModal: MouseEventHandler<HTMLUListElement> = (event) => {
@@ -43,7 +47,7 @@ const ModalProfile: FC<ModalProps> = ({ onClose }) => {
 						<div className={styles.user_info}>
 							<img
 								className="avatar"
-								src={user!.avatar || "/avatar.png"}
+								src={user?.avatar_path || "/avatar.png"}
 								alt=""
 								width="28"
 								height="28"
@@ -74,7 +78,7 @@ const ModalProfile: FC<ModalProps> = ({ onClose }) => {
 							<li>
 								<Link href={`${PRIVATE_ROUTES.ACCESSIBLE_FILES}`}>Доступные файлы</Link>
 							</li>
-							<li onClick={handleLogOut}>Выйти</li>
+							<li onClick={handleLogout}>Выйти</li>
 						</ul>
 					</div>
 				</div>

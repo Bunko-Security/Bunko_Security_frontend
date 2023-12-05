@@ -8,17 +8,27 @@ import type {
 	IUpdateUser,
 	IUser,
 } from "@/models/user.model";
-import { LOCAL_STORAGE } from "@/utils/keysName";
-import type { IUploadFile } from "@/models/file.model";
 import { Encrypt } from "@/utils/functions/encrypt_module/encrypt";
+import { LOCAL_STORAGE } from "@/utils/keysName";
+import type {
+	IFile,
+	IDownloadFileData,
+	IUploadFile,
+	IDownloadFileWithData,
+} from "@/models/file.model";
+import { IFriend } from "@/models/friend.model";
+import { IDataEncodingFile } from "@/utils/functions/encrypt_module/models";
+import { redirect } from "next/navigation";
+import { ROUTES } from "@/utils/routes";
 
 // TODO: Подумать об обработке ошибок
 
 class UserService {
 	private static pathAuth = "/auth";
 	private static pathProfile = "/profile";
+	private static pathFriends = "/friends";
+	private static pathExchanger = "/exchanger";
 
-	//TODO: Доделать получение аватара и загрузку его
 	static async getUser(): Promise<IUser | null> {
 		try {
 			const user = await apiWithAuth.get<IUser>(this.pathProfile);
@@ -43,31 +53,39 @@ class UserService {
 
 	static async login(user: ILoginUser): Promise<IUser | null> {
 		try {
-			// const keyHash = await apiWithAuth.post<{ key_hash: string }>(`${this.pathAuth}/login`, {
-			// 	login: user.login,
-			// });
-			await apiWithAuth.post(`${this.pathAuth}/login`, {
-				login: user.login,
-				hash_auth: user.password,
+			const keyHash = await apiWithAuth.get<{ hash_key: string }>(`${this.pathAuth}/hash_key`, {
+				params: { login: user.login },
 			});
 
-			// const { hashEncrypt, hashAuth } = Encrypt.recreateHash(
-			// 	keyHash.data.key_hash,
-			// 	user.login,
-			// 	user.password,
-			// );
+			const { hashEncrypt, hashAuth } = Encrypt.recreateHash(
+				keyHash.data.hash_key,
+				user.login,
+				user.password,
+			);
+			localStorage.setItem(LOCAL_STORAGE.HASH_ENCRYPT, hashEncrypt);
 
-			// localStorage.setItem(LOCAL_STORAGE.HASH_ENCRYPT, hashEncrypt);
-			// await apiWithAuth.post("")
+			await apiWithAuth.post(`${this.pathAuth}/login`, {
+				login: user.login,
+				auth_hash: hashAuth,
+			});
 
-			// !WARNING Дальше ключ хеширования куда-то надо отправить
 			const gottenUser = await this.getUser();
-			//
-
 			localStorage.setItem(LOCAL_STORAGE.IS_LOGIN, "true");
 
 			return gottenUser;
 		} catch (e) {
+			return null;
+		}
+	}
+
+	static async logout(): Promise<true | null> {
+		try {
+			await apiWithAuth.get<string>(`${this.pathAuth}/logout`);
+			localStorage.removeItem(LOCAL_STORAGE.IS_LOGIN);
+
+			return true;
+		} catch (e) {
+			console.log(e);
 			return null;
 		}
 	}
@@ -94,20 +112,6 @@ class UserService {
 		return user;
 	}
 
-	// static async getAvatar(): Promise<IAvatarUser | null> {
-	// 	try {
-	// 		const avatar = await apiWithAuth.get<IAvatarUser>(`${this.pathProfile}/avatar`);
-
-	// 		return avatar.data;
-	// 	} catch (e) {
-	// 		return null;
-	// 	}
-	// }
-
-	/**
-	 * TODO: Подумать над тем, как именно получать новый аватар
-	 * TODO: Через getUser() или getAvatar()
-	 */
 	static async updateAvatar(avatar: Blob, nameAvatar?: string): Promise<IUser | null> {
 		try {
 			const formData = new FormData();
@@ -122,18 +126,83 @@ class UserService {
 		}
 	}
 
+	static async getFriends(): Promise<IFriend[] | null> {
+		try {
+			const friends = await apiWithAuth.get<IFriend[]>(this.pathFriends);
+
+			return friends.data;
+		} catch (e) {
+			console.log(e);
+			return null;
+		}
+	}
+
 	static async uploadFile(uploadFile: IUploadFile): Promise<undefined | null> {
 		try {
 			const formData = new FormData();
 			formData.append("file", uploadFile.fileData.file);
-			formData.append("end_date", uploadFile.fileData.end_date);
+			formData.append("delete_date", uploadFile.fileData.delete_date);
 
 			const fileId = await apiWithAuth.post<{ file_id: number }>(
-				"/exchanger/file/upload",
+				`${this.pathExchanger}/file/upload`,
 				formData,
 			);
 
-			await apiWithAuth.post(`/exchanger/file/${fileId.data.file_id}/data`, uploadFile.fileInfo);
+			await apiWithAuth.post(
+				`${this.pathExchanger}/files/${fileId.data.file_id}/data`,
+				uploadFile.fileInfo,
+			);
+		} catch (e) {
+			console.log(e);
+			return null;
+		}
+	}
+
+	static async getPubKeysFriends(logins: string[]): Promise<IDataEncodingFile[] | null> {
+		try {
+			const dataEncodingFile = await apiWithAuth.post<IDataEncodingFile[]>(
+				`${this.pathExchanger}/users/pub_keys`,
+				logins,
+			);
+
+			return dataEncodingFile.data;
+		} catch (e) {
+			console.log(e);
+			return null;
+		}
+	}
+
+	static async getMyFiles(): Promise<IFile[]> {
+		try {
+			const files = await apiWithAuth.get<IFile[]>(`${this.pathExchanger}/files/my`);
+
+			return files.data;
+		} catch (e) {
+			console.log(e);
+			return [];
+		}
+	}
+
+	static async downloadFile(file_id: number | string): Promise<IDownloadFileWithData | null> {
+		try {
+			const file = await apiWithAuth.get<ArrayBuffer>(`${this.pathExchanger}/files/${file_id}`, {
+				responseType: "arraybuffer",
+			});
+
+			let fileName: string | undefined = file.headers["content-disposition"];
+			const fileType: string | undefined = file.headers["content-type"];
+
+			if (fileName?.includes("utf-8")) {
+				fileName = fileName.split("filename*=utf-8''")[1];
+			} else if (fileName) {
+				fileName = fileName.split('filename="')[1].split('"')[0];
+			}
+
+			const dataFile = await apiWithAuth.get<IDownloadFileData>(
+				`${this.pathExchanger}/files/${file_id}/data`,
+			);
+
+			return { file: file.data, name: fileName, type: fileType, data: dataFile.data };
 		} catch (e) {
 			console.log(e);
 			return null;
