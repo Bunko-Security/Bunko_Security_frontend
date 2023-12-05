@@ -4,7 +4,6 @@ import { COOKIES, LOCAL_STORAGE } from "@/utils/keysName";
 import axios, { type AxiosRequestConfig } from "axios";
 
 // * Конфигурация для запросов к защищённым маршрутам
-
 const axiosConfig: AxiosRequestConfig = {
 	withCredentials: true,
 	baseURL: process.env.SERVER_URL,
@@ -24,7 +23,10 @@ apiWithAuth.interceptors.response.use(
 	},
 	async (error) => {
 		const originalRequest = error.config!;
-		originalRequest._isRetry = false;
+
+		if (!originalRequest._isRetry) {
+			originalRequest._isRetry = false;
+		}
 
 		if (error.response?.status === 401 && !originalRequest._isRetry) {
 			originalRequest._isRetry = true;
@@ -36,6 +38,7 @@ apiWithAuth.interceptors.response.use(
 				.catch(() => {
 					localStorage.removeItem(LOCAL_STORAGE.IS_LOGIN);
 				});
+
 			return await apiWithAuth(originalRequest);
 		}
 
