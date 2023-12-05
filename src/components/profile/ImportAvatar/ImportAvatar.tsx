@@ -50,7 +50,7 @@ const ImportAvatar: FC = () => {
 						<>
 							<img
 								className="avatar"
-								src={user?.avatar || "/avatar.png"}
+								src={user?.avatar_path || "/avatar.png"}
 								alt="Аватар профиля"
 								height={120}
 								width={120}

@@ -38,7 +38,7 @@ const UserActions: FC = () => {
 						{user && !isLoading && (
 							<img
 								className="avatar"
-								src={user.avatar || "/avatar.png"}
+								src={user.avatar_path || "/avatar.png"}
 								alt=""
 								width="60"
 								height="60"

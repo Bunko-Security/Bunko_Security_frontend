@@ -85,7 +85,6 @@ const ModalImageCrop: FC<ModalImageCropProps> = ({ avatar, onClose }) => {
 		reader.readAsDataURL(avatar);
 		reader.onload = () => {
 			if (reader.result) {
-				console.log(typeof reader.result);
 				setPicture(reader.result.toString() || "");
 			}
 		};
