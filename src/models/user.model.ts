@@ -4,10 +4,10 @@ export interface IBaseUser {
 }
 
 export interface ICreateUser extends IBaseUser {
-	private_key: string;
-	public_key: string;
-	key_hash: string;
-	hash_auth: string;
+	priv_key: string;
+	pub_key: string;
+	hash_key: string;
+	auth_hash: string;
 }
 
 export interface ILoginUser extends Omit<IBaseUser, "username"> {
@@ -16,7 +16,7 @@ export interface ILoginUser extends Omit<IBaseUser, "username"> {
 
 // ? Нужен ли отдельный интерфейс для аватарки?
 export interface IAvatarUser {
-	avatar: string;
+	avatar_path: string;
 }
 
 export interface IUser extends IBaseUser, IAvatarUser {}

@@ -1,167 +1,79 @@
-import crypto, { KeyObject } from "crypto";
-import type { RSAKeys, hashData, recreateHash } from "./models";
+import forge from "node-forge";
+import type {
+	IRSAKeys,
+	IHashData,
+	IDataEncodingFile,
+	IRecreateHash,
+	ILoginWithPass,
+	IEncryptFileWithEncryptData,
+} from "./models";
 
-const webCrypto = crypto.webcrypto;
+// // 5. Шифрование общедоступных файлов
+// export const data_stream_encryption_public = (data: Buffer): encFileAndPass | 'error' => {
 
-// export type encFileAndencPass = {
-// 	file: Buffer;
-// 	loginAndencPass: loginAndencPass[];
-// };
-// export type loginAndencPass = {
-// 	login: string;
-// 	pass: string;
-// };
-// export type encFileAndPass = {
-// 	file: Buffer;
-// 	pass: string;
-// };
-// export type inputToEncoding = {
-// 	pub_key: string;
-// 	login: string;
-// };
+//     try {
+//         let key256bit = keypass_gen_256bit()
+//         return { file: encrypt_data(data, key256bit), pass: key256bit }
+//     } catch (error) {
+//         console.log(error)
+//         return 'error'
+//     }
+// }
+// // 6. Расшифрование общедоступных файлов
+// export const data_stream_decryption_public = (data: Buffer, key: string): Buffer | 'error' => {
+//     try {
+//         return decrypt_data(data, key)
+//     } catch (error) {
+//         console.log(error)
+//         return 'error'
+//     }
+// }
 
-// const scrypt_hash = (key: string, salt: string): Promise<string | "error"> => {
-// 	return new Promise<string>((resolve, reject) => {
-// 		crypto.scrypt(key, salt, 128, (err, derivedKey) => {
-// 			if (err) reject(err);
-// 			resolve(derivedKey.toString("hex"));
-// 		});
-// 	}).then((value) => {
-// 		return value;
-// 	});
-// };
+const keypassGen256 = (): string => forge.util.encode64(forge.random.getBytesSync(22));
 
-// * Генерация ключа хэширования
-const keyGen256 = (): string => crypto.randomBytes(22).toString("base64");
+const decryptPrivateKey = (encPrivateKey: string, hashEncrypt: string): forge.pki.rsa.PrivateKey => {
+	return forge.pki.decryptRsaPrivateKey(encPrivateKey, hashEncrypt);
+};
 
-// const encrypt_data = (data: Buffer, key: string): Buffer => {
-// 	const initializationVector = crypto.randomBytes(16);
-// 	const cipher = crypto.createCipheriv("aes-256-ctr", key, initializationVector);
+const decryptData = (encryptedData: Buffer, decPassphrase: string): Buffer => {
+	let initializationVector = encryptedData.slice(0, 16);
+	encryptedData = encryptedData.slice(16);
 
-// 	const encrypted = Buffer.concat([initializationVector, cipher.update(data), cipher.final()]);
+	const decipher = forge.cipher.createDecipher("AES-CBC", forge.util.createBuffer(decPassphrase));
+	decipher.start({ iv: forge.util.createBuffer(initializationVector.toString("binary")) });
+	decipher.update(forge.util.createBuffer(encryptedData.toString("binary")));
+	decipher.finish();
 
-// 	return encrypted;
-// };
-
-// const decrypt_data = (encryptedData: Buffer, dec_passkey: string): Buffer => {
-// 	const initializationVector = encryptedData.slice(0, 16);
-// 	encryptedData = encryptedData.slice(16);
-// 	const decipher = crypto.createDecipheriv("aes-256-ctr", dec_passkey, initializationVector);
-// 	return Buffer.concat([decipher.update(encryptedData), decipher.final()]);
-// };
+	return Buffer.from(decipher.output.getBytes(), "binary");
+};
 
 export class Encrypt {
-	// * Генерация RSA-ключей
-	static keyGen = (hashEncrypt: string): RSAKeys => {
-		try {
-			const { publicKey, privateKey } = crypto.generateKeyPairSync("rsa", {
-				modulusLength: 2048,
-				publicKeyEncoding: {
-					type: "spki",
-					format: "pem",
-				},
-				privateKeyEncoding: {
-					cipher: "aes-256-cbc",
-					type: "pkcs8",
-					format: "pem",
-					passphrase: hashEncrypt,
-				},
-			});
+	// * Генерация ключа хэширования
 
-			return { publicKey: publicKey, privateKey: privateKey };
+	// * Генерация RSA-ключей
+	static genRSAKey = (hashEncrypt: string): IRSAKeys => {
+		try {
+			const keyPair = forge.pki.rsa.generateKeyPair(2048);
+			const privateKey = forge.pki.encryptRsaPrivateKey(keyPair.privateKey, hashEncrypt);
+			const publicKey = forge.pki.publicKeyToPem(keyPair.publicKey);
+
+			return { publicKey, privateKey };
 		} catch (error) {
 			console.log(error);
-			throw new Error("Неудачная попытка генерации ключей");
+			throw new Error("Ошибка генерации RSA-ключей");
 		}
 	};
 
-	// //2. Input: Data, Public rsa keys
-	// //  Output:  Encrypted data and massive with:  Encrypted passphrase and login
-	// export const data_stream_encryption = (
-	// 	stream: Buffer,
-	// 	pub_key_login: inputToEncoding[],
-	// ): encFileAndencPass | "error" => {
-	// 	const encrypt_keypass = (pub_key: string, privkey: string): string => {
-	// 		crypto.publicEncrypt(pub_key, Buffer.from(privkey));
-
-	// 		return crypto.publicEncrypt(pub_key, Buffer.from(privkey)).toString("base64");
-	// 	};
-
-	// 	try {
-	// 		let pass_storage: loginAndencPass[] = [];
-	// 		const key = keypass_gen_32();
-	// 		let enc_data = encrypt_data(stream, key);
-	// 		pub_key_login.forEach((pubkl) => {
-	// 			const enckey = encrypt_keypass(pubkl.pub_key, key);
-
-	// 			pass_storage.push({
-	// 				pass: enckey,
-	// 				login: pubkl.login,
-	// 			});
-	// 		});
-
-	// 		return { file: enc_data, loginAndencPass: pass_storage } as encFileAndencPass;
-	// 	} catch (error) {
-	// 		console.log(error);
-	// 		return "error";
-	// 	}
-	// };
-
-	// //3. Input: Encrypted private rsa key, user password;
-	// //  Output: Private rsa key
-	// export const private_key_decryption = (enc_priv_key: string, passphrase: string): KeyObject => {
-	// 	return crypto.createPrivateKey({ passphrase: passphrase, key: enc_priv_key });
-	// };
-
-	// //4.  Input: Encrypted data, Encrypted passphrase for this data, private rsa key, user password;
-	// //   Output: Data
-	// export const data_stream_decryption = (
-	// 	encryptedData: Buffer,
-	// 	enc_passkey: string,
-	// 	enc_priv_key: string,
-	// 	passphrase: string,
-	// ): Buffer | "error" => {
-	// 	const decrypt_keypass = (priv_key: KeyObject, enc_key: string): string => {
-	// 		return crypto.privateDecrypt(priv_key, Buffer.from(enc_key, "base64")).toString("utf-8");
-	// 	};
-	// 	try {
-	// 		//Расшифровываем encrypted private rsa key
-	// 		const dec_privkey: KeyObject = private_key_decryption(enc_priv_key, passphrase);
-
-	// 		//Расшифровываем encrypted passphrase for data
-	// 		const dec_passkey: string = decrypt_keypass(dec_privkey, enc_passkey);
-
-	// 		return decrypt_data(encryptedData, dec_passkey);
-	// 	} catch (error) {
-	// 		console.log(error);
-	// 		return "error";
-	// 	}
-	// };
-	// // 5.
-	// export const data_stream_encryption_public = (data: Buffer): encFileAndPass | "error" => {
-	// 	try {
-	// 		let key256bit = keypass_gen_32();
-	// 		return { file: encrypt_data(data, key256bit), pass: key256bit } as encFileAndPass;
-	// 	} catch (error) {
-	// 		console.log(error);
-	// 		return "error";
-	// 	}
-	// };
-	// // 6.
-	// export const data_stream_decryption_public = (data: Buffer, key: string): Buffer | "error" => {
-	// 	try {
-	// 		return decrypt_data(data, key);
-	// 	} catch (error) {
-	// 		console.log(error);
-	// 		return "error";
-	// 	}
-	// };
-
 	// * Генерация хэша
-	static generateHash = (login: string, password: string): hashData => {
+	static createHash = (login: string, password: string): IHashData => {
 		try {
-			const key = keyGen256();
-			const hash = crypto.scryptSync(key, password.concat("&" + login), 128).toString("hex");
+			const key = keypassGen256();
+			const hash = forge.md.sha256
+				.create()
+				.update(key)
+				.update(password.concat("&" + login))
+				.digest()
+				.toHex();
 			const hashLength = hash.length;
 
 			return {
@@ -171,15 +83,20 @@ export class Encrypt {
 			};
 		} catch (error) {
 			console.log(error);
-			throw new Error("Неудачная попытка генерации хэша");
+			throw new Error("Ошибка генерации хэша!");
 		}
 	};
 
-	// * Воссоздание ключа хэширования
-	static recreateHash = (keyHash: string, login: string, password: string): recreateHash => {
+	// * Воссоздание хэша
+	static recreateHash = (keyHash: string, login: string, password: string): IRecreateHash => {
 		try {
-			let hash = crypto.scryptSync(keyHash, password.concat("&" + login), 128).toString("hex");
-			let hashLength = hash.length;
+			const hash = forge.md.sha256
+				.create()
+				.update(keyHash)
+				.update(password.concat("&" + login))
+				.digest()
+				.toHex();
+			const hashLength = hash.length;
 
 			return {
 				hashEncrypt: hash.substring(0, hashLength / 2),
@@ -187,7 +104,84 @@ export class Encrypt {
 			};
 		} catch (error) {
 			console.log(error);
-			throw new Error("Неудачная попытка восстановления хэша");
+			throw new Error("Ошибка воссоздания хэша!");
+		}
+	};
+
+	static encryptData = (data: Buffer, keyEncrypt: string): Buffer => {
+		const initializationVector = forge.random.getBytesSync(16);
+		const cipher = forge.cipher.createCipher("AES-CBC", forge.util.createBuffer(keyEncrypt));
+		cipher.start({ iv: initializationVector });
+		cipher.update(forge.util.createBuffer(data.toString("binary")));
+		cipher.finish();
+
+		return Buffer.concat([
+			Buffer.from(initializationVector, "binary"),
+			Buffer.from(cipher.output.getBytes(), "binary"),
+		]);
+	};
+
+	// * Шифрования файла
+	static encryptFile = (
+		file: Buffer,
+		dataEncodingFile: IDataEncodingFile[],
+	): IEncryptFileWithEncryptData => {
+		const encryptKeypass = (publicKey: string, privateKey: string): string => {
+			let pubKey = forge.pki.publicKeyFromPem(publicKey);
+			let encryptKey = pubKey.encrypt(privateKey, "RSA-OAEP");
+
+			return Buffer.from(encryptKey, "binary").toString("base64");
+		};
+
+		try {
+			const passStorage: ILoginWithPass[] = [];
+			const key = keypassGen256();
+			const encryptFile = this.encryptData(file, key);
+
+			dataEncodingFile.forEach((data) => {
+				const encryptKey = encryptKeypass(data.pub_key, key);
+
+				passStorage.push({
+					secret_key: encryptKey,
+					user_to: data.login,
+				});
+			});
+
+			return { file: encryptFile, data: passStorage };
+		} catch (error) {
+			console.log(error);
+			throw new Error("Ошибка шифрования файла!");
+		}
+	};
+
+	// * Расшифровка файла
+	static decryptFile = (
+		encryptedData: Buffer,
+		encKeyHashFile: string,
+		encPrivateKey: string,
+		hashEncrypt: string,
+	): Buffer => {
+		const decryptEncKeyHashFile = (
+			decPrivateKey: forge.pki.rsa.PrivateKey,
+			encKeyHashFile: string,
+		): string => {
+			let decPassphrase = decPrivateKey.decrypt(
+				Buffer.from(encKeyHashFile, "base64").toString("binary"),
+				"RSA-OAEP",
+			);
+			return decPassphrase;
+		};
+		try {
+			// Расшифровываем encrypted private rsa key
+			const decPrivateKey: forge.pki.rsa.PrivateKey = decryptPrivateKey(encPrivateKey, hashEncrypt);
+
+			// Расшифровываем encrypted passphrase for data
+			const decKeyHashFile: string = decryptEncKeyHashFile(decPrivateKey, encKeyHashFile);
+
+			return decryptData(encryptedData, decKeyHashFile);
+		} catch (error) {
+			console.log(error);
+			throw new Error("Ошибка расшифровки файла!");
 		}
 	};
 }
