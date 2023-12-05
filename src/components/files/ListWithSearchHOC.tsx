@@ -1,6 +1,13 @@
 import styles from "./ListWithSearchHOC.module.scss";
 import InputSearch from "../forms/InputSearch/InputSearch";
-import type { ComponentType, SVGProps } from "react";
+import {
+	forwardRef,
+	type ComponentType,
+	type LegacyRef,
+	type SVGProps,
+	MouseEventHandler,
+} from "react";
+import { IFile } from "@/models/file.model";
 
 /**
  * @params count - количество файлов
@@ -13,14 +20,20 @@ import type { ComponentType, SVGProps } from "react";
 
 // * HOC для создания списка с поиском из передаваемых компонентов
 
-function ListWithSearchHOC<T, P extends SVGProps<SVGSVGElement>>(
-	count: number,
+// function ListWithSearchHOC<T, P extends SVGProps<SVGSVGElement>>(
+function ListWithSearchHOC<T>(
 	FileComponent: ComponentType<T>,
 	// textNull: string,
 	// SVGComponent: ComponentType<P>,
-	files?: any,
+	files: IFile[] | any[], // !WARNING: Вместо any должен быть другой тип
+	fnClickList?: MouseEventHandler<HTMLDivElement>,
 ) {
-	return (props: T, props2: P) => {
+	// return (props: T, props2: P) => {
+	return forwardRef<HTMLDivElement, Omit<T, "file">>((props, ref) => {
+		const onClickList: MouseEventHandler<HTMLDivElement> = (e) => {
+			fnClickList?.(e);
+		};
+
 		return (
 			// <>
 			// 	{count ? (
@@ -29,11 +42,16 @@ function ListWithSearchHOC<T, P extends SVGProps<SVGSVGElement>>(
 					placeholder="Имя файла"
 					style={{ marginBottom: 25 }}
 				/>
-				<div className={styles.files}>
-					{Array.from({ length: count }).map((_, i) => (
+				<div
+					className={styles.files}
+					ref={ref}
+					onClick={onClickList}
+				>
+					{files.map((file) => (
 						<FileComponent
-							key={i}
-							{...props}
+							key={file.file_id}
+							file={file}
+							{...(props as T)}
 						/>
 					))}
 				</div>
@@ -46,7 +64,7 @@ function ListWithSearchHOC<T, P extends SVGProps<SVGSVGElement>>(
 			// 	)}
 			// </>
 		);
-	};
+	});
 }
 
 export default ListWithSearchHOC;

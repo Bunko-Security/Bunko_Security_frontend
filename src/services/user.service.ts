@@ -18,8 +18,6 @@ import type {
 } from "@/models/file.model";
 import { IFriend } from "@/models/friend.model";
 import { IDataEncodingFile } from "@/utils/functions/encrypt_module/models";
-import { redirect } from "next/navigation";
-import { ROUTES } from "@/utils/routes";
 
 // TODO: Подумать об обработке ошибок
 

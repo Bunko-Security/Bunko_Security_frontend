@@ -5,9 +5,10 @@ import Tag from "@/components/Tag/Tag";
 import Checkbox from "@/components/forms/formItems/Checkbox";
 import UserService from "@/services/user.service";
 import InputSearch from "@/components/forms/InputSearch/InputSearch";
-import useUserStore from "@/stores/useUserStore.store";
 import UploadFileInfo from "./UploadFileInfo/UploadFileInfo";
+import { Encrypt } from "@/utils/functions/encrypt_module/encrypt";
 import { cropISODate } from "@/utils/functions/cropISODate";
+import type { IFriend } from "@/models/friend.model";
 import type { ModalProps } from "@/types/ModalProps.type";
 import { useDisableScroll } from "@/hooks/useDisableScroll";
 import type { IUploadFile } from "@/models/file.model";
@@ -17,17 +18,19 @@ interface ModalUploadFileProps {
 	file: File;
 }
 
-const nameArray: string[] = ["string", "sergio", "sergio1", "sergio2", "sergio3"];
 const maxSelectedFriend = 4;
 
 // TODO: Решить проблему выбора даты не из интервала (0,7)
 const ModalUploadFile: FC<ModalUploadFileProps & ModalProps> = ({ file, onClose }) => {
+	const firstRender = useRef<boolean>(false);
 	const listFriendRef = useRef<HTMLDivElement | null>(null);
-	const { user } = useUserStore();
 	const [endDate, setEndDate] = useState<string>("");
+	const [disabled, setDisabled] = useState<boolean>(false);
 	const [deleteFriend, setDeleteFriend] = useState<string>("");
 	const [selectedFriends, setSelectedFriends] = useState<string[]>([]);
-	const [disabled, setDisabled] = useState<boolean>(false);
+
+	// !WARNING На время костыля
+	const [friends, setFriends] = useState<IFriend[]>([]);
 
 	useDisableScroll();
 
@@ -76,19 +79,39 @@ const ModalUploadFile: FC<ModalUploadFileProps & ModalProps> = ({ file, onClose 
 	const onSubmit = async () => {
 		onClose();
 
-		const uploadFile: IUploadFile = {
-			fileData: { file: file, end_date: endDate },
-			fileInfo: [{ login_to: user!.login, secret_key: "" }],
+		// const readFileAsBase64 = () => {
+
+		const reader = new FileReader();
+		reader.readAsBinaryString(file);
+		reader.onload = async () => {
+			if (reader.result) {
+				const fileBuffer = Buffer.from(reader.result.toString(), "binary");
+
+				const dataEncodingFile = await UserService.getPubKeysFriends(selectedFriends);
+
+				if (dataEncodingFile) {
+					const encryptData = Encrypt.encryptFile(fileBuffer, dataEncodingFile);
+					const encryptFile = new File([encryptData.file], file.name);
+					console.log(encryptFile);
+
+					const uploadFile: IUploadFile = {
+						fileData: { file: encryptFile, delete_date: endDate },
+						fileInfo: encryptData.data,
+					};
+
+					await UserService.uploadFile(uploadFile);
+				}
+			}
+		};
+		reader.onerror = () => {
+			console.log(120);
+			console.log(reader.error);
 		};
 
-		for (let i = 0; selectedFriends.length > i; i++) {
-			uploadFile.fileInfo.push({
-				login_to: selectedFriends[i],
-				secret_key: "",
-			});
-		}
-
-		await UserService.uploadFile(uploadFile);
+		reader.onprogress = () => {
+			console.log(100);
+		};
+		// }
 	};
 
 	useEffect(() => {
@@ -99,6 +122,16 @@ const ModalUploadFile: FC<ModalUploadFileProps & ModalProps> = ({ file, onClose 
 
 		setDisabled(false);
 	}, [selectedFriends]);
+
+	// !WARNING Временный костыль получения друзей
+	useEffect(() => {
+		if (!firstRender.current) {
+			UserService.getFriends().then((friends) => {
+				setFriends(friends || []);
+			});
+			firstRender.current = true;
+		}
+	}, []);
 
 	return (
 		<>
@@ -131,12 +164,13 @@ const ModalUploadFile: FC<ModalUploadFileProps & ModalProps> = ({ file, onClose 
 								onClick={clickListFriends}
 								ref={listFriendRef}
 							>
-								{nameArray.map((value, i) => (
+								{/* {nameArray.map((value, i) => ( */}
+								{friends.map(({ login }, i) => (
 									<Checkbox
 										key={i}
 										className={styles.checkbox_friend}
-										value={value}
-										checked={deleteFriend === value ? false : undefined}
+										value={login}
+										checked={deleteFriend === login ? false : undefined}
 										disabled={disabled}
 									/>
 								))}
