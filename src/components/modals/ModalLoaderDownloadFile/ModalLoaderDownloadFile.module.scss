@@ -1,0 +1,63 @@
+@use "@/utils/scss/patterns";
+@use "@/utils/scss/values" as values;
+
+.modal {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  text-align: center;
+  width: 600px;
+  font-size: 18px;
+  padding: 20px 42px 25px;
+  background-color: var(--black);
+  border-radius: values.$main_border_radius;
+  @extend %shadow_modal;
+
+  .modal_header {
+    font-size: 14px;
+    text-align: left;
+    border-top-left-radius: values.$main_border_radius;
+    border-top-right-radius: values.$main_border_radius;
+    margin-bottom: 20px;
+    @extend %title_border;
+  }
+
+  .download_file {
+    font-size: 12px;
+    text-align: left;
+    margin-bottom: 20px;
+
+    .file {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .download_progress {
+      display: flex;
+      align-items: center;
+      column-gap: 20px;
+
+      .progress_line {
+        position: relative;
+        text-align: center;
+        height: 20px;
+        width: 100%;
+        background-color: var(--bg);
+        margin-top: 5px;
+        border-radius: 10px;
+
+        .progress_percent {
+          position: absolute;
+          text-wrap: nowrap;
+        }
+
+        .progress_bar {
+          height: 100%;
+          width: 0;
+          background-color: var(--violet-dark);
+          border-radius: 10px;
+        }
+      }
+    }
+  }
+}

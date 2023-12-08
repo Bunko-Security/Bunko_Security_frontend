@@ -6,9 +6,10 @@ import Checkbox from "@/components/forms/formItems/Checkbox";
 import UserService from "@/services/user.service";
 import InputSearch from "@/components/forms/InputSearch/InputSearch";
 import UploadFileInfo from "./UploadFileInfo/UploadFileInfo";
-import { Encrypt } from "@/utils/functions/encrypt_module/encrypt";
 import { cropISODate } from "@/utils/functions/cropISODate";
 import type { IFriend } from "@/models/friend.model";
+import { EncryptModule } from "@/utils/encrypt/encrypt.module";
+import { MyFilesService } from "@/services/my_file.service";
 import type { ModalProps } from "@/types/ModalProps.type";
 import { useDisableScroll } from "@/hooks/useDisableScroll";
 import type { IUploadFile } from "@/models/file.model";
@@ -87,10 +88,10 @@ const ModalUploadFile: FC<ModalUploadFileProps & ModalProps> = ({ file, onClose 
 			if (reader.result) {
 				const fileBuffer = Buffer.from(reader.result.toString(), "binary");
 
-				const dataEncodingFile = await UserService.getPubKeysFriends(selectedFriends);
+				const dataEncodingFile = await MyFilesService.getPubKeysFriends(selectedFriends);
 
 				if (dataEncodingFile) {
-					const encryptData = Encrypt.encryptFile(fileBuffer, dataEncodingFile);
+					const encryptData = EncryptModule.encryptFile(fileBuffer, dataEncodingFile);
 					const encryptFile = new File([encryptData.file], file.name);
 					console.log(encryptFile);
 
@@ -99,7 +100,7 @@ const ModalUploadFile: FC<ModalUploadFileProps & ModalProps> = ({ file, onClose 
 						fileInfo: encryptData.data,
 					};
 
-					await UserService.uploadFile(uploadFile);
+					await MyFilesService.uploadFile(uploadFile);
 				}
 			}
 		};
