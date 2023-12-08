@@ -8,9 +8,9 @@ import RULES_FORM from "@/utils/form/rules";
 import useUserStore from "@/stores/useUserStore.store";
 import { ROUTES } from "@/utils/routes";
 import { useForm } from "react-hook-form";
-import { Encrypt } from "@/utils/functions/encrypt_module/encrypt";
 import { redirect } from "next/navigation";
 import { useEffect } from "react";
+import { AuthModule } from "@/utils/encrypt/auth.module";
 import { LOCAL_STORAGE } from "@/utils/keysName";
 import type { NextPage } from "next";
 import type { IBaseUser } from "@/models/user.model";
@@ -28,8 +28,8 @@ const Register: NextPage = () => {
 	} = useForm<FormValues>({ mode: "onChange" });
 
 	const onSubmit = (values: FormValues) => {
-		const hashData = Encrypt.createHash(values.login, values.password);
-		const RSAKeys = Encrypt.genRSAKey(hashData.hashEncrypt);
+		const hashData = AuthModule.createHash(values.login, values.password);
+		const RSAKeys = AuthModule.genRSAKey(hashData.hashEncrypt);
 
 		localStorage.setItem(LOCAL_STORAGE.HASH_ENCRYPT, hashData.hashEncrypt);
 
