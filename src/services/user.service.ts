@@ -1,22 +1,13 @@
 import axios from "axios";
 import apiWithAuth from "@/configs/axios/axios.config";
-import type {
-	IAvatarUser,
-	ICreateUser,
-	ILoginUser,
-	IToken,
-	IUpdateUser,
-	IUser,
-} from "@/models/user.model";
+import type { ICreateUser, ILoginUser, IToken, IUpdateUser, IUser } from "@/models/user.model";
 import { AuthModule } from "@/utils/encrypt/auth.module";
-import type { IFriend } from "@/models/friend.model";
 import { LOCAL_STORAGE } from "@/utils/keysName";
 
 // TODO: Подумать об обработке ошибок
 class UserService {
 	private static pathAuth = "/auth";
 	private static pathProfile = "/profile";
-	private static pathFriends = "/friends";
 
 	static async getUser(): Promise<IUser | null> {
 		try {
@@ -111,17 +102,6 @@ class UserService {
 
 			return newUser;
 		} catch (e) {
-			return null;
-		}
-	}
-
-	static async getFriends(): Promise<IFriend[] | null> {
-		try {
-			const friends = await apiWithAuth.get<IFriend[]>(this.pathFriends);
-
-			return friends.data;
-		} catch (e) {
-			console.log(e);
 			return null;
 		}
 	}

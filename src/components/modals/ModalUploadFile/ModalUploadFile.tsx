@@ -2,36 +2,42 @@
 
 import styles from "./ModalUploadFile.module.scss";
 import Tag from "@/components/Tag/Tag";
+import Loader from "@/components/Loader/Loader";
+import Friends from "@/services/friends.service";
 import Checkbox from "@/components/forms/formItems/Checkbox";
-import UserService from "@/services/user.service";
 import InputSearch from "@/components/forms/InputSearch/InputSearch";
 import UploadFileInfo from "./UploadFileInfo/UploadFileInfo";
+import { KEYS_SWR } from "@/utils/keysSWR";
 import { cropISODate } from "@/utils/functions/cropISODate";
-import type { IFriend } from "@/models/friend.model";
 import { EncryptModule } from "@/utils/encrypt/encrypt.module";
 import { MyFilesService } from "@/services/my_file.service";
 import type { ModalProps } from "@/types/ModalProps.type";
 import { useDisableScroll } from "@/hooks/useDisableScroll";
 import type { IUploadFile } from "@/models/file.model";
+import useSWR, { useSWRConfig } from "swr";
 import { type FC, type MouseEventHandler, useState, useRef, useEffect } from "react";
 
 interface ModalUploadFileProps {
 	file: File;
 }
 
-const maxSelectedFriend = 4;
+const maxSelectedFriend = 10;
+
+const fetcher = async () => {
+	const friends = await Friends.getFriends();
+
+	return friends;
+};
 
 // TODO: Решить проблему выбора даты не из интервала (0,7)
 const ModalUploadFile: FC<ModalUploadFileProps & ModalProps> = ({ file, onClose }) => {
-	const firstRender = useRef<boolean>(false);
 	const listFriendRef = useRef<HTMLDivElement | null>(null);
 	const [endDate, setEndDate] = useState<string>("");
 	const [disabled, setDisabled] = useState<boolean>(false);
 	const [deleteFriend, setDeleteFriend] = useState<string>("");
 	const [selectedFriends, setSelectedFriends] = useState<string[]>([]);
-
-	// !WARNING На время костыля
-	const [friends, setFriends] = useState<IFriend[]>([]);
+	const { mutate } = useSWRConfig();
+	const { data: friends, isLoading, error } = useSWR(KEYS_SWR.FRIENDS, fetcher);
 
 	useDisableScroll();
 
@@ -80,8 +86,6 @@ const ModalUploadFile: FC<ModalUploadFileProps & ModalProps> = ({ file, onClose 
 	const onSubmit = async () => {
 		onClose();
 
-		// const readFileAsBase64 = () => {
-
 		const reader = new FileReader();
 		reader.readAsBinaryString(file);
 		reader.onload = async () => {
@@ -101,6 +105,7 @@ const ModalUploadFile: FC<ModalUploadFileProps & ModalProps> = ({ file, onClose 
 					};
 
 					await MyFilesService.uploadFile(uploadFile);
+					mutate(KEYS_SWR.MY_FILES);
 				}
 			}
 		};
@@ -112,7 +117,6 @@ const ModalUploadFile: FC<ModalUploadFileProps & ModalProps> = ({ file, onClose 
 		reader.onprogress = () => {
 			console.log(100);
 		};
-		// }
 	};
 
 	useEffect(() => {
@@ -123,16 +127,6 @@ const ModalUploadFile: FC<ModalUploadFileProps & ModalProps> = ({ file, onClose 
 
 		setDisabled(false);
 	}, [selectedFriends]);
-
-	// !WARNING Временный костыль получения друзей
-	useEffect(() => {
-		if (!firstRender.current) {
-			UserService.getFriends().then((friends) => {
-				setFriends(friends || []);
-			});
-			firstRender.current = true;
-		}
-	}, []);
 
 	return (
 		<>
@@ -165,16 +159,17 @@ const ModalUploadFile: FC<ModalUploadFileProps & ModalProps> = ({ file, onClose 
 								onClick={clickListFriends}
 								ref={listFriendRef}
 							>
-								{/* {nameArray.map((value, i) => ( */}
-								{friends.map(({ login }, i) => (
-									<Checkbox
-										key={i}
-										className={styles.checkbox_friend}
-										value={login}
-										checked={deleteFriend === login ? false : undefined}
-										disabled={disabled}
-									/>
-								))}
+								{isLoading && <Loader />}
+								{friends &&
+									friends.map(({ login }, i) => (
+										<Checkbox
+											key={i}
+											className={styles.checkbox_friend}
+											value={login}
+											checked={deleteFriend === login ? false : undefined}
+											disabled={disabled}
+										/>
+									))}
 							</div>
 						</div>
 
@@ -192,7 +187,7 @@ const ModalUploadFile: FC<ModalUploadFileProps & ModalProps> = ({ file, onClose 
 									/>
 								))}
 								{selectedFriends.length === maxSelectedFriend && (
-									<p>Уже {maxSelectedFriend} человека!</p>
+									<p className={styles.warning}>Выбрано максимальное количество!</p>
 								)}
 							</div>
 							<input
