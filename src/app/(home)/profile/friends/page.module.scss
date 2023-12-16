@@ -1,0 +1,33 @@
+@use "@/utils/scss/patterns";
+
+.friends {
+  text-align: center;
+  width: 1000px;
+  padding: 15px 38px 30px 38px;
+  background-color: var(--black);
+  border-radius: 15px;
+
+  margin-right: 20px;
+
+  .title {
+    margin-bottom: 25px;
+    font-size: 20px;
+    @extend %title_border;
+  }
+
+  .wrapper {
+    display: flex;
+    column-gap: 60px;
+
+    .wrapper_people,
+    .wrapper_friends {
+      text-align: left;
+      width: 50%;
+
+      > h2 {
+        padding-left: 23px;
+        font-size: 12px;
+      }
+    }
+  }
+}
