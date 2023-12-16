@@ -1,68 +1,69 @@
 "use client";
 
-import styles from "./MyFilesList.module.scss";
+import useSWR from "swr";
 import PortalModals from "@/components/modals/PortalModals/PortalModals";
-import IconEmptyFiles from "/public/icon-empty.svg";
-import ListWithSearchHOC from "../ListWithSearchHOC";
-import ModalLoaderDownloadFile from "@/components/modals/ModalLoaderDownloadFile/ModalLoaderDownloadFile";
+import ToastDownloadFiles from "@/components/popups/ToastDownloadFiles/ToastDownloadFiles";
 import MyFileInfoComponent from "./MyFilesInfo/MyFilesInfo";
-import type { IFile } from "@/models/file.model";
+import FilesListWithSearchHOC from "../FilesListWithSearchHOC";
+import { KEYS_SWR } from "@/utils/keysSWR";
 import { MyFilesService } from "@/services/my_file.service";
-import { type FC, useState, useEffect, useRef, type MouseEventHandler } from "react";
+import type { IFileDownload } from "@/models/file.model";
+import { type FC, useState, useRef, type MouseEventHandler } from "react";
+
+const fetcher = async () => {
+	const files = await MyFilesService.getMyFiles();
+
+	return files;
+};
 
 // !WARNING: Может быть удалён, если файлы будут передаваться на уровень выше
 const MyFilesList: FC = () => {
-	const firstRender = useRef<boolean>(false);
 	const fileListRef = useRef<HTMLDivElement | null>(null);
-	const [files, setFiles] = useState<IFile[]>([]);
 	const [isModal, setIsModal] = useState<boolean>(false);
-	const [fileName, setFileName] = useState<string>("");
-	const [fileId, setFileId] = useState<string>("");
+	const [file, setFile] = useState<IFileDownload | null>(null);
+
+	const { data, error, isLoading } = useSWR(KEYS_SWR.MY_FILES, fetcher);
 
 	const downloadFile: MouseEventHandler<HTMLDivElement> = async (e) => {
 		const event = e.target as HTMLElement;
 
 		if (event.tagName === "svg") {
-			setFileId(event.parentElement!.getAttribute("data-file-id")!);
-			setFileName(event.parentElement!.childNodes[0].textContent!);
-			setIsModal(true);
+			const mainParent = event.parentElement!.parentElement!;
+			if (event.getAttribute("data-action") === "download") {
+				setFile({
+					fileId: mainParent.getAttribute("data-file-id")!,
+					fileName: mainParent.childNodes[0].textContent!,
+				});
+				setIsModal(true);
+			} else {
+				console.log("DELETE", mainParent.childNodes[0].textContent!);
+			}
 		}
 
 		if (event.tagName === "path") {
-			setFileId(event.parentElement!.parentElement!.getAttribute("data-file-id")!);
-			setFileName(event.parentElement!.parentElement!.childNodes[0].textContent!);
-			setIsModal(true);
+			const mainParent = event.parentElement!.parentElement!.parentElement!;
+			if (event.parentElement!.getAttribute("data-action") === "download") {
+				setFile({
+					fileId: mainParent.getAttribute("data-file-id")!,
+					fileName: mainParent.childNodes[0].textContent!,
+				});
+				setIsModal(true);
+			} else {
+				console.log("DELETE", mainParent.childNodes[0].textContent!);
+			}
 		}
 	};
 
-	const FilesList = ListWithSearchHOC(MyFileInfoComponent, files, downloadFile);
-
-	// !WARNING: Костыль для получения файлов пользователя
-	useEffect(() => {
-		if (!firstRender.current) {
-			MyFilesService.getMyFiles().then((files) => {
-				setFiles(files);
-			});
-			firstRender.current = true;
-		}
-	}, []);
+	const FilesList = FilesListWithSearchHOC(MyFileInfoComponent, data, isLoading, downloadFile);
 
 	return (
 		<>
-			{files.length ? (
-				<FilesList ref={fileListRef} />
-			) : (
-				<div className={styles.empty}>
-					<p>Нет файлов для скачивания</p>
-					<IconEmptyFiles className={styles.icon_empty} />
-				</div>
-			)}
+			<FilesList ref={fileListRef} />
 
 			<PortalModals isOpen={isModal}>
-				<ModalLoaderDownloadFile
+				<ToastDownloadFiles
+					file={file}
 					onClose={() => setIsModal(false)}
-					fileName={fileName}
-					fileId={fileId}
 				/>
 			</PortalModals>
 		</>

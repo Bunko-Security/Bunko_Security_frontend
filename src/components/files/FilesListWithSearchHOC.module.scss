@@ -1,0 +1,58 @@
+$svg_wh: 200px;
+
+.files_list {
+  min-height: 100%;
+
+  .files {
+    max-height: 700px;
+    overflow-y: scroll;
+    padding-right: 15px;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+      background-color: var(--bg);
+      border-radius: 2px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--violet-dark);
+      border-radius: 5px;
+      transition: background-color 0.1s linear;
+
+      &:hover {
+        background-color: var(--violet-hover);
+      }
+    }
+  }
+
+  .empty {
+    & > p {
+      font-size: 16px;
+      color: var(--light-dark);
+    }
+
+    .icon_empty {
+      width: $svg_wh;
+      height: $svg_wh;
+      stroke: var(--violet-dark);
+      fill: var(--black);
+      margin: 60px 0 60px;
+    }
+  }
+}
+// $svg_wh: 200px;
+
+// .empty {
+//   > p {
+//     font-size: 16px;
+//     color: var(--light-dark);
+//   }
+
+//   > svg {
+//     width: $svg_wh;
+//     height: $svg_wh;
+//     stroke: var(--violet-dark);
+//     fill: var(--black);
+//     margin: 60px 0 60px;
+//   }
+// }
