@@ -26,3 +26,8 @@ export interface IDownloadFileWithData {
 	type: string | undefined;
 	data: IDownloadFileData;
 }
+
+export interface IFileDownload {
+	fileId: string;
+	fileName: string;
+}

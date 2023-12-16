@@ -40,6 +40,8 @@ const UploadFile: FC = () => {
 						<IconAddFile className={styles.icon_add_files} />
 					</div>
 				</form>
+
+        <button className={styles.button_delete}>Удалить все</button>
 			</div>
 
 			<PortalModals isOpen={isModal}>
