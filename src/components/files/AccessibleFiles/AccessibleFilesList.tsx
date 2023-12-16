@@ -3,7 +3,7 @@
 import styles from "./AccessibleFilesList.module.scss";
 import IconEmptyFiles from "/public/icon-empty.svg";
 import PublicFileInfo from "../PublicFiles/PublicFilesInfo/PublicFileInfo";
-import ListWithSearchHOC from "../ListWithSearchHOC";
+import FilesListWithSearchHOC from "../FilesListWithSearchHOC";
 import { type FC, useState } from "react";
 
 const files = [
@@ -19,7 +19,7 @@ const files = [
 const AccessibleFilesList: FC = () => {
 	const [count, setCount] = useState<number>(20);
 
-	const FilesList = ListWithSearchHOC(PublicFileInfo, files);
+	const FilesList = FilesListWithSearchHOC(PublicFileInfo, files);
 
 	return (
 		<>

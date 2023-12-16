@@ -3,7 +3,7 @@
 import styles from "./PublicFilesList.module.scss";
 import IconEmptyFiles from "/public/icon-empty.svg";
 import PublicFileInfo from "./PublicFilesInfo/PublicFileInfo";
-import ListWithSearchHOC from "../ListWithSearchHOC";
+import FilesListWithSearchHOC from "../FilesListWithSearchHOC";
 import { type FC, useState } from "react";
 
 const files = [
@@ -28,7 +28,7 @@ const PublicFilesList: FC = () => {
 	//   fetcher(params.current),
 	// );
 
-	const FilesList = ListWithSearchHOC(PublicFileInfo, files);
+	const FilesList = FilesListWithSearchHOC(PublicFileInfo, files);
 
 	return (
 		<>
