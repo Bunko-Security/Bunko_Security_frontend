@@ -1,24 +1,18 @@
 "use client";
 
-import styles from "./ModalLoaderDownloadFile.module.scss";
-import IconClose from "/public/icon-close.svg";
+import styles from "./NotificationDownloadFile.module.scss";
 import { DecryptModule } from "@/utils/encrypt/decrypt.module";
 import { LOCAL_STORAGE } from "@/utils/keysName";
 import { MyFilesService } from "@/services/my_file.service";
-import type { ModalProps } from "@/types/ModalProps.type";
 import { AxiosProgressEvent } from "axios";
 import { useState, type FC, useEffect, useRef } from "react";
+import { IFileDownload } from "@/models/file.model";
 
 interface LoaderDownloadFile {
-	fileId: string;
-	fileName: string;
+	file: IFileDownload;
 }
 
-const ModalLoaderDownloadFile: FC<ModalProps & LoaderDownloadFile> = ({
-	onClose,
-	fileName,
-	fileId,
-}) => {
+const NotificationDownloadFile: FC<LoaderDownloadFile> = ({ file }) => {
 	const downloadProgressRef = useRef<number>(0);
 	const firstRender = useRef<boolean>(false);
 	const [iterNow, setIterNow] = useState<number>(-1);
@@ -52,7 +46,7 @@ const ModalLoaderDownloadFile: FC<ModalProps & LoaderDownloadFile> = ({
 
 	useEffect(() => {
 		const uploadAndEncFile = async () => {
-			const encFileWithData = await MyFilesService.downloadFile(fileId, onDownloadFile);
+			const encFileWithData = await MyFilesService.downloadFile(file.fileId, onDownloadFile);
 
 			if (encFileWithData) {
 				const { file, name, type, data } = encFileWithData;
@@ -83,7 +77,7 @@ const ModalLoaderDownloadFile: FC<ModalProps & LoaderDownloadFile> = ({
 			firstRender.current = true;
 			uploadAndEncFile();
 		}
-	}, [fileId]);
+	}, [file.fileId]);
 
 	useEffect(() => {
 		if (downloadTotal) {
@@ -102,20 +96,11 @@ const ModalLoaderDownloadFile: FC<ModalProps & LoaderDownloadFile> = ({
 		}
 	}, [downloadTotal]);
 
-	useEffect(() => {
-		console.log(countIterDecrypt);
-	}, [countIterDecrypt]);
-
 	return (
 		<div className={styles.modal}>
-			<div className={styles.modal_header}>
-				<h2>Скачивание файла</h2>
-				<IconClose onClick={onClose} />
-			</div>
-
 			<div className={styles.download_file}>
 				<div className={styles.file}>
-					<span className={styles.file_name}>{fileName}</span>
+					<span className={styles.file_name}>{file.fileName}</span>
 					<span className={styles.file_length}>{fileSize}</span>
 				</div>
 
@@ -147,4 +132,4 @@ const ModalLoaderDownloadFile: FC<ModalProps & LoaderDownloadFile> = ({
 	);
 };
 
-export default ModalLoaderDownloadFile;
+export default NotificationDownloadFile;

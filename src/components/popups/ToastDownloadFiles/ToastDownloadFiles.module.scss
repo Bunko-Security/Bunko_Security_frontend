@@ -1,0 +1,82 @@
+@use "@/utils/scss/patterns";
+@use "@/utils/scss/values" as values;
+
+$svg_close_wh: 22px;
+$svg_collapse_wh: 15px;
+
+.toast {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  text-align: center;
+  width: 600px;
+  font-size: 18px;
+  padding: 20px 30px 25px;
+  background-color: var(--black);
+  border-radius: values.$main_border_radius;
+  @extend %shadow_modal;
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 10px;
+    text-align: left;
+    border-top-left-radius: values.$main_border_radius;
+    border-top-right-radius: values.$main_border_radius;
+    margin-bottom: 20px;
+    @extend %title_border;
+
+    > h2 {
+      font-weight: 400;
+    }
+
+    .buttons {
+      display: flex;
+      align-items: center;
+      column-gap: 7px;
+
+      svg {
+        cursor: pointer;
+        fill: var(--light-dark);
+        transition: fill 0.1s linear;
+
+        &:hover {
+          fill: var(--violet-dark);
+        }
+      }
+
+      .icon_collapse {
+        width: $svg_collapse_wh;
+        height: $svg_collapse_wh - 2px;
+      }
+
+      .icon_close {
+        width: $svg_close_wh;
+        height: $svg_close_wh;
+      }
+    }
+  }
+
+  .files_download {
+    max-height: 300px;
+    overflow-y: scroll;
+    padding-right: 15px;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+      background-color: var(--bg);
+      border-radius: 2px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--violet-dark);
+      border-radius: 5px;
+      transition: background-color 0.1s linear;
+
+      &:hover {
+        background-color: var(--violet-hover);
+      }
+    }
+  }
+}

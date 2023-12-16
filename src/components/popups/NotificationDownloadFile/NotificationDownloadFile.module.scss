@@ -4,45 +4,6 @@
 $svg_wh: 22px;
 
 .modal {
-  position: fixed;
-  bottom: 10px;
-  left: 10px;
-  text-align: center;
-  width: 600px;
-  font-size: 18px;
-  padding: 20px 42px 25px;
-  background-color: var(--black);
-  border-radius: values.$main_border_radius;
-  @extend %shadow_modal;
-
-  .modal_header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 12px;
-    text-align: left;
-    border-top-left-radius: values.$main_border_radius;
-    border-top-right-radius: values.$main_border_radius;
-    margin-bottom: 20px;
-    @extend %title_border;
-
-    > h2 {
-      font-weight: 400;
-    }
-
-    > svg {
-      cursor: pointer;
-      width: $svg_wh;
-      height: $svg_wh;
-      fill: var(--light-dark);
-      transition: fill 0.1s linear;
-
-      &:hover {
-        fill: var(--violet-dark);
-      }
-    }
-  }
-
   .download_file {
     font-size: 12px;
     text-align: left;
