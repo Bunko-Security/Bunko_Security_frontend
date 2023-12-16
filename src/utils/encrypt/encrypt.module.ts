@@ -1,27 +1,12 @@
 import forge from "node-forge";
-import type { IDataEncodingFile, ILoginWithPass, IEncryptFileWithEncryptData } from "./models";
+import type {
+	IDataEncodingFile,
+	ILoginWithPass,
+	IEncryptFileWithEncryptData,
+	IEncryptFileWithPass,
+} from "./models";
 import { keypassGen256 } from "./utility";
 
-// // 5. Шифрование общедоступных файлов
-// export const data_stream_encryption_public = (data: Buffer): encFileAndPass | 'error' => {
-
-//     try {
-//         let key256bit = keypass_gen_256bit()
-//         return { file: encrypt_data(data, key256bit), pass: key256bit }
-//     } catch (error) {
-//         console.log(error)
-//         return 'error'
-//     }
-// }
-// // 6. Расшифрование общедоступных файлов
-// export const data_stream_decryption_public = (data: Buffer, key: string): Buffer | 'error' => {
-//     try {
-//         return decrypt_data(data, key)
-//     } catch (error) {
-//         console.log(error)
-//         return 'error'
-//     }
-// }
 
 // * Шифрование файла при помощи forge-node
 const encryptData = (data: Buffer, keyEncrypt: string): Buffer => {
@@ -65,6 +50,19 @@ export class EncryptModule {
 			});
 
 			return { file: encryptFile, data: passStorage };
+		} catch (error) {
+			console.log(error);
+			throw new Error("Ошибка шифрования файла!");
+		}
+	};
+
+	// * Шифрование общедоступного файла
+	static encryptPublicFile = (file: Buffer): IEncryptFileWithPass => {
+		try {
+			const key = keypassGen256();
+			const encryptFile = encryptData(file, key);
+
+			return { file: encryptFile, pass: key };
 		} catch (error) {
 			console.log(error);
 			throw new Error("Ошибка шифрования файла!");

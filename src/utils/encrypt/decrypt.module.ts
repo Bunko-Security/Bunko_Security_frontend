@@ -22,13 +22,13 @@ const decipherUpdatePeace = (
 const decryptData = async (
 	encryptedData: Buffer,
 	decPassphrase: string,
-	cbCountIters: (count: number) => void,
-	cbIterNow: (iter: number) => void,
+	cbCountIters?: (count: number) => void,
+	cbIterNow?: (iter: number) => void,
 ): Promise<Buffer> => {
 	const peace: number = 1024 * 200; // 10
 	const initializationVector = encryptedData.slice(0, 16);
 	const iter = Math.floor(encryptedData.length / peace) + 1;
-	cbCountIters(iter);
+	cbCountIters?.(iter);
 	const encFilePeace: Buffer[] = [];
 	encryptedData = encryptedData.slice(16);
 
@@ -38,7 +38,7 @@ const decryptData = async (
 	const delayUpdate = 700;
 
 	for (let i = 0; i < iter; i++) {
-		cbIterNow(i + 1);
+		cbIterNow?.(i + 1);
 
 		if (i === 0) {
 			await decipherUpdatePeace(decipher, encryptedData, delayUpdate, 0, peace);
@@ -97,37 +97,13 @@ export class DecryptModule {
 		}
 	};
 
-	// static decryptFile = (
-	// 	encryptedData: Buffer,
-	// 	encKeyHashFile: string,
-	// 	encPrivateKey: string,
-	// 	hashEncrypt: string,
-	// ): Promise<Buffer> =>
-	// 	new Promise(async (resolve, reject) => {
-	// 		const decryptEncKeyHashFile = (
-	// 			decPrivateKey: forge.pki.rsa.PrivateKey,
-	// 			encKeyHashFile: string,
-	// 		): string => {
-	// 			let decPassphrase = decPrivateKey.decrypt(
-	// 				Buffer.from(encKeyHashFile, "base64").toString("binary"),
-	// 				"RSA-OAEP",
-	// 			);
-	// 			return decPassphrase;
-	// 		};
-	// 		try {
-	// 			// Расшифровываем encrypted private rsa key
-	// 			const decPrivateKey: forge.pki.rsa.PrivateKey = decryptPrivateKey(
-	// 				encPrivateKey,
-	// 				hashEncrypt,
-	// 			);
-
-	// 			// Расшифровываем encrypted passphrase for data
-	// 			const decKeyHashFile: string = decryptEncKeyHashFile(decPrivateKey, encKeyHashFile);
-
-	// 			resolve(await decryptData(encryptedData, decKeyHashFile));
-	// 		} catch (error) {
-	// 			console.log(error);
-	// 			reject("Ошибка расшифровки файла!");
-	// 		}
-	// 	});
+	// * Расшифровка общедоступного файла
+	static decryptPublicFile = async (data: Buffer, key: string): Promise<Buffer> => {
+		try {
+			return await decryptData(data, key);
+		} catch (error) {
+			console.log(error);
+			throw new Error("Ошибка расшифровки файла!");
+		}
+	};
 }
