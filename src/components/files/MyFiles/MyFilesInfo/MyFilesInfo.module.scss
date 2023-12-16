@@ -1,8 +1,8 @@
-$svg_wh: 20px;
+$svg_download_wh: 20px;
 
 .file {
   display: grid;
-  grid-template-columns: minmax(200px, 1fr) 72px $svg_wh;
+  grid-template-columns: minmax(200px, 1fr) 72px calc($svg_download_wh * 2 + 10px);
   grid-auto-rows: auto;
   align-items: center;
   column-gap: 40px;
@@ -37,15 +37,31 @@ $svg_wh: 20px;
     font-size: 9px;
   }
 
-  .icon_download {
-    width: $svg_wh;
-    height: $svg_wh;
-    cursor: pointer;
-    stroke: var(--light-dark);
-    transition: stroke 0.2s linear;
+  .buttons {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
 
-    &:hover {
-      stroke: var(--violet);
+    svg {
+      cursor: pointer;
+      width: $svg_download_wh;
+      height: $svg_download_wh;
+      background-color: var(--light-gray);
+      border-radius: 3px;
+      transition: background-color 0.2s linear;
+
+      &:hover {
+        background-color: var(--violet);
+      }
+    }
+
+    .icon_delete {
+      fill: var(--light-dark)
+    }
+
+    .icon_download {
+      padding: 2px;
+      stroke: var(--light-dark);
     }
   }
 }
