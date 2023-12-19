@@ -1,0 +1,46 @@
+@use "@/utils/scss/patterns";
+@use "@/utils/scss/values" as values;
+
+$svg_wh: 22px;
+
+.modal {
+  .download_file {
+    font-size: 12px;
+    text-align: left;
+    margin-bottom: 20px;
+
+    .file {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .download_progress {
+      display: flex;
+      align-items: center;
+      column-gap: 20px;
+
+      .progress_line {
+        position: relative;
+        height: 20px;
+        width: 100%;
+        background-color: var(--bg);
+        margin-top: 5px;
+        border-radius: 10px;
+
+        .progress_percent {
+          position: absolute;
+          text-wrap: nowrap;
+          left: 50%;
+          transform: translateX(-50%);
+        }
+
+        .progress_bar {
+          height: 100%;
+          width: 0;
+          background-color: var(--violet-dark);
+          border-radius: 10px;
+        }
+      }
+    }
+  }
+}

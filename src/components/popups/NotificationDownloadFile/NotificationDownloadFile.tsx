@@ -3,16 +3,16 @@
 import styles from "./NotificationDownloadFile.module.scss";
 import { DecryptModule } from "@/utils/encrypt/decrypt.module";
 import { LOCAL_STORAGE } from "@/utils/keysName";
-import { MyFilesService } from "@/services/my_file.service";
-import { AxiosProgressEvent } from "axios";
+import { MyFilesService } from "@/services/my_files.service";
+import type { IDownloadFileInfo } from "@/models/file.model";
+import type { AxiosProgressEvent } from "axios";
 import { useState, type FC, useEffect, useRef } from "react";
-import { IFileDownload } from "@/models/file.model";
 
-interface LoaderDownloadFile {
-	file: IFileDownload;
+export interface NotificationDownloadFileProps {
+	fileInfo: IDownloadFileInfo;
 }
 
-const NotificationDownloadFile: FC<LoaderDownloadFile> = ({ file }) => {
+const NotificationDownloadFile: FC<NotificationDownloadFileProps> = ({ fileInfo }) => {
 	const downloadProgressRef = useRef<number>(0);
 	const firstRender = useRef<boolean>(false);
 	const [iterNow, setIterNow] = useState<number>(-1);
@@ -45,39 +45,48 @@ const NotificationDownloadFile: FC<LoaderDownloadFile> = ({ file }) => {
 	};
 
 	useEffect(() => {
-		const uploadAndEncFile = async () => {
-			const encFileWithData = await MyFilesService.downloadFile(file.fileId, onDownloadFile);
+		const downloadAndEncFile = async () => {
+			const encFileWithData = await MyFilesService.downloadFile(fileInfo.fileId, onDownloadFile);
 
 			if (encFileWithData) {
 				const { file, name, type, data } = encFileWithData;
 				const encFileBuffer = Buffer.from(file);
+				let decFileBuffer: Buffer = Buffer.from([]);
 
-				const decFileBuffer = await DecryptModule.decryptFile(
-					encFileBuffer,
-					data.secret_key,
-					data.priv_key,
-					localStorage.getItem(LOCAL_STORAGE.HASH_ENCRYPT)!,
-					getCountIter,
-					getIterNow,
-				);
+				if (data.priv_key) {
+					decFileBuffer = await DecryptModule.decryptFile(
+						encFileBuffer,
+						data.secret_key,
+						data.priv_key,
+						localStorage.getItem(LOCAL_STORAGE.HASH_ENCRYPT)!,
+						getCountIter,
+						getIterNow,
+					);
+				} else {
+					decFileBuffer = await DecryptModule.decryptPublicFile(
+						encFileBuffer,
+						data.secret_key,
+						getCountIter,
+						getIterNow,
+					);
+				}
 
 				const decFile = new Blob([decFileBuffer], { type: type });
-				console.log(decFile);
 
-				// const downloadURL = URL.createObjectURL(decFile);
-				// const link = document.createElement("a");
-				// link.href = downloadURL;
-				// link.download = name || "1231232141241241412";
-				// link.click();
-				// URL.revokeObjectURL(downloadURL);
+				const downloadURL = URL.createObjectURL(decFile);
+				const link = document.createElement("a");
+				link.href = downloadURL;
+				link.download = name || "1231232141241241412";
+				link.click();
+				URL.revokeObjectURL(downloadURL);
 			}
 		};
 
 		if (!firstRender.current) {
 			firstRender.current = true;
-			uploadAndEncFile();
+			downloadAndEncFile();
 		}
-	}, [file.fileId]);
+	}, []);
 
 	useEffect(() => {
 		if (downloadTotal) {
@@ -100,7 +109,7 @@ const NotificationDownloadFile: FC<LoaderDownloadFile> = ({ file }) => {
 		<div className={styles.modal}>
 			<div className={styles.download_file}>
 				<div className={styles.file}>
-					<span className={styles.file_name}>{file.fileName}</span>
+					<span className={styles.file_name}>{fileInfo.fileName}</span>
 					<span className={styles.file_length}>{fileSize}</span>
 				</div>
 
