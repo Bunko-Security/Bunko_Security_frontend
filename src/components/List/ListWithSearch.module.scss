@@ -1,10 +1,10 @@
-$svg_wh: 200px;
+$svg_wh: 150px;
 
 .files_list {
   min-height: 100%;
 
   .files {
-    max-height: 700px;
+    max-height: 700px; //700
     overflow-y: scroll;
     padding-right: 15px;
 
@@ -26,6 +26,8 @@ $svg_wh: 200px;
   }
 
   .empty {
+    text-align: center;
+
     & > p {
       font-size: 16px;
       color: var(--light-dark);
@@ -36,23 +38,7 @@ $svg_wh: 200px;
       height: $svg_wh;
       stroke: var(--violet-dark);
       fill: var(--black);
-      margin: 60px 0 60px;
+      margin-top: 20px;
     }
   }
 }
-// $svg_wh: 200px;
-
-// .empty {
-//   > p {
-//     font-size: 16px;
-//     color: var(--light-dark);
-//   }
-
-//   > svg {
-//     width: $svg_wh;
-//     height: $svg_wh;
-//     stroke: var(--violet-dark);
-//     fill: var(--black);
-//     margin: 60px 0 60px;
-//   }
-// }
