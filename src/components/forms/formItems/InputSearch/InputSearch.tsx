@@ -6,23 +6,30 @@ import IconSearch from "/public/icon-search.svg";
 import { useForm } from "react-hook-form";
 import type { CSSProperties, ChangeEventHandler, FC, InputHTMLAttributes } from "react";
 
-type FormValues = {
-	file_name: string;
-};
+export type FormValuesSearch = {
+  name_like: string
+} 
 
 interface InputSearchProps extends InputHTMLAttributes<HTMLInputElement> {
 	style?: CSSProperties;
 	textLabel?: string;
+	submitInput: (values: FormValuesSearch) => void;
 }
 
-const InputSearch: FC<InputSearchProps> = ({ textLabel, style, ...props }) => {
-	const { register, handleSubmit, reset } = useForm<FormValues>();
+const InputSearch: FC<InputSearchProps> = ({
+	textLabel,
+	style,
+	submitInput,
+	...props
+}) => {
+	const { register, handleSubmit, reset } = useForm<FormValuesSearch>();
 
-	const onChange: ChangeEventHandler<HTMLInputElement> = ({ target: { value } }) => {};
+	const onChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+		props.onChange?.(e);
+	};
 
-	const onSubmit = (values: FormValues) => {
-		console.log(values);
-		reset();
+	const onSubmit = (values: FormValuesSearch) => {
+		submitInput?.(values);
 	};
 
 	return (
@@ -41,7 +48,7 @@ const InputSearch: FC<InputSearchProps> = ({ textLabel, style, ...props }) => {
 			<div className={styles.input_search}>
 				<div className={styles.input_wrapper}>
 					<input
-						{...register("file_name", {
+						{...register("name_like", {
 							onChange: onChange,
 						})}
 						type="search"

@@ -1,6 +1,6 @@
 import styles from "./Input.module.scss";
 import ErrorMessages from "@/components/messages/ErrorMessages/ErrorMessages";
-import { UseFormRegisterReturn } from "react-hook-form";
+import type { UseFormRegisterReturn } from "react-hook-form";
 import type { FC, InputHTMLAttributes } from "react";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
