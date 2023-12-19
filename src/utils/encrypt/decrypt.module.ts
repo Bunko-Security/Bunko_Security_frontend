@@ -1,22 +1,5 @@
 import forge from "node-forge";
-import { promiseSetTimeout } from "../functions/promiseSetTimeout";
-
-const decipherUpdatePeace = (
-	decipher: forge.cipher.BlockCipher,
-	encryptedData: Buffer,
-	delay: number,
-	startPeace: number,
-	endPeace?: number,
-) =>
-	new Promise(async (resolve) => {
-		await promiseSetTimeout(() => {
-			decipher.update(
-				forge.util.createBuffer(encryptedData.slice(startPeace, endPeace).toString("binary")),
-			);
-			console.log(1);
-			resolve(undefined);
-		}, delay);
-	});
+import { encryptOrDecryptUpdatePeace } from "./utility";
 
 // * Расшифровка файла при помощи forge-node
 const decryptData = async (
@@ -25,14 +8,14 @@ const decryptData = async (
 	cbCountIters?: (count: number) => void,
 	cbIterNow?: (iter: number) => void,
 ): Promise<Buffer> => {
-	const peace: number = 1024 * 200; // 10
+	const peace: number = 1024 * 400; // 10
 	const initializationVector = encryptedData.slice(0, 16);
 	const iter = Math.floor(encryptedData.length / peace) + 1;
 	cbCountIters?.(iter);
-	const encFilePeace: Buffer[] = [];
+	const encFilePeaces: Buffer[] = [];
 	encryptedData = encryptedData.slice(16);
 
-	const decipher = forge.cipher.createDecipher("AES-CBC", forge.util.createBuffer(decPassphrase));
+	const decipher = forge.cipher.createDecipher("AES-CTR", forge.util.createBuffer(decPassphrase));
 	decipher.start({ iv: forge.util.createBuffer(initializationVector.toString("binary")) });
 
 	const delayUpdate = 700;
@@ -41,18 +24,25 @@ const decryptData = async (
 		cbIterNow?.(i + 1);
 
 		if (i === 0) {
-			await decipherUpdatePeace(decipher, encryptedData, delayUpdate, 0, peace);
+			await encryptOrDecryptUpdatePeace(decipher, encryptedData, delayUpdate, 0, peace);
 		} else if (i === iter - 1) {
-			await decipherUpdatePeace(decipher, encryptedData, delayUpdate, peace * i);
+			await encryptOrDecryptUpdatePeace(decipher, encryptedData, delayUpdate, peace * i);
 		} else {
-			await decipherUpdatePeace(decipher, encryptedData, delayUpdate, peace * i, peace * (i + 1));
+			await encryptOrDecryptUpdatePeace(
+				decipher,
+				encryptedData,
+				delayUpdate,
+				peace * i,
+				peace * (i + 1),
+			);
 		}
+
+		encFilePeaces.push(Buffer.from(decipher.output.getBytes(), "binary"));
 	}
 
-	encFilePeace.push(Buffer.from(decipher.output.getBytes(), "binary"));
 	decipher.finish();
 
-	return Buffer.concat(encFilePeace);
+	return Buffer.concat(encFilePeaces);
 };
 
 // * Расшифровка приватного ключа
@@ -70,8 +60,8 @@ export class DecryptModule {
 		encKeyHashFile: string,
 		encPrivateKey: string,
 		hashEncrypt: string,
-		cbCountIters: (count: number) => void,
-		cbIterNow: (iter: number) => void,
+		cbCountIters?: (count: number) => void,
+		cbIterNow?: (iter: number) => void,
 	): Promise<Buffer> => {
 		const decryptEncKeyHashFile = (
 			decPrivateKey: forge.pki.rsa.PrivateKey,
@@ -98,9 +88,14 @@ export class DecryptModule {
 	};
 
 	// * Расшифровка общедоступного файла
-	static decryptPublicFile = async (data: Buffer, key: string): Promise<Buffer> => {
+	static decryptPublicFile = async (
+		data: Buffer,
+		key: string,
+		cbCountIters?: (count: number) => void,
+		cbIterNow?: (iter: number) => void,
+	): Promise<Buffer> => {
 		try {
-			return await decryptData(data, key);
+			return await decryptData(data, key, cbCountIters, cbIterNow);
 		} catch (error) {
 			console.log(error);
 			throw new Error("Ошибка расшифровки файла!");
