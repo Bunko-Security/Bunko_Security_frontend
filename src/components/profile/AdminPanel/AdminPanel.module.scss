@@ -1,0 +1,70 @@
+@use "@/utils/scss/patterns";
+@use "@/utils/scss/values" as values;
+
+.wrapper {
+  display: flex;
+  column-gap: 50px;
+
+  .left,
+  .right {
+    border-radius: 10px;
+    border: solid 1px var(--light-gray);
+  }
+
+  .left {
+    text-align: center;
+    max-width: 250px;
+    padding: 10px 15px;
+    height: min-content;
+
+    .title {
+      font-size: 12px;
+      margin-bottom: 10px;
+      @extend %title_border;
+    }
+
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      row-gap: 10px;
+
+      button {
+        font-size: 12px;
+        padding: 5px 15px;
+      }
+    }
+  }
+
+  .right {
+    padding: 10px 15px;
+
+    .form_register {
+      width: 350px;
+
+      > h2 {
+        font-size: 16px;
+        margin-bottom: 20px;
+        font-weight: bold;
+        @extend %title_border;
+      }
+
+      > button {
+        width: min-content;
+        text-wrap: nowrap;
+        font-size: 12px;
+        padding: 5px 15px;
+      }
+    }
+
+    .list_users {
+      width: 500px;
+
+      > h2 {
+        font-size: 16px;
+        margin-bottom: 20px;
+        font-weight: bold;
+        @extend %title_border;
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+@use "@/utils/scss/patterns";
+
+.admin_panel {
+  text-align: center;
+  padding: 15px 38px 30px 38px;
+  background-color: var(--black);
+  border-radius: 15px;
+
+  margin-right: 20px;
+
+  .title {
+    margin-bottom: 25px;
+    font-size: 20px;
+    @extend %title_border;
+  }
+}

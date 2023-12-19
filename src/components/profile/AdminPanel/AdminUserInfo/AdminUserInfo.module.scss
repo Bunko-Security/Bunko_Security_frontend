@@ -1,0 +1,49 @@
+$svg_wh: 20px;
+
+.user {
+  display: grid;
+  grid-template-columns: 1fr 1fr $svg_wh;
+  grid-auto-rows: auto;
+  align-items: center;
+  text-align: left;
+  column-gap: 40px;
+  font-size: 12px;
+  padding: 10px 20px 10px 23px;
+  background-color: var(--bg);
+  border-radius: 30px;
+  margin-bottom: 15px;
+  color: var(--sea);
+  transition:
+    background-color 0.2s ease-in,
+    color 0.2s ease-in;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &:hover {
+    background-color: var(--violet-dark);
+    color: var(--light);
+  }
+
+  .user_login,
+  .user_username {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .icon_delete {
+    cursor: pointer;
+    width: $svg_wh;
+    height: $svg_wh;
+    border-radius: 3px;
+    fill: var(--light-dark);
+    background-color: var(--light-gray);
+    transition: background-color 0.2s linear;
+
+    &:hover {
+      background-color: var(--violet);
+    }
+  }
+}
