@@ -6,7 +6,26 @@
     font-size: 30px;
     font-weight: bold;
     text-shadow: 10px 10px 0 rgb(108, 62, 184, 25%);
+    margin-bottom: 40px;
+  }
+
+  > span {
+    display: inline-block;
+    width: 50px;
+    border-bottom: solid 1px white;
+    margin-bottom: 10px;
+  }
+
+  .description {
+    padding: 20px 18%;
     margin-bottom: 60px;
+
+    span {
+      font-size: 25px;
+      font-weight: bold;
+      font-style: italic;
+      color: var(--violet);
+    }
   }
 
   .positive_features {

@@ -13,8 +13,9 @@ const RootLayout: FC<PropsWithChildren> = async ({ children }) => {
 		<html lang="ru">
 			<head>
 				<link
-					rel="icon"
-					href="favicon/favicon.ico"
+					rel="shortcut icon"
+					href="/favicon/favicon.ico"
+					type="image/x-icon"
 				/>
 			</head>
 			<body>
