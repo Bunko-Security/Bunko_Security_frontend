@@ -2,10 +2,19 @@ import styles from "./page.module.scss";
 import Image from "next/image";
 import type { NextPage } from "next";
 
-const Home: NextPage = () => {
+const HomePage: NextPage = () => {
 	return (
 		<main className={styles.info}>
 			<h1 className={styles.title}>Bunko Security Filemanager</h1>
+      <span />
+			<p className={styles.description}>
+				<span>BST</span> — это современная платформа для обмена файлами, созданная с упором на
+				безопасность передачи данных. В процессе разработки был изучен опыт аналогичных проектов для
+				выявления их сильных и слабых сторон с целью создания более совершенного и актуального
+				продукта в этой области. В настоящее время файлообменник находится на своем начальном этапе
+				разработки, но у создателей много планов и инновационных идей для дальнейшего развития
+				своего детища!
+			</p>
 
 			<section className={styles.positive_features}>
 				<Image
@@ -17,9 +26,10 @@ const Home: NextPage = () => {
 				<div className={styles.block_text}>
 					<h3 className={styles.subtitle}>Безопасность</h3>
 					<p>
-						Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quibusdam ut, veritatis
-						accusamus rem dolores distinctio eius iure hic debitis explicabo, alias obcaecati
-						voluptate. Similique, reiciendis! Ipsa esse aliquid placeat quidem!
+						Наш продукт использует надёжные алгоритмы шифрования для Ваших файлов и ключей, чтобы
+						обезопасить Ваши данные во время передачи между устройством и сервером. Также всё
+						шифрование происходит на стороне клиента, то есть в Вашем браузере! Следовательно,
+						данные не смогут быть прочитаны злоумышленниками, даже если они проникнут на сервера!
 					</p>
 				</div>
 			</section>
@@ -28,15 +38,14 @@ const Home: NextPage = () => {
 				<Image
 					src="/main/speed.png"
 					alt=""
-					width={275}
-					height={275}
+					width={325}
+					height={250}
 				/>
 				<div className={styles.block_text}>
 					<h3 className={styles.subtitle}>Скорость без границ</h3>
 					<p>
-						Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quibusdam ut, veritatis
-						accusamus rem dolores distinctio eius iure hic debitis explicabo, alias obcaecati
-						voluptate. Similique, reiciendis! Ipsa esse aliquid placeat quidem!
+						Сервера готовы к Вашей нагрузке! Также постоянно происходит оптимизация шифрования на
+						стороне браузера, чтобы сделать отправку и получение файлов еще быстрее!
 					</p>
 				</div>
 			</section>
@@ -51,9 +60,8 @@ const Home: NextPage = () => {
 				<div className={styles.block_text}>
 					<h3 className={styles.subtitle}>Бесплатно</h3>
 					<p>
-						Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quibusdam ut, veritatis
-						accusamus rem dolores distinctio eius iure hic debitis explicabo, alias obcaecati
-						voluptate. Similique, reiciendis! Ipsa esse aliquid placeat quidem!
+						На данном этапе разработки наш продукт абсолютно бесплатен и никак не ограничивает Ваши
+						возможности! Пользуйтесь, пока можете!
 					</p>
 				</div>
 			</section>
@@ -68,9 +76,8 @@ const Home: NextPage = () => {
 				<div className={styles.block_text}>
 					<h3 className={styles.subtitle}>Доступность</h3>
 					<p>
-						Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quibusdam ut, veritatis
-						accusamus rem dolores distinctio eius iure hic debitis explicabo, alias obcaecati
-						voluptate. Similique, reiciendis! Ipsa esse aliquid placeat quidem!
+						Файлообменник готов к работе в любом месте на нашей планете! Также будет проходить
+						постепенная локализация под множество языков мира!
 					</p>
 				</div>
 			</section>
@@ -85,9 +92,9 @@ const Home: NextPage = () => {
 				<div className={styles.block_text}>
 					<h3 className={styles.subtitle}>Сертифицированность</h3>
 					<p>
-						Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quibusdam ut, veritatis
-						accusamus rem dolores distinctio eius iure hic debitis explicabo, alias obcaecati
-						voluptate. Similique, reiciendis! Ipsa esse aliquid placeat quidem!
+						Использование сертифицированных алгоритмов шифрования гарантирует надёжность передачи
+						данных и их сохранность! В будущем планируется сертификация в разных странах мира у
+						самых разных организаций! Роспатент не за горами!
 					</p>
 				</div>
 			</section>
@@ -102,9 +109,10 @@ const Home: NextPage = () => {
 				<div className={styles.block_text}>
 					<h3 className={styles.subtitle}>Техподдержка</h3>
 					<p>
-						Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quibusdam ut, veritatis
-						accusamus rem dolores distinctio eius iure hic debitis explicabo, alias obcaecati
-						voluptate. Similique, reiciendis! Ipsa esse aliquid placeat quidem!
+						Внимание к пользователям и близкое общение с ними — залог любого успешного проекта.
+						Поэтому мы организовали круглосуточную систему технической поддержки, которая готова
+						выслушать любую Вашу проблему и помочь ее решить в кратчайшие сроки. Также Вы можете
+						писать свои пожелания на нашу почту! Ждем с нетерпением Ваших отзывов!
 					</p>
 				</div>
 			</section>
@@ -112,4 +120,4 @@ const Home: NextPage = () => {
 	);
 };
 
-export default Home;
+export default HomePage;
