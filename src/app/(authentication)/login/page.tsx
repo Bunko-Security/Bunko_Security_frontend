@@ -1,8 +1,7 @@
 "use client";
 
 import styles from "./page.module.scss";
-import Link from "next/link";
-import Input from "@/components/forms/Input/Input";
+import Input from "@/components/forms/formItems/Input/Input";
 import FormBase from "@/components/forms/FormBase/FormBase";
 import RULES_FORM from "@/utils/form/rules";
 import useUserStore from "@/stores/useUserStore.store";
@@ -13,7 +12,7 @@ import { useEffect } from "react";
 import type { NextPage } from "next";
 import type { ILoginUser } from "@/models/user.model";
 
-const Login: NextPage = () => {
+const LoginPage: NextPage = () => {
 	const { loginUser, user } = useUserStore();
 
 	const {
@@ -23,8 +22,8 @@ const Login: NextPage = () => {
 		reset,
 	} = useForm<ILoginUser>({ mode: "onChange" });
 
-	const onSubmit = (values: ILoginUser) => {
-		loginUser(values);
+	const onSubmit = async (values: ILoginUser) => {
+		await loginUser(values);
 		reset();
 	};
 
@@ -59,15 +58,9 @@ const Login: NextPage = () => {
 						error={errors.password?.message}
 					/>
 				</>
-				<Link
-					className={styles.question_link}
-					href={`${ROUTES.REGISTER}`}
-				>
-					Зарегистрироваться
-				</Link>
 			</FormBase>
 		</div>
 	);
 };
 
-export default Login;
+export default LoginPage;
