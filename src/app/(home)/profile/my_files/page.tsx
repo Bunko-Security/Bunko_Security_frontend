@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 	title: "Мои файлы | Bunko Security",
 };
 
-const MyFiles: NextPage = () => {
+const MyFilesPage: NextPage = () => {
 	return (
 		<div className={styles.my_files}>
 			<h1 className={styles.title}>Мои файлы</h1>
@@ -24,4 +24,4 @@ const MyFiles: NextPage = () => {
 	);
 };
 
-export default MyFiles;
+export default MyFilesPage;

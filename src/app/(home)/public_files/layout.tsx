@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import type { FC, PropsWithChildren } from "react";
 
 export const metadata: Metadata = {
-	title: "Доступные файлы | Bunko Security",
+	title: "Публичные файлы | Bunko Security",
 };
 
 const PublicFilesLayout: FC<PropsWithChildren> = ({ children }) => {

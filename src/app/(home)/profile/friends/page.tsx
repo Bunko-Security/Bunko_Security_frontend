@@ -4,20 +4,20 @@ import FriendsList from "@/components/friends/FriendsList/FriendsList";
 import type { Metadata, NextPage } from "next";
 
 export const metadata: Metadata = {
-	title: "Мои друзья | Bunko Security",
+	title: "Мои коллеги | Bunko Security",
 };
 
-const Friends: NextPage = () => {
+const FriendsPage: NextPage = () => {
 	return (
 		<div className={styles.friends}>
-			<h1 className={styles.title}>Мои друзья</h1>
+			<h1 className={styles.title}>Мои коллеги</h1>
 			<div className={styles.wrapper}>
 				<div className={styles.wrapper_people}>
-					<h2>Добавить в друзья</h2>
+					<h2>Добавить в коллегию</h2>
 					<EmployeesList />
 				</div>
 				<div className={styles.wrapper_friends}>
-					<h2>В друзьях</h2>
+					<h2>Коллеги</h2>
 					<FriendsList />
 				</div>
 			</div>
@@ -25,4 +25,4 @@ const Friends: NextPage = () => {
 	);
 };
 
-export default Friends;
+export default FriendsPage;

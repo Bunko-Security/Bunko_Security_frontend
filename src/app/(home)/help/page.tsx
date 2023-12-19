@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 
-const Help: NextPage = () => {
+const HelpPage: NextPage = () => {
 	return <div>Help</div>;
 };
 
-export default Help;
+export default HelpPage;

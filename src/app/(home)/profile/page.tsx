@@ -3,7 +3,7 @@ import ImportAvatar from "@/components/profile/ImportAvatar/ImportAvatar";
 import FormChangeInfoUser from "@/components/forms/FormChangeInfoUser/FormChangeInfoUser";
 import type { NextPage } from "next";
 
-const Profile: NextPage = () => {
+const ProfilePage: NextPage = () => {
 	return (
 		<div className={styles.profile}>
 			<h1 className={styles.title}>Мой профиль</h1>
@@ -20,4 +20,4 @@ const Profile: NextPage = () => {
 	);
 };
 
-export default Profile;
+export default ProfilePage;

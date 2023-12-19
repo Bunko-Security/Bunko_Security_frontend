@@ -1,12 +1,12 @@
-import AccessibleFilesList from "@/components/files/AccessibleFiles/AccessibleFilesList";
 import styles from "./page.module.scss";
+import AccessibleFilesList from "@/components/files/AccessibleFiles/AccessibleFilesList";
 import type { Metadata, NextPage } from "next";
 
 export const metadata: Metadata = {
 	title: "Доступные файлы | Bunko Security",
 };
 
-const AccessibleFiles: NextPage = () => {
+const AccessibleFilesPage: NextPage = () => {
 	return (
 		<div className={styles.accessible_files}>
 			<h1 className={styles.title}>Доступные файлы</h1>
@@ -17,4 +17,4 @@ const AccessibleFiles: NextPage = () => {
 	);
 };
 
-export default AccessibleFiles;
+export default AccessibleFilesPage;

@@ -1,30 +1,30 @@
 @use "@/utils/scss/patterns";
 
-.my_files {
-  text-align: center;
-  width: 1000px;
-  padding: 15px 38px 30px 38px;
-  background-color: var(--black);
-  border-radius: 15px;
+  .my_files {
+    text-align: center;
+    width: 1000px;
+    padding: 15px 38px 30px 38px;
+    background-color: var(--black);
+    border-radius: 15px;
 
-  margin-right: 20px;
+    margin-right: 20px;
 
-  .title {
-    margin-bottom: 25px;
-    font-size: 20px;
-    @extend %title_border;
-  }
-
-  .my_files_wrapper {
-    display: flex;
-    column-gap: 60px;
-
-    .list_my_files {
-      width: 70%;
+    .title {
+      margin-bottom: 25px;
+      font-size: 20px;
+      @extend %title_border;
     }
 
-    .import_my_files {
-      width: 30%;
+    .my_files_wrapper {
+      display: flex;
+      column-gap: 60px;
+
+      .list_my_files {
+        width: 70%;
+      }
+
+      .import_my_files {
+        width: 30%;
+      }
     }
   }
-}
