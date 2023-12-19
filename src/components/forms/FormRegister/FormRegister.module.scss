@@ -1,0 +1,14 @@
+@use "@/utils/scss/values" as values;
+
+.input_field {
+  width: 100%;
+  margin-bottom: 16px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.checkbox {
+  width: 50%;
+}

@@ -1,12 +1,12 @@
 "use client";
 
 import styles from "./FormChangeInfoUser.module.scss";
-import Input from "../Input/Input";
+import Input from "../formItems/Input/Input";
 import FormBase from "../FormBase/FormBase";
 import RULES_FORM from "@/utils/form/rules";
 import useUserStore from "@/stores/useUserStore.store";
-import type { FC } from "react";
 import { useForm } from "react-hook-form";
+import type { FC } from "react";
 import type { IUpdateUser } from "@/models/user.model";
 
 const FormChangeInfoUser: FC = () => {

@@ -3,43 +3,58 @@
 import styles from "./ModalUploadFile.module.scss";
 import Tag from "@/components/Tag/Tag";
 import Loader from "@/components/Loader/Loader";
-import Friends from "@/services/friends.service";
-import Checkbox from "@/components/forms/formItems/Checkbox";
-import InputSearch from "@/components/forms/InputSearch/InputSearch";
+import useSWR from "swr";
+import Checkbox from "@/components/forms/formItems/Checkbox/Checkbox";
 import UploadFileInfo from "./UploadFileInfo/UploadFileInfo";
+import CoworkersService from "@/services/coworkers.service";
+import useUploadDownloadFileStore from "@/stores/useUploadDownloadFileStore";
 import { KEYS_SWR } from "@/utils/keysSWR";
 import { cropISODate } from "@/utils/functions/cropISODate";
-import { EncryptModule } from "@/utils/encrypt/encrypt.module";
-import { MyFilesService } from "@/services/my_file.service";
 import type { ModalProps } from "@/types/ModalProps.type";
 import { useDisableScroll } from "@/hooks/useDisableScroll";
-import type { IUploadFile } from "@/models/file.model";
-import useSWR, { useSWRConfig } from "swr";
-import { type FC, type MouseEventHandler, useState, useRef, useEffect } from "react";
+import InputSearch, {
+	type FormValuesSearch,
+} from "@/components/forms/formItems/InputSearch/InputSearch";
+import { type FC, type MouseEventHandler, useState, useEffect } from "react";
 
 interface ModalUploadFileProps {
 	file: File;
 }
 
-const maxSelectedFriend = 10;
-
-const fetcher = async () => {
-	const friends = await Friends.getFriends();
+const fetcher = async (search: string) => {
+	const friends = await CoworkersService.getFriends({ name_like: search });
 
 	return friends;
 };
 
+const maxSelectedFriend = 10;
+
 // TODO: Решить проблему выбора даты не из интервала (0,7)
 const ModalUploadFile: FC<ModalUploadFileProps & ModalProps> = ({ file, onClose }) => {
-	const listFriendRef = useRef<HTMLDivElement | null>(null);
-	const [endDate, setEndDate] = useState<string>("");
+	const [endDate, setEndDate] = useState<string>(cropISODate(new Date(), 7));
 	const [disabled, setDisabled] = useState<boolean>(false);
 	const [deleteFriend, setDeleteFriend] = useState<string>("");
 	const [selectedFriends, setSelectedFriends] = useState<string[]>([]);
-	const { mutate } = useSWRConfig();
-	const { data: friends, isLoading, error } = useSWR(KEYS_SWR.FRIENDS, fetcher);
+	const { setIsModalUpload, setUploadFile } = useUploadDownloadFileStore();
+
+	const [search, setSearch] = useState<string>("");
+	const {
+		data: friends = [],
+		isLoading,
+		mutate,
+	} = useSWR([KEYS_SWR.FRIENDS, search], ([_, search]) => fetcher(search), {
+		revalidateOnFocus: false,
+	});
 
 	useDisableScroll();
+
+	const searchFriend = (values: FormValuesSearch) => {
+		if (search !== values.name_like) {
+			setSearch(values.name_like);
+		} else {
+			mutate();
+		}
+	};
 
 	// * Добавление tag'а при клике на checkboxes
 	const clickListFriends: MouseEventHandler<HTMLDivElement> = (e) => {
@@ -84,39 +99,9 @@ const ModalUploadFile: FC<ModalUploadFileProps & ModalProps> = ({ file, onClose 
 	};
 
 	const onSubmit = async () => {
+		setUploadFile({ file: file, selectedFriends: selectedFriends, endDate: endDate });
 		onClose();
-
-		const reader = new FileReader();
-		reader.readAsBinaryString(file);
-		reader.onload = async () => {
-			if (reader.result) {
-				const fileBuffer = Buffer.from(reader.result.toString(), "binary");
-
-				const dataEncodingFile = await MyFilesService.getPubKeysFriends(selectedFriends);
-
-				if (dataEncodingFile) {
-					const encryptData = EncryptModule.encryptFile(fileBuffer, dataEncodingFile);
-					const encryptFile = new File([encryptData.file], file.name);
-					console.log(encryptFile);
-
-					const uploadFile: IUploadFile = {
-						fileData: { file: encryptFile, delete_date: endDate },
-						fileInfo: encryptData.data,
-					};
-
-					await MyFilesService.uploadFile(uploadFile);
-					mutate(KEYS_SWR.MY_FILES);
-				}
-			}
-		};
-		reader.onerror = () => {
-			console.log(120);
-			console.log(reader.error);
-		};
-
-		reader.onprogress = () => {
-			console.log(100);
-		};
+		setIsModalUpload(true);
 	};
 
 	useEffect(() => {
@@ -150,17 +135,17 @@ const ModalUploadFile: FC<ModalUploadFileProps & ModalProps> = ({ file, onClose 
 					<InputSearch
 						textLabel="Поиск по имени"
 						placeholder="Логин"
+						submitInput={searchFriend}
 					/>
 					<div className={styles.select_friends}>
 						<div className={styles.my_friends}>
-							<h3 className={styles.subtitle}>Ваши друзья</h3>
+							<h3 className={styles.subtitle}>Ваши коллеги</h3>
 							<div
 								className={styles.list_my_friends}
 								onClick={clickListFriends}
-								ref={listFriendRef}
 							>
 								{isLoading && <Loader />}
-								{friends &&
+								{friends.length !== 0 &&
 									friends.map(({ login }, i) => (
 										<Checkbox
 											key={i}
@@ -170,6 +155,9 @@ const ModalUploadFile: FC<ModalUploadFileProps & ModalProps> = ({ file, onClose 
 											disabled={disabled}
 										/>
 									))}
+								{!isLoading && friends.length === 0 && (
+									<p className={styles.empty}>Нет коллег...</p>
+								)}
 							</div>
 						</div>
 

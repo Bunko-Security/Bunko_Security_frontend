@@ -24,10 +24,8 @@ const FormBase: FC<FormBaseProps> = ({
 			onSubmit={onSubmit}
 			style={style}
 		>
-			<div className={styles.wrapper}>
-				{textTitle && <h2 className={styles.title}>{textTitle}</h2>}
-				{children}
-			</div>
+			{textTitle && <h2 className={styles.title}>{textTitle}</h2>}
+			<div className={styles.wrapper}>{children}</div>
 			<button
 				className={styles.button}
 				type="submit"

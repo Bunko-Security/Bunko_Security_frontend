@@ -14,5 +14,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-	matcher: "/profile/:path*",
+	matcher: ["/profile/:path*", "/", "/help", "/public_files"],
 };

@@ -1,8 +1,8 @@
 import axios from "axios";
 import apiWithAuth from "@/configs/axios/axios.config";
-import type { ICreateUser, ILoginUser, IToken, IUpdateUser, IUser } from "@/models/user.model";
 import { AuthModule } from "@/utils/encrypt/auth.module";
 import { LOCAL_STORAGE } from "@/utils/keysName";
+import type { ILoginUser, IToken, IUpdateUser, IUser } from "@/models/user.model";
 
 // TODO: Подумать об обработке ошибок
 class UserService {
@@ -14,18 +14,6 @@ class UserService {
 			const user = await apiWithAuth.get<IUser>(this.pathProfile);
 
 			return user.data;
-		} catch (e) {
-			return null;
-		}
-	}
-
-	static async register(user: ICreateUser): Promise<IUser | null> {
-		try {
-			await apiWithAuth.post<IToken>(`${this.pathAuth}/register`, user);
-			const gottenUser = await this.getUser();
-			localStorage.setItem(LOCAL_STORAGE.IS_LOGIN, "true");
-
-			return gottenUser;
 		} catch (e) {
 			return null;
 		}
@@ -84,12 +72,16 @@ class UserService {
 		}
 	}
 
-	// TODO: Подумать над обработкой ошибок
 	static async updateUser(updateUser: IUpdateUser): Promise<IUser | null> {
-		await apiWithAuth.put(`${this.pathProfile}/username`, updateUser);
-		const user = await this.getUser();
+		try {
+			await apiWithAuth.put(`${this.pathProfile}/username`, updateUser);
+			const user = await this.getUser();
 
-		return user;
+			return user;
+		} catch (e) {
+			console.log(e);
+			return null;
+		}
 	}
 
 	static async updateAvatar(avatar: Blob, nameAvatar?: string): Promise<IUser | null> {

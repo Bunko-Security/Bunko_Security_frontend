@@ -1,26 +1,73 @@
 "use client";
 
-import useSWR from "swr";
-import Friends from "@/services/friends.service";
+import ListWithSearch from "@/components/List/ListWithSearch";
 import EmployeeInfo from "../EmployeeInfo/EmployeeInfo";
-import PeopleListWithSearchHOC from "../PeopleListWithSearchHOC";
-import { type FC } from "react";
+import CoworkersService from "@/services/coworkers.service";
 import { KEYS_SWR } from "@/utils/keysSWR";
+import { FormValuesSearch } from "@/components/forms/formItems/InputSearch/InputSearch";
+import useSWR, { mutate as mutateGlobal } from "swr";
+import { useState, type FC, type MouseEventHandler } from "react";
 
-const fetcher = async () => {
-	const friends = await Friends.getFriends();
+const fetcher = async (search: string) => {
+	const friends = await CoworkersService.getEmployees({ name_like: search });
 
 	return friends;
 };
 
 const EmployeesList: FC = () => {
-	const { data, isLoading, error } = useSWR(KEYS_SWR.FRIENDS, fetcher);
+	const [search, setSearch] = useState<string>("");
+	const {
+		data: employees = [],
+		isLoading,
+		isValidating,
+		mutate,
+	} = useSWR([KEYS_SWR.EMPLOYEES, search], ([_, search]) => fetcher(search), {
+		revalidateOnFocus: false,
+	});
 
-	const onClickList = () => {};
+	const onClickList: MouseEventHandler<HTMLDivElement> = async (e) => {
+		const event = e.target as HTMLElement;
 
-	const PeopleList = PeopleListWithSearchHOC(EmployeeInfo, data!, isLoading);
+		if (event.tagName === "svg") {
+			const mainParent = event.parentElement!;
+			await CoworkersService.addFriend(mainParent.childNodes[0].textContent!);
+			mutate();
+			mutateGlobal([KEYS_SWR.FRIENDS, ""]);
+		}
 
-	return <PeopleList />;
+		if (event.tagName === "path") {
+			const mainParent = event.parentElement!.parentElement!;
+			await CoworkersService.addFriend(mainParent.childNodes[0].textContent!);
+			mutate();
+			mutateGlobal([KEYS_SWR.FRIENDS, ""]);
+		}
+	};
+
+	const handlerSubmitSearch = (values: FormValuesSearch) => {
+		if (search !== values.name_like) {
+			setSearch(values.name_like);
+		} else {
+			mutate();
+		}
+	};
+
+	return (
+		<ListWithSearch
+			items={employees}
+			isLoading={isLoading ? isLoading : isValidating}
+			submitSearchFile={handlerSubmitSearch}
+			fnClickList={onClickList}
+			placeholder="Имя сотрудника"
+			textEmpty="Нет сотрудников"
+		>
+			{employees.map((employee) => (
+				<EmployeeInfo
+					key={employee.login}
+					person={employee}
+				/>
+			))}
+		</ListWithSearch>
+	);
 };
 
 export default EmployeesList;

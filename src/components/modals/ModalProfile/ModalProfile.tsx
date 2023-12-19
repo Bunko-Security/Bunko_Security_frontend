@@ -4,23 +4,28 @@ import styles from "./ModalProfile.module.scss";
 import Link from "next/link";
 import IconClose from "/public/icon-close.svg";
 import useUserStore from "@/stores/useUserStore.store";
-import { useRouter } from "next/navigation";
+import useUploadDownloadFileStore from "@/stores/useUploadDownloadFileStore";
+import { redirect } from "next/navigation";
 import type { ModalProps } from "@/types/ModalProps.type";
 import { useDisableScroll } from "@/hooks/useDisableScroll";
 import { PRIVATE_ROUTES, ROUTES } from "@/utils/routes";
 import { motion, AnimatePresence } from "framer-motion";
-import { type FC, type MouseEventHandler } from "react";
+import { useEffect, type FC, type MouseEventHandler } from "react";
 
 const ModalProfile: FC<ModalProps> = ({ onClose }) => {
-	const router = useRouter();
 	const { user, logout } = useUserStore();
+	const { setIsModalUpload, setDownloadFile, setIsModalDownload, setUploadFile } =
+		useUploadDownloadFileStore();
 
 	useDisableScroll();
 
-	const handleLogout = () => {
-		logout();
+	const handleLogout = async () => {
+		await logout();
+		setUploadFile(null);
+		setIsModalUpload(false);
+		setDownloadFile(null);
+		setIsModalDownload(false);
 		onClose();
-		router.replace(ROUTES.HOME);
 	};
 
 	const handleCloseModal: MouseEventHandler<HTMLUListElement> = (event) => {
@@ -30,6 +35,12 @@ const ModalProfile: FC<ModalProps> = ({ onClose }) => {
 			onClose();
 		}
 	};
+
+	useEffect(() => {
+		if (!user) {
+			redirect(ROUTES.LOGIN);
+		}
+	}, [user]);
 
 	return (
 		<AnimatePresence>
@@ -52,7 +63,7 @@ const ModalProfile: FC<ModalProps> = ({ onClose }) => {
 								width="28"
 								height="28"
 							/>
-							<span>{user!.username}</span>
+							<span>{user?.username}</span>
 						</div>
 
 						<IconClose
@@ -70,7 +81,7 @@ const ModalProfile: FC<ModalProps> = ({ onClose }) => {
 								<Link href={`${PRIVATE_ROUTES.PROFILE}`}>Мой профиль</Link>
 							</li>
 							<li>
-								<Link href={`${PRIVATE_ROUTES.FRIENDS}`}>Мои друзья</Link>
+								<Link href={`${PRIVATE_ROUTES.FRIENDS}`}>Мои коллеги</Link>
 							</li>
 							<li>
 								<Link href={`${PRIVATE_ROUTES.MY_FILES}`}>Мои файлы</Link>
@@ -78,6 +89,11 @@ const ModalProfile: FC<ModalProps> = ({ onClose }) => {
 							<li>
 								<Link href={`${PRIVATE_ROUTES.ACCESSIBLE_FILES}`}>Доступные файлы</Link>
 							</li>
+							{user?.is_admin && (
+								<li>
+									<Link href={`${PRIVATE_ROUTES.ADMIN}`}>Админ панель</Link>
+								</li>
+							)}
 							<li onClick={handleLogout}>Выйти</li>
 						</ul>
 					</div>

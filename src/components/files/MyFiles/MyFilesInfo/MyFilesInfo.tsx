@@ -3,11 +3,11 @@
 import styles from "./MyFilesInfo.module.scss";
 import IconDelete from "/public/icon-close.svg";
 import IconDownload from "/public/icon-download.svg";
-import type { IFile } from "@/models/file.model";
+import type { IMyFile } from "@/models/file.model";
 import type { CSSProperties, FC } from "react";
 
 interface MyFilesInfoProps {
-	file: IFile;
+	file: IMyFile;
 	style?: CSSProperties;
 }
 

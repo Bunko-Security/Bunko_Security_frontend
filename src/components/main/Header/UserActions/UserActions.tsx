@@ -4,6 +4,8 @@ import styles from "./UserActions.module.scss";
 import useUserStore from "@/stores/useUserStore.store";
 import PortalModals from "@/components/modals/PortalModals/PortalModals";
 import ModalProfile from "@/components/modals/ModalProfile/ModalProfile";
+import ToastDownloadFiles from "@/components/popups/ToastDownloadFiles/ToastDownloadFiles";
+import useUploadDownloadFileStore from "@/stores/useUploadDownloadFileStore";
 import { ROUTES } from "@/utils/routes";
 import { useRouter } from "next/navigation";
 import { type FC, useState } from "react";
@@ -11,10 +13,18 @@ import { type FC, useState } from "react";
 const UserActions: FC = () => {
 	const router = useRouter();
 	const { user, isLoading } = useUserStore();
-	const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+	const [isModalProfile, setIsModalProfile] = useState<boolean>(false);
+	const {
+		isModalDownload,
+		downloadFile,
+		setIsModalDownload,
+		uploadFile,
+		isModalUpload,
+		setIsModalUpload,
+	} = useUploadDownloadFileStore();
 
 	const clickAvatar = () => {
-		setIsOpenModal(true);
+		setIsModalProfile(true);
 	};
 
 	const handleLogin = () => {
@@ -63,8 +73,24 @@ const UserActions: FC = () => {
 				)}
 			</div>
 
-			<PortalModals isOpen={isOpenModal}>
-				<ModalProfile onClose={() => setIsOpenModal(false)} />
+			<PortalModals isOpen={isModalProfile}>
+				<ModalProfile onClose={() => setIsModalProfile(false)} />
+			</PortalModals>
+
+			<PortalModals isOpen={isModalDownload}>
+				<ToastDownloadFiles
+					file={downloadFile}
+					onClose={() => setIsModalDownload(false)}
+				/>
+			</PortalModals>
+
+			<PortalModals isOpen={isModalUpload}>
+				<ToastDownloadFiles
+					file={uploadFile}
+					isDownload={false}
+					location={{ bottom: 10, right: 10 }}
+					onClose={() => setIsModalUpload(false)}
+				/>
 			</PortalModals>
 		</>
 	);
