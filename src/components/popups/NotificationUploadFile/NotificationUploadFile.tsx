@@ -67,7 +67,6 @@ const NotificationUploadFile: FC<NotificationUploadFileProps> = ({ fileInfo }) =
 								fileInfo: encryptData.data,
 							};
 
-
 							await MyFilesService.uploadFile(uploadFile, onUploadFile);
 							mutate([KEYS_SWR.MY_FILES, ""]);
 						}
@@ -86,7 +85,7 @@ const NotificationUploadFile: FC<NotificationUploadFileProps> = ({ fileInfo }) =
 						};
 
 						await MyFilesService.uploadPublicFile(uploadFile, onUploadFile);
-						mutate([KEYS_SWR.MY_FILES, ""]);
+						mutate([KEYS_SWR.PUBLIC_FILES, { name_like: "", limit: 20, offset: 0 }]);
 					}
 				}
 			};

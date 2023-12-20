@@ -31,10 +31,6 @@ const UserActions: FC = () => {
 		router.push(ROUTES.LOGIN);
 	};
 
-	const handleRegister = () => {
-		router.push(ROUTES.REGISTER);
-	};
-
 	return (
 		<>
 			<div className={styles.user_actions}>
@@ -62,12 +58,6 @@ const UserActions: FC = () => {
 							onClick={handleLogin}
 						>
 							Войти
-						</button>
-						<button
-							className={styles.bnt_register}
-							onClick={handleRegister}
-						>
-							Регистрация
 						</button>
 					</div>
 				)}
