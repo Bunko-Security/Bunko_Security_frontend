@@ -27,7 +27,7 @@ const fetcher = async (params: IParamsSearch) => {
 const defaultParams = { limit: 20, offset: 0 };
 
 const AccessibleFilesList: FC = () => {
-	const firstRender = useRef<boolean>(false);
+	// const firstRender = useRef<boolean>(false);
 	const [files, setFiles] = useState<IOtherFile[]>([]);
 	const [isSearch, setIsSearch] = useState<boolean>(false);
 	const [isBlockScrollForSearch, setIsBlockScrollForSearch] = useState<boolean>(false);
@@ -101,7 +101,7 @@ const AccessibleFilesList: FC = () => {
 	};
 
 	useEffect(() => {
-		if (firstRender.current) {
+		// if (firstRender.current) {
 			if (data?.length) {
 				if (params.offset !== 0) {
 					setFiles((prev) => [...prev, ...data]);
@@ -109,9 +109,9 @@ const AccessibleFilesList: FC = () => {
 					setFiles(data);
 				}
 			}
-		} else {
-			firstRender.current = true;
-		}
+		// } else {
+		// 	firstRender.current = true;
+		// }
 	}, [data, params]);
 
 	return (

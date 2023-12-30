@@ -7,7 +7,8 @@ import NotificationUploadFile from "../NotificationUploadFile/NotificationUpload
 import NotificationDownloadFile from "../NotificationDownloadFile/NotificationDownloadFile";
 import { ModalProps } from "@/types/ModalProps.type";
 import { IDownloadFileInfo, IUploadFileInfo } from "@/models/file.model";
-import { type FC, useEffect, useRef, useState } from "react";
+// import { type FC, useEffect, useRef, useState } from "react";
+import { type FC, useEffect, useState } from "react";
 
 type Location<T> = {
 	top?: T;
@@ -28,16 +29,18 @@ const ToastDownloadFiles: FC<ModalProps & ToastDownloadFilesProps> = ({
 	location,
 	isDownload = true,
 }) => {
-	const firstRender = useRef<boolean>(false);
+	// const firstRender = useRef<boolean>(false);
 	const [toast, setToast] = useState<any[]>([]);
 	const [isCollapse, setIsCollapse] = useState<boolean>(false);
 
 	useEffect(() => {
-		if (file && firstRender.current) {
+		// if (file && firstRender.current) {
+		if (file) {
 			setToast((items) => [...items, file]);
-		} else {
-			firstRender.current = true;
-		}
+    }
+		// } else {
+			// firstRender.current = true;
+		// }
 	}, [file]);
 
 	return (

@@ -25,6 +25,7 @@ const ModalProfile: FC<ModalProps> = ({ onClose }) => {
 		setIsModalUpload(false);
 		setDownloadFile(null);
 		setIsModalDownload(false);
+    useUserStore.setState({isLoading: false})
 		onClose();
 	};
 
